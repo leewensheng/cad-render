@@ -1,0 +1,9 @@
+body .ui-draggable-handle{
+    cursor: move!important;
+}
+table {
+    background: blue;
+}
+.ui-draggable-handle {
+    display: inline-block;
+}

@@ -1,0 +1,11 @@
+.drop-wrap {
+    height: 500px;
+    width: 230px;
+    margin: 50px auto;
+    border: 1px solid blue;
+    margin-top: 50px;
+    overflow: auto;
+}
+.ui-droppable {
+    background: yellow;
+}

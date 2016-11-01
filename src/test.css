@@ -1,0 +1,13 @@
+
+div {
+    border: 1px solid #ddd;
+}
+table {
+    border-collapse: collapse;
+}
+table td{
+    border-style: solid;
+    color: red;
+    border-width: 1px;
+    border-spacing: 0;
+}
