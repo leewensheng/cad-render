@@ -1,7 +1,7 @@
 body .ui-draggable-handle{
     cursor: move!important;
 }
-table {
+table { 
     background: blue;
 }
 .ui-draggable-handle {
