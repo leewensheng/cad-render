@@ -8,6 +8,8 @@ import "./index.css"
 import $ from 'jquery'
 import Sorttable from "../lib/sorttable"
 import Animation from "../lib/svg/animation"
+import CreateUrl from '../lib/url'
+import CAD from '../lib/svg'
 
 window.React = React;
 window.ReactDOM = ReactDOM;
@@ -17,16 +19,52 @@ var Button = React.createClass({
         return <button>3</button>
     },
     componentDidMount(){
-        var me = this;
-        Animation.init(React.findDOMNode(this),0,500,1000,function(val){
-            ReactDOM.findDOMNode(me).style.marginLeft = val+"px";
-        },'bounce')
-        Animation.init(React.findDOMNode(this),500,0,1500,function(val){
-            ReactDOM.findDOMNode(me).style.marginLeft = val+"px";
-        },'bounce')
-        Animation.init(React.findDOMNode(this),0,500,1000,function(val){
-            ReactDOM.findDOMNode(me).style.marginLeft = val+"px";
-        },'bounce')
+        var me = ReactDOM.findDOMNode(this);
+    }
+})
+var SVG = React.createClass({
+    render() {
+        return <div></div>
+    },
+    componentDidMount(){
+        var el = ReactDOM.findDOMNode(this);
+        var paper = CAD.init({
+                el:el,
+                width:"100%",
+                height:500
+            });
+        paper.append("line",{
+            x1:0,
+            x2:5,
+            y1:11,
+            y2:55
+        }).attr("stroke","red");
+        var line = paper.append("line",{x1:0,x2:100,y1:270,y2:270})
+        paper.append("circle",{
+            cx:120,cy:120,r:120
+        })
+        var bg = paper.append("rect",{
+            x1:0,
+            y1:0,
+            width:"100%",
+            height: "100%",
+            fill:"#000"
+        })
+        $(paper.doc).on("mousemove",function(e){
+            var point = paper.mouse(e);
+            var circle = paper.append("circle",{
+                cx:point.x,
+                cy:point.y,
+                r:50,
+                fill:"#ddd"
+            })
+            Animation.init(circle,1,0,1600,function(r){
+                circle.attr("fill-opacity",r);
+            },'ease',function(){
+               $(this).remove();
+            })
+        })
+
     }
 })
 var Nav = React.createClass({
@@ -39,6 +77,7 @@ var Nav = React.createClass({
       var c = ClassName('test').addClass("test").addClass('haha').toggleClass('haha');
       return  (
         <div>
+        <SVG/>
         <Button/>
         <Draggable axis="" helper="clone">
             <table border="1px">

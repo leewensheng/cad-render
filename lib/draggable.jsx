@@ -92,15 +92,16 @@ var Draggable = React.createClass({
             var el = ReactDOM.findDOMNode(this);
             var helper = el.cloneNode(true);
             this.state.helper = helper;
+            //to 去掉id属性
+            el.parentNode.appendChild(helper);
             var rect = el.getBoundingClientRect();
             var helperRect = helper.getBoundingClientRect();
             var dx = rect.left - helperRect.left;
             var dy = rect.top - helperRect.top;
-            helper.style.position = "absolute";
+            helper.style.position = this.props.position;
+            helper.style.zIndex = 111111111111111111;
             helper.style.left = dx+"px";
             helper.style.top  = dy +"px";
-            //to 去掉id属性
-            el.parentNode.appendChild(helper);
         }
         this.setState({
             isDragging:true,
@@ -128,7 +129,6 @@ var Draggable = React.createClass({
         if(this.props.helper=="clone") {
             var helper = this.state.helper;
             var style = this.getStyle();
-            style.position = "absolute";
             $(helper).css(style);
         }
 
