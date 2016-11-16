@@ -164,7 +164,10 @@ function drop(target){
                 to:100,
                 during:2000,
                 exefunc:function(r){
-                    circle.attr("r",r).attr("opacity",(100-r)/100);
+                    circle.attr("r",r).attr("stroke-opacity",(100-r)/100);
+                },
+                callback:function(){
+                    this.remove();
                 }
             })
         }
