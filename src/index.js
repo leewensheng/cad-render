@@ -55,13 +55,20 @@ var SVG = React.createClass({
             var circle = paper.append("circle",{
                 cx:point.x,
                 cy:point.y,
-                r:50,
+                r:0,
                 fill:"#ddd"
             })
-            Animation.init(circle,1,0,1600,function(r){
-                circle.attr("fill-opacity",r);
-            },'ease',function(){
-               $(this).remove();
+            Animation.init({
+                target:circle,
+                from:0,
+                to:50,
+                during:5600,
+                exefunc:function(r){
+                    circle.attr("r",r)
+                },
+                callback:function(){
+                    this.remove();
+                }
             })
         })
 
@@ -118,4 +125,47 @@ function drop(target){
    var me = ReactDOM.findDOMNode(this);
    $(me).append($(el).get(0).cloneNode(true));
 }
-ReactDOM.render(<Nav a="3"/>,document.getElementById("root"))
+//ReactDOM.render(<Nav a="3"/>,document.getElementById("root"))
+
+        var paper = CAD.init({
+                el:document.querySelector("#root"),
+                width:"100%",
+                height:800
+            });
+        paper.append("line",{
+            x1:0,
+            x2:5,
+            y1:11,
+            y2:55
+        }).attr("stroke","red");
+        var line = paper.append("line",{x1:0,x2:100,y1:270,y2:270})
+        paper.append("circle",{
+            cx:120,cy:120,r:120
+        })
+        var bg = paper.append("rect",{
+            x1:0,
+            y1:0,
+            width:"100%",
+            height: "100%",
+            fill:"#000"
+        })
+        $(paper.doc).on("mousemove",move)
+        function move(e){
+            {
+            var point = paper.mouse(e);
+            var circle = paper.append("circle",{
+                cx:point.x,
+                cy:point.y,
+                r:1e-6
+            })
+            Animation.init({
+                target:circle,
+                from:0,
+                to:100,
+                during:2000,
+                exefunc:function(r){
+                    circle.attr("r",r).attr("opacity",(100-r)/100);
+                }
+            })
+        }
+        }
