@@ -49,7 +49,6 @@ var SVG = React.createClass({
         }).attr("stroke","none")*/
         var count = 0;
         $(paper.doc).on("mousemove touchmove",function(e){
-            return;
             e.preventDefault();
             e.stopPropagation();
             var point = paper.mouse(e);
