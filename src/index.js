@@ -40,9 +40,13 @@ var SVG = React.createClass({
             height: "100%",
             fill:"#000"
         })
-        paper.append('circle').attr("r",20).arrayCopy(35,22,function(x,y){
+        cad.defineShape("haha",function(paper,x,y,options){
+           return paper.append("polygon").attr("points","150 100 179.389 9.54915 102.447 65.4509 197.533 65.4509 120.611 9.54915");
+        })
+        paper.addShape("haha");
+        /*paper.append('circle').attr("r",20).arrayCopy(35,22,function(x,y){
             $(this).attr("cx",x*40+20).attr("cy",y*40+20).attr("fill",cad.hsl(x*y%360,50,50))
-        }).attr("stroke","none")
+        }).attr("stroke","none")*/
         var count = 0;
         $(paper.doc).on("mousemove touchmove",function(e){
             return;
