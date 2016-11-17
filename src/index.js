@@ -9,7 +9,7 @@ import $ from 'jquery'
 import Sorttable from "../lib/sorttable"
 import Animation from "../lib/svg/animation"
 import CreateUrl from '../lib/url'
-import CAD from '../lib/svg'
+import cad from '../lib/svg'
 
 window.React = React;
 window.ReactDOM = ReactDOM;
@@ -28,21 +28,11 @@ var SVG = React.createClass({
     },
     componentDidMount(){
         var el = ReactDOM.findDOMNode(this);
-        var paper = CAD.init({
+        var paper = cad.init({
                 el:el,
                 width:"100%",
-                height:500
+                height:window.innerHeight
             });
-        paper.append("line",{
-            x1:0,
-            x2:5,
-            y1:11,
-            y2:55
-        }).attr("stroke","red");
-        var line = paper.append("line",{x1:0,x2:100,y1:270,y2:270})
-        paper.append("circle",{
-            cx:120,cy:120,r:120
-        })
         var bg = paper.append("rect",{
             x1:0,
             y1:0,
@@ -50,25 +40,29 @@ var SVG = React.createClass({
             height: "100%",
             fill:"#000"
         })
-        $(paper.doc).on("mousemove",function(e){
+        paper.append('circle').attr("r",20).arrayCopy(35,22,function(x,y){
+            $(this).attr("cx",x*40+20).attr("cy",y*40+20).attr("fill",cad.hsl(x*y%360,50,50))
+        }).attr("stroke","none")
+        var count = 0;
+        $(paper.doc).on("mousemove touchmove",function(e){
+            return;
+            e.preventDefault();
+            e.stopPropagation();
             var point = paper.mouse(e);
+            count++;
+            var color = cad.hsl(count%360,100,50);
             var circle = paper.append("circle",{
                 cx:point.x,
                 cy:point.y,
-                r:0,
-                fill:"#ddd"
-            })
-            Animation.init({
-                target:circle,
-                from:0,
-                to:50,
-                during:5600,
-                exefunc:function(r){
-                    circle.attr("r",r)
-                },
-                callback:function(){
-                    this.remove();
-                }
+                r:1e-6
+            }).attr('stroke',color);
+            circle.transition({
+                                r:100,
+                                strokeOpacity:1e-6
+                                },
+                                2000,
+                                'easeout',function(){
+                $(this).remove();
             })
         })
 
@@ -125,50 +119,4 @@ function drop(target){
    var me = ReactDOM.findDOMNode(this);
    $(me).append($(el).get(0).cloneNode(true));
 }
-//ReactDOM.render(<Nav a="3"/>,document.getElementById("root"))
-
-        var paper = CAD.init({
-                el:document.querySelector("#root"),
-                width:"100%",
-                height:800
-            });
-        paper.append("line",{
-            x1:0,
-            x2:5,
-            y1:11,
-            y2:55
-        }).attr("stroke","red");
-        var line = paper.append("line",{x1:0,x2:100,y1:270,y2:270})
-        paper.append("circle",{
-            cx:120,cy:120,r:120
-        })
-        var bg = paper.append("rect",{
-            x1:0,
-            y1:0,
-            width:"100%",
-            height: "100%",
-            fill:"#000"
-        })
-        $(paper.doc).on("mousemove",move)
-        function move(e){
-            {
-            var point = paper.mouse(e);
-            var circle = paper.append("circle",{
-                cx:point.x,
-                cy:point.y,
-                r:1e-6
-            })
-            Animation.init({
-                target:circle,
-                from:0,
-                to:100,
-                during:2000,
-                exefunc:function(r){
-                    circle.attr("r",r).attr("stroke-opacity",(100-r)/100);
-                },
-                callback:function(){
-                    this.remove();
-                }
-            })
-        }
-        }
+ReactDOM.render(<Nav a="3"/>,document.getElementById("root"))
