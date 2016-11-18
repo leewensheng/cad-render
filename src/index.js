@@ -40,21 +40,25 @@ var SVG = React.createClass({
             height: "100%",
             fill:"#000"
         })
+        paper.configLayer({
+            "stroke":"#f00",
+            "stroke-width":2.5
+        })
         cad.defineShape("haha",function(paper,x,y,options){
            return paper.append("polygon").attr("points","150 100 179.389 9.54915 102.447 65.4509 197.533 65.4509 120.611 9.54915");
         })
         paper.addShape("haha");
-        paper.addShape("regPolgon",200,200,{
+        paper.addLayer("test").addShape("regPolgon",200,200,{
             sizeof:'outerRadius',
-            num:7,
+            num:9,
             size:150
-        })
+        }).attr("stroke","#fff");
+        paper.append("circle").attr("cx",200).attr("cy",200).attr("r",150).attr("stroke","#fff")
         /*paper.append('circle').attr("r",20).arrayCopy(35,22,function(x,y){
             $(this).attr("cx",x*40+20).attr("cy",y*40+20).attr("fill",cad.hsl(x*y%360,50,50))
         }).attr("stroke","none")*/
         var count = 0;
         $(paper.svg).on("mousemove touchmove",function(e){
-            return;
             e.preventDefault();
             e.stopPropagation();
             var point = paper.mouse(e);
