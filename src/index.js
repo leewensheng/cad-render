@@ -10,7 +10,7 @@ import Sorttable from "../lib/sorttable"
 import Animation from "../lib/svg/animation"
 import CreateUrl from '../lib/url'
 import cad from '../lib/svg'
-
+window.cad = cad;
 window.React = React;
 window.ReactDOM = ReactDOM;
 var Button = React.createClass({
@@ -44,6 +44,17 @@ var SVG = React.createClass({
             r1:200,
             r2:280,
             teeth:20
+        }).rotate(9,380,380);
+        var mirrorPoint = cad.Point(380,380).mirror(620,50,620,70);
+        paper.addShape("gear",mirrorPoint.x,mirrorPoint.y,{
+            r1:200,
+            r2:280,
+            teeth:20
+        })
+        paper.append("circle",{
+            cx:mirrorPoint.x,
+            cy:mirrorPoint.y,
+            r:50
         })
         paper.append("circle",{
             cx:380,
@@ -55,7 +66,6 @@ var SVG = React.createClass({
         }).attr("stroke","none")*/
         var count = 0;
         $(paper.svg).on("mousemove touchmove",function(e){
-            return;
             e.preventDefault();
             e.stopPropagation();
             var point = paper.mouse(e);

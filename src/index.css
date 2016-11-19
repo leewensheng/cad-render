@@ -6,6 +6,9 @@
     margin-top: 50px;
     overflow: auto;
 }
+body {
+	background: #000;
+}
 .ui-droppable {
     background: yellow;
 }
