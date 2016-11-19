@@ -40,16 +40,22 @@ var SVG = React.createClass({
             height: "100%",
             fill:"#000"
         })
-        paper.addShape("gear",100,100,{
-            r1:100,
-            r2:120,
-            teeth:10
+        paper.addShape("gear",380,380,{
+            r1:200,
+            r2:280,
+            teeth:20
+        })
+        paper.append("circle",{
+            cx:380,
+            cy:380,
+            r:50
         })
         /*paper.append('circle').attr("r",20).arrayCopy(35,22,function(x,y){
             $(this).attr("cx",x*40+20).attr("cy",y*40+20).attr("fill",cad.hsl(x*y%360,50,50))
         }).attr("stroke","none")*/
         var count = 0;
         $(paper.svg).on("mousemove touchmove",function(e){
+            return;
             e.preventDefault();
             e.stopPropagation();
             var point = paper.mouse(e);
