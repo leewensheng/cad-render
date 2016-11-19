@@ -43,7 +43,7 @@ var SVG = React.createClass({
         paper.useFilter("shadow",{
             offsetX:0,
             offsetY:0
-        }).useFilter("blur",5);
+        }).useFilter("blur",20);
         paper.addShape("gear",380,380,{
             r1:200,
             r2:280,
@@ -54,7 +54,7 @@ var SVG = React.createClass({
             r1:200,
             r2:280,
             teeth:20
-        }).attr("fill","yellow").attr("stroke-width",20).svgFilter("shadow")
+        }).attr("fill","yellow").attr("stroke-width",20).svgFilter("blur")
         paper.append("circle",{
             cx:mirrorPoint.x,
             cy:mirrorPoint.y,
