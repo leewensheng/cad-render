@@ -85,7 +85,7 @@ var SVG = React.createClass({
             $(this).attr("cx",x*40+20).attr("cy",y*40+20).attr("fill",cad.hsl(x*y%360,50,50))
         }).attr("stroke","none")*/
         var count = 0;
-        $(paper.svg).on("mousemove touchmove",function(e){
+        $(paper.svg).on("mousemove touchstart touchmove",function(e){
             e.preventDefault();
             e.stopPropagation();
             var point = paper.mouse(e);
