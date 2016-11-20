@@ -52,7 +52,7 @@ var SVG = React.createClass({
             offset:"0%",
             color:"red"
         },{offset:"100%",color:"blue"}]});
-        paper.addShape("gear",380,380,{
+        var gear1 = paper.addShape("gear",380,380,{
             r1:200,
             r2:280,
             teeth:20
@@ -69,6 +69,9 @@ var SVG = React.createClass({
             r2:280,
             teeth:20
         }).attr("fill","yellow").attr("stroke-width",20).useDefs("filter","blur").useDefs("fill","radialGradient");
+        setTimeout(function(){
+            gear1.upperZIndex(-5);
+        },2000);
         paper.append("circle",{
             cx:mirrorPoint.x,
             cy:mirrorPoint.y,
