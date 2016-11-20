@@ -58,7 +58,11 @@ var SVG = React.createClass({
             teeth:20
         }).rotate(9,380,380).useDefs("fill","linearGradient").dash("5,10",500)
             .animateMotion({
-            path:new cad.Path().MoveTo(0,0).lineTo(100,100).angleArcTo(45,70,200,200,true).h(83).v(-33).toString(),
+            path:new cad.Path().MoveTo(0,0)
+                                .lineTo(100,100)
+                                .angleArcTo(45,70,200,200,true)
+                                .h(150)
+                                .v(-83).toString(),
             dur:'2s',
             begein:'0s',
             repeatCount:"indefinite"
@@ -70,7 +74,7 @@ var SVG = React.createClass({
             teeth:20
         }).attr("fill","yellow").attr("stroke-width",20).useDefs("filter","blur").useDefs("fill","radialGradient");
         setTimeout(function(){
-            gear1.upperZIndex(-5);
+            gear1.upperZIndex(5);
         },2000);
         paper.append("circle",{
             cx:mirrorPoint.x,
