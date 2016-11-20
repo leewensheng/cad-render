@@ -73,9 +73,6 @@ var SVG = React.createClass({
             r2:280,
             teeth:20
         }).attr("fill","yellow").attr("stroke-width",20).useDefs("filter","blur").useDefs("fill","radialGradient");
-        setTimeout(function(){
-            gear1.upperZIndex(5);
-        },2000);
         paper.append("circle",{
             cx:mirrorPoint.x,
             cy:mirrorPoint.y,
@@ -83,7 +80,7 @@ var SVG = React.createClass({
         })
         paper.addShape("sinLine",300,300);
         paper.addShape("bendLine",400,220,{
-            h:50,
+            h:20,
             len:400
         })
         paper.importDefs("linearGradient",{
