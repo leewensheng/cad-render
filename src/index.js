@@ -40,21 +40,21 @@ var SVG = React.createClass({
             height: "100%",
             fill:"#000"
         })
-        paper.useFilter("shadow",{
+        paper.importDefs("shadow",{
             offsetX:0,
             offsetY:0
-        }).useFilter("blur",20);
+        }).importDefs("blur");
         paper.addShape("gear",380,380,{
             r1:200,
             r2:280,
             teeth:20
-        }).rotate(9,380,380).attr("filter","#shadow")
+        }).rotate(9,380,380)
         var mirrorPoint = cad.Point(380,380).mirror(620,50,620,70);
         paper.addShape("gear",mirrorPoint.x,mirrorPoint.y,{
             r1:200,
             r2:280,
             teeth:20
-        }).attr("fill","yellow").attr("stroke-width",20).svgFilter("blur")
+        }).attr("fill","yellow").attr("stroke-width",20).useDefs("filter","blur");
         paper.append("circle",{
             cx:mirrorPoint.x,
             cy:mirrorPoint.y,
