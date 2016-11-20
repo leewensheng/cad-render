@@ -52,7 +52,7 @@ var SVG = React.createClass({
             offset:"0%",
             color:"red"
         },{offset:"100%",color:"blue"}]});
-        var gear1 = paper.addShape("gear",380,380,{
+       /* var gear1 = paper.addShape("gear",380,380,{
             r1:200,
             r2:280,
             teeth:20
@@ -66,7 +66,7 @@ var SVG = React.createClass({
             dur:'2s',
             begein:'0s',
             repeatCount:"indefinite"
-        })
+        })*/
         var mirrorPoint = cad.Point(380,380).mirror(620,50,620,70);
         paper.addShape("gear",mirrorPoint.x,mirrorPoint.y,{
             r1:200,
@@ -80,6 +80,11 @@ var SVG = React.createClass({
             cx:mirrorPoint.x,
             cy:mirrorPoint.y,
             r:50
+        })
+        paper.addShape("sinLine",300,300);
+        paper.addShape("bendLine",400,220,{
+            h:50,
+            len:400
         })
         paper.importDefs("linearGradient",{
             id:"pinkGradient",
