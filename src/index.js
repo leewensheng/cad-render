@@ -44,17 +44,26 @@ var SVG = React.createClass({
             offsetX:0,
             offsetY:0
         }).importDefs("blur");
+        paper.importDefs("linearGradient",{stops:[{
+            offset:"0%",
+            color:"red"
+        },{offset:"100%",color:"blue"}]})
+        .importDefs("radialGradient",{stops:[{
+            offset:"0%",
+            color:"red"
+        },{offset:"100%",color:"blue"}]});
+
         paper.addShape("gear",380,380,{
             r1:200,
             r2:280,
             teeth:20
-        }).rotate(9,380,380)
+        }).rotate(9,380,380).useDefs("fill","linearGradient");
         var mirrorPoint = cad.Point(380,380).mirror(620,50,620,70);
         paper.addShape("gear",mirrorPoint.x,mirrorPoint.y,{
             r1:200,
             r2:280,
             teeth:20
-        }).attr("fill","yellow").attr("stroke-width",20).useDefs("filter","blur");
+        }).attr("fill","yellow").attr("stroke-width",20).useDefs("filter","blur").useDefs("fill","radialGradient");
         paper.append("circle",{
             cx:mirrorPoint.x,
             cy:mirrorPoint.y,
@@ -71,6 +80,7 @@ var SVG = React.createClass({
         }).attr("stroke","none")*/
         var count = 0;
         $(paper.svg).on("mousemove touchmove",function(e){
+            return;
             e.preventDefault();
             e.stopPropagation();
             var point = paper.mouse(e);
