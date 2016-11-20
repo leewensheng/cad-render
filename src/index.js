@@ -74,7 +74,21 @@ var SVG = React.createClass({
             cy:mirrorPoint.y,
             r:50
         })
-        paper.addShape("heart",380,380,{size:150}).fill("darkred")
+        paper.importDefs("linearGradient",{
+            id:"pinkGradient",
+            x1:"0%",
+            y1:"0%",
+            x2:"100%",
+            y2:"100%",
+            stops:[{
+                offset:"0%",
+                color:"#f00"
+            },{
+                offset:"100%",
+                color:"pink"
+            }]
+        })
+        paper.addShape("heart",380,380,{size:150}).useDefs("fill","pinkGradient");
         paper.append("circle",{
             cx:380,
             cy:380,
