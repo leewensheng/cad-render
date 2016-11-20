@@ -57,7 +57,13 @@ var SVG = React.createClass({
             r1:200,
             r2:280,
             teeth:20
-        }).rotate(9,380,380).useDefs("fill","linearGradient");
+        }).rotate(9,380,380).useDefs("fill","linearGradient").dash("5,10",500)
+            .animateMotion({
+            path:new cad.Path().MoveTo(0,0).lineTo(100,100).toString(),
+            dur:'2s',
+            begein:'0s',
+            repeatCount:"indefinite"
+        })
         var mirrorPoint = cad.Point(380,380).mirror(620,50,620,70);
         paper.addShape("gear",mirrorPoint.x,mirrorPoint.y,{
             r1:200,
