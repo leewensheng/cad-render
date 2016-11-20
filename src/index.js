@@ -52,7 +52,6 @@ var SVG = React.createClass({
             offset:"0%",
             color:"red"
         },{offset:"100%",color:"blue"}]});
-
         paper.addShape("gear",380,380,{
             r1:200,
             r2:280,
@@ -75,6 +74,7 @@ var SVG = React.createClass({
             cy:mirrorPoint.y,
             r:50
         })
+        paper.addShape("heart",380,380,{size:150}).fill("darkred")
         paper.append("circle",{
             cx:380,
             cy:380,
@@ -86,6 +86,7 @@ var SVG = React.createClass({
         }).attr("stroke","none")*/
         var count = 0;
         $(paper.svg).on("mousemove touchstart touchmove",function(e){
+            return;
             e.preventDefault();
             e.stopPropagation();
             var point = paper.mouse(e);
