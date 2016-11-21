@@ -141,7 +141,9 @@ var SVG = React.createClass({
             y:0
         },{x:150,y:150},{x:0,y:300}]).fill("#555");
         var p = cad.Point;
-        paper.polyline([p(3,5),p(220,200),p(500,500)]).stroke("555",20)
+        paper.polyline([p(3,5),p(220,200),p(500,500)]).stroke("555",20);
+        paper.diagonalRect(0,0,500,500,50).fill("#aaa");
+        
         var count = 0;
         $(paper.svg).on("mousemove touchstart touchmove",function(e){
             return;
