@@ -78,7 +78,7 @@ var SVG = React.createClass({
             cy:mirrorPoint.y,
             r:50
         })
-        paper.addShape("sinLine",300,300);
+        paper.addShape("sinCurve",300,300);
         paper.addShape("bendLine",400,220,{
             h:20,
             len:400
