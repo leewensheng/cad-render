@@ -15,3 +15,4 @@ path,text,rect,polygen等支持镜像
 shape模块不应该直接创建，应该传入path，返回一个path string
 然后提供getShape()接口，方便组合
 paper提供标准line polygon polyline circle tuoyuan path,angleLine等方法
+point支持缩放
