@@ -147,15 +147,9 @@ var SVG = React.createClass({
         paper.addShape("sector",300,300,{
             startAngle:50,
             endAngle:180,
-            radius:200
-        }).fill("blue")
-        paper.addShape("annularSector",300,100,{
-            startAngle:50,
-            endAngle:180,
             radius:200,
             innerRadius:100
-        }).fill("red")
-
+        }).fill("blue").fill("red")
         var count = 0;
         $(paper.svg).on("mousemove touchstart touchmove",function(e){
             return;
