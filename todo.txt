@@ -1,3 +1,4 @@
+point的angleto换成anglemoveto
 layer切换支持,color增强
 动画支持transform ,color属性，支持暂停、延迟、取消
 支持DOM自定义动画
