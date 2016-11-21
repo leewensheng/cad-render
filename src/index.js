@@ -110,16 +110,38 @@ var SVG = React.createClass({
                 color:"pink"
             }]
         })
-        paper.addShape("heart",380,380,{size:150}).useDefs("fill","pinkGradient");
+        paper.addShape("heart",380,380,{size:200}).useDefs("fill","pinkGradient");
         paper.append("circle",{
             cx:380,
             cy:380,
             r:50
         })
         paper.append("text").attr("x",50).attr("y",50).attr("font-size",50).text('test').attr("stroke","red")
+        
+        //阵列
         /*paper.append('circle').attr("r",20).arrayCopy(35,22,function(x,y){
             $(this).attr("cx",x*40+20).attr("cy",y*40+20).attr("fill",cad.hsl(x*y%360,50,50))
         }).attr("stroke","none")*/
+        
+        //箭头
+        paper.addShape("markLine",200,200,300,500,{width:20,height:60}).fill("red").stroke("red")
+        
+        //文本
+        paper.text("李文胜",0,0,{
+            fontSize:450,
+            baseline:"top",
+            align:"middle"
+        }).stroke("red").useDefs("fill","linearGradient")
+        paper.line(100,100,200,300).stroke("blue",5);
+        paper.spline([{x:1,y:1},{x:100,y:100},{x:250,y:200}]).stroke("pink",5).upperZIndex(-3)
+        paper.rect(11,11,300,300).fill("red")
+        paper.path(new cad.Path().MoveTo(33,33).LineTo(83,33)).stroke("blue",5);
+        paper.polygon([{
+            x:0,
+            y:0
+        },{x:150,y:150},{x:0,y:300}]).fill("#555");
+        var p = cad.Point;
+        paper.polyline([p(3,5),p(220,200),p(500,500)]).stroke("555",20)
         var count = 0;
         $(paper.svg).on("mousemove touchstart touchmove",function(e){
             return;
