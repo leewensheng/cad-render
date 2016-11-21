@@ -143,7 +143,19 @@ var SVG = React.createClass({
         var p = cad.Point;
         paper.polyline([p(3,5),p(220,200),p(500,500)]).stroke("555",20);
         paper.diagonalRect(0,0,500,500,50).fill("#aaa");
-        
+        //扇形
+        paper.addShape("sector",300,300,{
+            startAngle:50,
+            endAngle:180,
+            radius:200
+        }).fill("blue")
+        paper.addShape("annularSector",300,100,{
+            startAngle:50,
+            endAngle:180,
+            radius:200,
+            innerRadius:100
+        }).fill("red")
+
         var count = 0;
         $(paper.svg).on("mousemove touchstart touchmove",function(e){
             return;

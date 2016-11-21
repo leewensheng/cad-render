@@ -6,13 +6,18 @@ layer切换支持，插值支持
 6.dom方法扩展，支持拖动。
 7其他如二维码支持
 path支持clone,connectToPath();
+
 path,text,rect,polygen等支持镜像
+
 8.高级功能，布局，物理引擎、cad参数化支持
+
 9.https://my.oschina.net/u/2400083/blog/483870
 点击下载功能
 
 填充defs patter 支持斜线，点，等CAD案例
+
 shape模块不应该直接创建，应该传入path，返回一个path string
 然后提供getShape()接口，方便组合
-paper提供标准line polygon polyline circle tuoyuan path,angleLine等方法
+
+
 point支持缩放
