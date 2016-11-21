@@ -78,7 +78,6 @@ var SVG = React.createClass({
             cy:mirrorPoint.y,
             r:50
         })
-        paper.addShape("sinCurve",300,300);
         paper.addShape("bendLine",400,220,{
             h:20,
             len:400
@@ -150,6 +149,11 @@ var SVG = React.createClass({
             radius:200,
             innerRadius:100
         }).fill("blue").fill("red")
+
+
+        paper.addShape("sinCurve",300,300,{
+            start:10
+        }).fill("blue")
         var count = 0;
         $(paper.svg).on("mousemove touchstart touchmove",function(e){
             return;
