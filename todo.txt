@@ -5,7 +5,7 @@ layer切换支持，插值支持
 ５.出demo 文档
 6.dom方法扩展，支持拖动。
 7其他如二维码支持
-path支持clone
+path支持clone,connectToPath();
 path,text,rect,polygen等支持镜像
 8.高级功能，布局，物理引擎、cad参数化支持
 9.https://my.oschina.net/u/2400083/blog/483870
