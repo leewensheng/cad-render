@@ -12,3 +12,5 @@ path,text,rect,polygen等支持镜像
 点击下载功能
 
 填充defs patter 支持斜线，点，等CAD案例
+shape模块不应该直接创建，应该传入path，返回一个path string
+然后提供getShape()接口，方便组合

@@ -52,12 +52,12 @@ var SVG = React.createClass({
             offset:"0%",
             color:"red"
         },{offset:"100%",color:"blue"}]});
-       /* var gear1 = paper.addShape("gear",380,380,{
+        var gear1 = paper.addShape("gear",380,380,{
             r1:200,
             r2:280,
             teeth:20
         }).rotate(9,380,380).useDefs("fill","linearGradient").dash("5,10",500)
-            .animateMotion({
+            /*.animateMotion({
             path:new cad.Path().MoveTo(0,0)
                                 .lineTo(100,100)
                                 .angleArcTo(45,70,200,200,true)
@@ -83,6 +83,19 @@ var SVG = React.createClass({
             h:20,
             len:400
         })
+
+        //样条曲线
+        var points = [{x:100,y:100},{x:150,y:150},{x:200,y:100},{x:250,y:150},{x:300,y:100},{x:350,y:150},{x:400,y:100},{
+            x:300,
+            y:150
+        },{
+            x:450,
+            y:300
+        }];
+        paper.spline(points);
+
+
+
         paper.importDefs("linearGradient",{
             id:"pinkGradient",
             x1:"0%",
