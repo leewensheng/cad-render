@@ -10,7 +10,7 @@ import Sorttable from "../lib/sorttable"
 import Animation from "../lib/svg/animation"
 import CreateUrl from '../lib/url'
 import cad from '../lib/svg'
-
+window.cad = cad;
 window.React = React;
 window.ReactDOM = ReactDOM;
 var Button = React.createClass({
@@ -40,25 +40,76 @@ var SVG = React.createClass({
             height: "100%",
             fill:"#000"
         })
-        paper.configLayer({
-            "stroke":"#f00",
-            "stroke-width":2.5
+        paper.importDefs("shadow",{
+            offsetX:0,
+            offsetY:0
+        }).importDefs("blur");
+        paper.importDefs("linearGradient",{stops:[{
+            offset:"0%",
+            color:"red"
+        },{offset:"100%",color:"blue"}]})
+        .importDefs("radialGradient",{stops:[{
+            offset:"0%",
+            color:"red"
+        },{offset:"100%",color:"blue"}]});
+       /* var gear1 = paper.addShape("gear",380,380,{
+            r1:200,
+            r2:280,
+            teeth:20
+        }).rotate(9,380,380).useDefs("fill","linearGradient").dash("5,10",500)
+            .animateMotion({
+            path:new cad.Path().MoveTo(0,0)
+                                .lineTo(100,100)
+                                .angleArcTo(45,70,200,200,true)
+                                .h(150)
+                                .v(-83).toString(),
+            dur:'2s',
+            begein:'0s',
+            repeatCount:"indefinite"
+        })*/
+        var mirrorPoint = cad.Point(380,380).mirror(620,50,620,70);
+        paper.addShape("gear",mirrorPoint.x,mirrorPoint.y,{
+            r1:200,
+            r2:280,
+            teeth:20
+        }).attr("fill","yellow").attr("stroke-width",20).useDefs("filter","blur").useDefs("fill","radialGradient");
+        paper.append("circle",{
+            cx:mirrorPoint.x,
+            cy:mirrorPoint.y,
+            r:50
         })
-        cad.defineShape("haha",function(paper,x,y,options){
-           return paper.append("polygon").attr("points","150 100 179.389 9.54915 102.447 65.4509 197.533 65.4509 120.611 9.54915");
+        paper.addShape("sinLine",300,300);
+        paper.addShape("bendLine",400,220,{
+            h:20,
+            len:400
         })
-        paper.addShape("haha");
-        paper.addLayer("test").addShape("regPolgon",200,200,{
-            sizeof:'outerRadius',
-            num:9,
-            size:150
-        }).attr("stroke","#fff");
-        paper.append("circle").attr("cx",200).attr("cy",200).attr("r",150).attr("stroke","#fff")
+        paper.importDefs("linearGradient",{
+            id:"pinkGradient",
+            x1:"0%",
+            y1:"0%",
+            x2:"100%",
+            y2:"100%",
+            stops:[{
+                offset:"0%",
+                color:"#f00"
+            },{
+                offset:"100%",
+                color:"pink"
+            }]
+        })
+        paper.addShape("heart",380,380,{size:150}).useDefs("fill","pinkGradient");
+        paper.append("circle",{
+            cx:380,
+            cy:380,
+            r:50
+        })
+        paper.append("text").attr("x",50).attr("y",50).attr("font-size",50).text('test').attr("stroke","red")
         /*paper.append('circle').attr("r",20).arrayCopy(35,22,function(x,y){
             $(this).attr("cx",x*40+20).attr("cy",y*40+20).attr("fill",cad.hsl(x*y%360,50,50))
         }).attr("stroke","none")*/
         var count = 0;
-        $(paper.svg).on("mousemove touchmove",function(e){
+        $(paper.svg).on("mousemove touchstart touchmove",function(e){
+            return;
             e.preventDefault();
             e.stopPropagation();
             var point = paper.mouse(e);

@@ -1,0 +1,14 @@
+layer切换支持，插值支持
+１.timer支持，动画支持color dpath transform属性,line模块，point完善(中点，切点，最近点，等分点)
+２.标准图形库丰富（多角星，扇饼环、心形、水滴，螺旋，齿轮，雪花
+３.div包裹一层以支持tooltip,chart接口初步实现简单饼图
+５.出demo 文档
+6.dom方法扩展，支持拖动。
+7其他如二维码支持
+path支持clone
+path,text,rect,polygen等支持镜像
+8.高级功能，布局，物理引擎、cad参数化支持
+9.https://my.oschina.net/u/2400083/blog/483870
+点击下载功能
+
+填充defs patter 支持斜线，点，等CAD案例
