@@ -32217,7 +32217,8 @@
 	        };
 	        image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(xml)));
 	        return image;
-	    }
+	    },
+	    downloadSVG: function downloadSVG() {}
 	};
 	Paper.prototype.init.prototype = Paper.fn = Paper.prototype;
 	Paper.extend = Paper.fn.extend = _jquery2["default"].extend;
