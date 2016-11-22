@@ -43,7 +43,7 @@ var SVG = React.createClass({
         paper.importDefs("shadow",{
             offsetX:0,
             offsetY:0
-        }).importDefs("blur");
+        }).importDefs("blur",5);
         paper.importDefs("linearGradient",{stops:[{
             offset:"0%",
             color:"red"
@@ -155,7 +155,8 @@ var SVG = React.createClass({
         //扇形图
         paper.sector(200,200,-60,60,200).fill("blue");
         //图片
-        paper.image(0,0,250,250,"http://ww1.sinaimg.cn/mw690/6cefc1a7jw1fa0of045e7j20zk0qogzo.jpg");
+        paper.image(0,0,250,250,"http://ww1.sinaimg.cn/mw690/6cefc1a7jw1fa0of045e7j20zk0qogzo.jpg").useDefs("filter","blur")
+
         var count = 0;
         $(paper.svg).on("mousemove touchstart touchmove",function(e){
             return;
