@@ -1,4 +1,5 @@
 point的angleto换成anglemoveto
+paper的扩展方法需要考虑参数异常
 三点得圆半径
 layer切换支持,color增强
 动画支持transform ,color属性，支持暂停、延迟、取消
