@@ -141,7 +141,7 @@ var SVG = React.createClass({
         },{x:150,y:150},{x:0,y:300}]).fill("#555");
         var p = cad.Point;
         paper.polyline([p(3,5),p(220,200),p(500,500)]).stroke("555",20);
-        paper.diagonalRect(0,0,500,500,50).fill("#aaa");
+        paper.diagonalRect(0,0,100,100,20).fill("#aaa").stroke("red",3)
         //扇形
         paper.addShape("sector",300,300,{
             startAngle:50,
