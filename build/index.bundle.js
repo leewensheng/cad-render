@@ -33042,12 +33042,6 @@
 	        var flagClock = isClockWise ? 1 : 0;
 	        var isLargeArc = Math.abs(angle) >= 180 ? 1 : 0;
 	        if (angle >= 360) {
-	            var endPoint1 = (0, _point2["default"])(x, y).rotate(isClockWise ? 200 : -200, cx, cy);
-	            this.ArcTo(r, r, 0, 1, flagClock, endPoint1.x, endPoint1.y);
-	            this.ArcTo(r, r, 0, 0, flagClock, x, y);
-	            var endPoint2 = (0, _point2["default"])(x, y).rotate(angle1, cx, cy);
-	            debugger;
-	            this.arcTo(r, r, 0, Math.abs(angle1) > 180 ? 1 : 0, flagClock, endPoint2.x, endPoint2.y);
 	            return this;
 	        } else {
 	            return this.ArcTo(r, r, 0, isLargeArc, flagClock, endPoint.x, endPoint.y);
@@ -33524,7 +33518,7 @@
 	        paper.angleLine(50, 50, -90, 40);
 	        paper.angleLine(50, 50, 0, 40);
 	        paper.path(new cad.Path().MoveTo(100, 100).angleArcTo(350, 200, 200, 200)).stroke("red");
-	        paper.path(new cad.Path().MoveTo(100, 100).angleArcTo(320, 200, 200, 200));
+	        paper.path(new cad.Path().MoveTo(100, 100).angleArcTo(370, 200, 200, 200));
 	    }
 	});
 	module.exports = Performance;

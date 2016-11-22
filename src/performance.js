@@ -19,7 +19,7 @@ var Performance = React.createClass({
         paper.angleLine(50,50,-90,40);
         paper.angleLine(50,50,0,40);
         paper.path(new cad.Path().MoveTo(100,100).angleArcTo(350,200,200,200)).stroke("red")
-        paper.path(new cad.Path().MoveTo(100,100).angleArcTo(320,200,200,200))
+        paper.path(new cad.Path().MoveTo(100,100).angleArcTo(370,200,200,200))
     }
 })
 module.exports = Performance;
