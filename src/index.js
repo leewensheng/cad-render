@@ -155,7 +155,7 @@ var SVG = React.createClass({
         //扇形图
         paper.sector(200,200,-60,60,200).fill("blue");
         //图片
-        paper.diagonalImage(0,0,200,200,"http://ww1.sinaimg.cn/mw690/6cefc1a7jw1fa0of045e7j20zk0qogzo.jpg").fill("red")
+        paper.diagonalImage(0,0,200,200,"http://ww1.sinaimg.cn/mw690/6cefc1a7jw1fa0of045e7j20zk0qogzo.jpg");
         var count = 0;
         $(paper.svg).on("mousemove touchstart touchmove",function(e){
             return;
