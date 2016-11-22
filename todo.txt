@@ -1,3 +1,5 @@
+检验边界条件下的图形表现,angleArcTo,sector
+角度为0，360度
 point的angleto换成anglemoveto
 paper的扩展方法需要考虑参数异常
 paper viewbox方法要支持
