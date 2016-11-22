@@ -90,6 +90,10 @@
 
 	var _svg2 = _interopRequireDefault(_svg);
 
+	var _performance = __webpack_require__(192);
+
+	var _performance2 = _interopRequireDefault(_performance);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 	window.cad = _svg2["default"];
@@ -135,7 +139,7 @@
 	        paper.importDefs("shadow", {
 	            offsetX: 0,
 	            offsetY: 0
-	        }).importDefs("blur");
+	        }).importDefs("blur", 10);
 	        paper.importDefs("linearGradient", { stops: [{
 	                offset: "0%",
 	                color: "red"
@@ -239,7 +243,8 @@
 	        //扇形图
 	        paper.sector(200, 200, -60, 60, 200).fill("blue");
 	        //图片
-	        paper.image(0, 0, 250, 250, "http://ww1.sinaimg.cn/mw690/6cefc1a7jw1fa0of045e7j20zk0qogzo.jpg");
+	        paper.image(0, 0, 250, 250, "http://ww1.sinaimg.cn/mw690/6cefc1a7jw1fa0of045e7j20zk0qogzo.jpg").useDefs("filter", "blur");
+
 	        var count = 0;
 	        (0, _jquery2["default"])(paper.svg).on("mousemove touchstart touchmove", function (e) {
 	            return;
@@ -256,7 +261,7 @@
 	            circle.transition({
 	                r: 100,
 	                strokeOpacity: 1e-6
-	            }, 2000, 'easeout', function () {
+	            }, 2000, 'SinusoidalOut', function () {
 	                (0, _jquery2["default"])(this).remove();
 	            });
 	        });
@@ -448,7 +453,8 @@
 	    var me = _reactDom2["default"].findDOMNode(this);
 	    (0, _jquery2["default"])(me).append((0, _jquery2["default"])(el).get(0).cloneNode(true));
 	}
-	_reactDom2["default"].render(_react2["default"].createElement(Nav, { a: '3', __self: undefined
+	_reactDom2["default"].render(_react2["default"].createElement(_performance2["default"], {
+	    __self: undefined
 	}), document.getElementById("root"));
 
 /***/ },
@@ -31004,20 +31010,20 @@
 
 	'use strict';
 
-	var _tween = __webpack_require__(175);
-
-	var _tween2 = _interopRequireDefault(_tween);
-
-	__webpack_require__(176);
+	__webpack_require__(175);
 
 	var _jquery = __webpack_require__(160);
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
+	var _easing = __webpack_require__(176);
+
+	var _easing2 = _interopRequireDefault(_easing);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 	var Animation = {
-	    ease: _tween2["default"],
+	    ease: _easing2["default"],
 	    isTick: false,
 	    animations: [],
 	    timer_id: null,
@@ -31054,27 +31060,34 @@
 	        }
 	    },
 	    getEaseByName: function getEaseByName(name) {
-	        name = name.toLowerCase();
-	        /*http://blog.sina.com.cn/s/blog_70a3539f0102v8az.html*/
-	        var tween = this.ease;
-	        switch (name) {
-	            case 'linear':
-	                return tween.Linear;
-	            case 'ease':
-	                return tween.Quad.easeInOut;
-	            case 'easein':
-	                return tween.Quad.easeIn;
-	            case 'easeout':
-	                return tween.Quad.easeOut;
-	            case 'elastic':
-	                return tween.Elastic.easeOut;
-	            case 'elasticin':
-	                return tween.Elastic.easeIn;
-	            case 'bounce':
-	                return tween.Bounce.easeOut;
-	            default:
-	                return tween.Linear;
+	        var reg = /^([a-z])/g;
+	        var isLittle = reg.test(name);
+	        var name2 = name;
+	        var ease = this.ease;
+	        if (isLittle) {
+	            name2 = name.match(reg)[0].toUpperCase() + name.slice(1);
 	        }
+	        if (ease[name] || ease[name2]) {
+	            return ease[name] || ease[name2];
+	        } else {
+	            switch (name.toLowerCase()) {
+	                case 'easein':
+	                    name = 'CubicIn';
+	                    break;
+	                case 'easeout':
+	                    name = 'CubicOut';
+	                    break;
+	                case 'elastic':
+	                    name = 'ElasticOut';
+	                    break;
+	                case 'easeinout':
+	                    name = "CubicInOut";
+	                    break;
+	                default:
+	                    name = 'Linear';
+	            }
+	        }
+	        return ease[name];
 	    },
 
 	    tick: function tick() {
@@ -31126,17 +31139,17 @@
 	                if (_jquery2["default"].isArray(from)) {
 	                    value = from.map(function (val, key) {
 	                        var change = to[key] - val;
-	                        return ease(dt, from[key], change, during);
+	                        return from + ease(dt / during) * change;
 	                    });
 	                } else if (_jquery2["default"].isPlainObject(from)) {
 	                    value = {};
 	                    for (var key in from) {
 	                        var change = to[key] - from[key];
-	                        value[key] = ease(dt, from[key], change, during);
+	                        value[key] = from[key] + ease(dt / during) * change;
 	                    }
 	                } else {
 	                    var change = to - from;
-	                    value = ease(dt, from, change, during);
+	                    value = from + ease(dt / during) * change;
 	                }
 	                exefunc.call(target, value, queue);
 	            }
@@ -31182,184 +31195,6 @@
 /* 175 */
 /***/ function(module, exports) {
 
-	"use strict";
-
-	var Tween = {
-	    Linear: function Linear(t, b, c, d) {
-	        return c * t / d + b;
-	    },
-	    Quad: {
-	        easeIn: function easeIn(t, b, c, d) {
-	            return c * (t /= d) * t + b;
-	        },
-	        easeOut: function easeOut(t, b, c, d) {
-	            return -c * (t /= d) * (t - 2) + b;
-	        },
-	        easeInOut: function easeInOut(t, b, c, d) {
-	            if ((t /= d / 2) < 1) return c / 2 * t * t + b;
-	            return -c / 2 * (--t * (t - 2) - 1) + b;
-	        }
-	    },
-	    Cubic: {
-	        easeIn: function easeIn(t, b, c, d) {
-	            return c * (t /= d) * t * t + b;
-	        },
-	        easeOut: function easeOut(t, b, c, d) {
-	            return c * ((t = t / d - 1) * t * t + 1) + b;
-	        },
-	        easeInOut: function easeInOut(t, b, c, d) {
-	            if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
-	            return c / 2 * ((t -= 2) * t * t + 2) + b;
-	        }
-	    },
-	    Quart: {
-	        easeIn: function easeIn(t, b, c, d) {
-	            return c * (t /= d) * t * t * t + b;
-	        },
-	        easeOut: function easeOut(t, b, c, d) {
-	            return -c * ((t = t / d - 1) * t * t * t - 1) + b;
-	        },
-	        easeInOut: function easeInOut(t, b, c, d) {
-	            if ((t /= d / 2) < 1) return c / 2 * t * t * t * t + b;
-	            return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
-	        }
-	    },
-	    Quint: {
-	        easeIn: function easeIn(t, b, c, d) {
-	            return c * (t /= d) * t * t * t * t + b;
-	        },
-	        easeOut: function easeOut(t, b, c, d) {
-	            return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
-	        },
-	        easeInOut: function easeInOut(t, b, c, d) {
-	            if ((t /= d / 2) < 1) return c / 2 * t * t * t * t * t + b;
-	            return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
-	        }
-	    },
-	    Sine: {
-	        easeIn: function easeIn(t, b, c, d) {
-	            return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
-	        },
-	        easeOut: function easeOut(t, b, c, d) {
-	            return c * Math.sin(t / d * (Math.PI / 2)) + b;
-	        },
-	        easeInOut: function easeInOut(t, b, c, d) {
-	            return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
-	        }
-	    },
-	    Expo: {
-	        easeIn: function easeIn(t, b, c, d) {
-	            return t == 0 ? b : c * Math.pow(2, 10 * (t / d - 1)) + b;
-	        },
-	        easeOut: function easeOut(t, b, c, d) {
-	            return t == d ? b + c : c * (-Math.pow(2, -10 * t / d) + 1) + b;
-	        },
-	        easeInOut: function easeInOut(t, b, c, d) {
-	            if (t == 0) return b;
-	            if (t == d) return b + c;
-	            if ((t /= d / 2) < 1) return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
-	            return c / 2 * (-Math.pow(2, -10 * --t) + 2) + b;
-	        }
-	    },
-	    Circ: {
-	        easeIn: function easeIn(t, b, c, d) {
-	            return -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b;
-	        },
-	        easeOut: function easeOut(t, b, c, d) {
-	            return c * Math.sqrt(1 - (t = t / d - 1) * t) + b;
-	        },
-	        easeInOut: function easeInOut(t, b, c, d) {
-	            if ((t /= d / 2) < 1) return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
-	            return c / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
-	        }
-	    },
-	    Elastic: {
-	        easeIn: function easeIn(t, b, c, d, a, p) {
-	            var s;
-	            if (t == 0) return b;
-	            if ((t /= d) == 1) return b + c;
-	            if (typeof p == "undefined") p = d * .3;
-	            if (!a || a < Math.abs(c)) {
-	                s = p / 4;
-	                a = c;
-	            } else {
-	                s = p / (2 * Math.PI) * Math.asin(c / a);
-	            }
-	            return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
-	        },
-	        easeOut: function easeOut(t, b, c, d, a, p) {
-	            var s;
-	            if (t == 0) return b;
-	            if ((t /= d) == 1) return b + c;
-	            if (typeof p == "undefined") p = d * .3;
-	            if (!a || a < Math.abs(c)) {
-	                a = c;
-	                s = p / 4;
-	            } else {
-	                s = p / (2 * Math.PI) * Math.asin(c / a);
-	            }
-	            return a * Math.pow(2, -10 * t) * Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
-	        },
-	        easeInOut: function easeInOut(t, b, c, d, a, p) {
-	            var s;
-	            if (t == 0) return b;
-	            if ((t /= d / 2) == 2) return b + c;
-	            if (typeof p == "undefined") p = d * (.3 * 1.5);
-	            if (!a || a < Math.abs(c)) {
-	                a = c;
-	                s = p / 4;
-	            } else {
-	                s = p / (2 * Math.PI) * Math.asin(c / a);
-	            }
-	            if (t < 1) return -.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
-	            return a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p) * .5 + c + b;
-	        }
-	    },
-	    Back: {
-	        easeIn: function easeIn(t, b, c, d, s) {
-	            if (typeof s == "undefined") s = 1.70158;
-	            return c * (t /= d) * t * ((s + 1) * t - s) + b;
-	        },
-	        easeOut: function easeOut(t, b, c, d, s) {
-	            if (typeof s == "undefined") s = 1.70158;
-	            return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
-	        },
-	        easeInOut: function easeInOut(t, b, c, d, s) {
-	            if (typeof s == "undefined") s = 1.70158;
-	            if ((t /= d / 2) < 1) return c / 2 * (t * t * (((s *= 1.525) + 1) * t - s)) + b;
-	            return c / 2 * ((t -= 2) * t * (((s *= 1.525) + 1) * t + s) + 2) + b;
-	        }
-	    },
-	    Bounce: {
-	        easeIn: function easeIn(t, b, c, d) {
-	            return c - Tween.Bounce.easeOut(d - t, 0, c, d) + b;
-	        },
-	        easeOut: function easeOut(t, b, c, d) {
-	            if ((t /= d) < 1 / 2.75) {
-	                return c * (7.5625 * t * t) + b;
-	            } else if (t < 2 / 2.75) {
-	                return c * (7.5625 * (t -= 1.5 / 2.75) * t + .75) + b;
-	            } else if (t < 2.5 / 2.75) {
-	                return c * (7.5625 * (t -= 2.25 / 2.75) * t + .9375) + b;
-	            } else {
-	                return c * (7.5625 * (t -= 2.625 / 2.75) * t + .984375) + b;
-	            }
-	        },
-	        easeInOut: function easeInOut(t, b, c, d) {
-	            if (t < d / 2) {
-	                return Tween.Bounce.easeIn(t * 2, 0, c, d) * .5 + b;
-	            } else {
-	                return Tween.Bounce.easeOut(t * 2 - d, 0, c, d) * .5 + c * .5 + b;
-	            }
-	        }
-	    }
-	};
-	module.exports = Tween;
-
-/***/ },
-/* 176 */
-/***/ function(module, exports) {
-
 	'use strict';
 
 	;
@@ -31389,6 +31224,348 @@
 	        };
 	    }
 	})();
+
+/***/ },
+/* 176 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;"use strict";
+
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+	    /**
+	     * 缓动代码来自 https://github.com/sole/tween.js/blob/master/src/Tween.js
+	     * @see http://sole.github.io/tween.js/examples/03_graphs.html
+	     * @exports zrender/animation/easing
+	     */
+	    var easing = {
+	        // 线性
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        Linear: function Linear(k) {
+	            return k;
+	        },
+
+	        // 二次方的缓动（t^2）
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        QuadraticIn: function QuadraticIn(k) {
+	            return k * k;
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        QuadraticOut: function QuadraticOut(k) {
+	            return k * (2 - k);
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        QuadraticInOut: function QuadraticInOut(k) {
+	            if ((k *= 2) < 1) {
+	                return 0.5 * k * k;
+	            }
+	            return -0.5 * (--k * (k - 2) - 1);
+	        },
+
+	        // 三次方的缓动（t^3）
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        CubicIn: function CubicIn(k) {
+	            return k * k * k;
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        CubicOut: function CubicOut(k) {
+	            return --k * k * k + 1;
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        CubicInOut: function CubicInOut(k) {
+	            if ((k *= 2) < 1) {
+	                return 0.5 * k * k * k;
+	            }
+	            return 0.5 * ((k -= 2) * k * k + 2);
+	        },
+
+	        // 四次方的缓动（t^4）
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        QuarticIn: function QuarticIn(k) {
+	            return k * k * k * k;
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        QuarticOut: function QuarticOut(k) {
+	            return 1 - --k * k * k * k;
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        QuarticInOut: function QuarticInOut(k) {
+	            if ((k *= 2) < 1) {
+	                return 0.5 * k * k * k * k;
+	            }
+	            return -0.5 * ((k -= 2) * k * k * k - 2);
+	        },
+
+	        // 五次方的缓动（t^5）
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        QuinticIn: function QuinticIn(k) {
+	            return k * k * k * k * k;
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        QuinticOut: function QuinticOut(k) {
+	            return --k * k * k * k * k + 1;
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        QuinticInOut: function QuinticInOut(k) {
+	            if ((k *= 2) < 1) {
+	                return 0.5 * k * k * k * k * k;
+	            }
+	            return 0.5 * ((k -= 2) * k * k * k * k + 2);
+	        },
+
+	        // 正弦曲线的缓动（sin(t)）
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        SinusoidalIn: function SinusoidalIn(k) {
+	            return 1 - Math.cos(k * Math.PI / 2);
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        SinusoidalOut: function SinusoidalOut(k) {
+	            return Math.sin(k * Math.PI / 2);
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        SinusoidalInOut: function SinusoidalInOut(k) {
+	            return 0.5 * (1 - Math.cos(Math.PI * k));
+	        },
+
+	        // 指数曲线的缓动（2^t）
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        ExponentialIn: function ExponentialIn(k) {
+	            return k === 0 ? 0 : Math.pow(1024, k - 1);
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        ExponentialOut: function ExponentialOut(k) {
+	            return k === 1 ? 1 : 1 - Math.pow(2, -10 * k);
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        ExponentialInOut: function ExponentialInOut(k) {
+	            if (k === 0) {
+	                return 0;
+	            }
+	            if (k === 1) {
+	                return 1;
+	            }
+	            if ((k *= 2) < 1) {
+	                return 0.5 * Math.pow(1024, k - 1);
+	            }
+	            return 0.5 * (-Math.pow(2, -10 * (k - 1)) + 2);
+	        },
+
+	        // 圆形曲线的缓动（sqrt(1-t^2)）
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        CircularIn: function CircularIn(k) {
+	            return 1 - Math.sqrt(1 - k * k);
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        CircularOut: function CircularOut(k) {
+	            return Math.sqrt(1 - --k * k);
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        CircularInOut: function CircularInOut(k) {
+	            if ((k *= 2) < 1) {
+	                return -0.5 * (Math.sqrt(1 - k * k) - 1);
+	            }
+	            return 0.5 * (Math.sqrt(1 - (k -= 2) * k) + 1);
+	        },
+
+	        // 创建类似于弹簧在停止前来回振荡的动画
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        ElasticIn: function ElasticIn(k) {
+	            var s;
+	            var a = 0.1;
+	            var p = 0.4;
+	            if (k === 0) {
+	                return 0;
+	            }
+	            if (k === 1) {
+	                return 1;
+	            }
+	            if (!a || a < 1) {
+	                a = 1;s = p / 4;
+	            } else {
+	                s = p * Math.asin(1 / a) / (2 * Math.PI);
+	            }
+	            return -(a * Math.pow(2, 10 * (k -= 1)) * Math.sin((k - s) * (2 * Math.PI) / p));
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        ElasticOut: function ElasticOut(k) {
+	            var s;
+	            var a = 0.1;
+	            var p = 0.4;
+	            if (k === 0) {
+	                return 0;
+	            }
+	            if (k === 1) {
+	                return 1;
+	            }
+	            if (!a || a < 1) {
+	                a = 1;s = p / 4;
+	            } else {
+	                s = p * Math.asin(1 / a) / (2 * Math.PI);
+	            }
+	            return a * Math.pow(2, -10 * k) * Math.sin((k - s) * (2 * Math.PI) / p) + 1;
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        ElasticInOut: function ElasticInOut(k) {
+	            var s;
+	            var a = 0.1;
+	            var p = 0.4;
+	            if (k === 0) {
+	                return 0;
+	            }
+	            if (k === 1) {
+	                return 1;
+	            }
+	            if (!a || a < 1) {
+	                a = 1;s = p / 4;
+	            } else {
+	                s = p * Math.asin(1 / a) / (2 * Math.PI);
+	            }
+	            if ((k *= 2) < 1) {
+	                return -0.5 * (a * Math.pow(2, 10 * (k -= 1)) * Math.sin((k - s) * (2 * Math.PI) / p));
+	            }
+	            return a * Math.pow(2, -10 * (k -= 1)) * Math.sin((k - s) * (2 * Math.PI) / p) * 0.5 + 1;
+	        },
+
+	        // 在某一动画开始沿指示的路径进行动画处理前稍稍收回该动画的移动
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        BackIn: function BackIn(k) {
+	            var s = 1.70158;
+	            return k * k * ((s + 1) * k - s);
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        BackOut: function BackOut(k) {
+	            var s = 1.70158;
+	            return --k * k * ((s + 1) * k + s) + 1;
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        BackInOut: function BackInOut(k) {
+	            var s = 1.70158 * 1.525;
+	            if ((k *= 2) < 1) {
+	                return 0.5 * (k * k * ((s + 1) * k - s));
+	            }
+	            return 0.5 * ((k -= 2) * k * ((s + 1) * k + s) + 2);
+	        },
+
+	        // 创建弹跳效果
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        BounceIn: function BounceIn(k) {
+	            return 1 - easing.BounceOut(1 - k);
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        BounceOut: function BounceOut(k) {
+	            if (k < 1 / 2.75) {
+	                return 7.5625 * k * k;
+	            } else if (k < 2 / 2.75) {
+	                return 7.5625 * (k -= 1.5 / 2.75) * k + 0.75;
+	            } else if (k < 2.5 / 2.75) {
+	                return 7.5625 * (k -= 2.25 / 2.75) * k + 0.9375;
+	            } else {
+	                return 7.5625 * (k -= 2.625 / 2.75) * k + 0.984375;
+	            }
+	        },
+	        /**
+	         * @param {number} k
+	         * @return {number}
+	         */
+	        BounceInOut: function BounceInOut(k) {
+	            if (k < 0.5) {
+	                return easing.BounceIn(k * 2) * 0.5;
+	            }
+	            return easing.BounceOut(k * 2 - 1) * 0.5 + 0.5;
+	        }
+	    };
+
+	    return easing;
+	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
 /* 177 */
@@ -31507,9 +31684,13 @@
 
 	var _paper2 = _interopRequireDefault(_paper);
 
-	__webpack_require__(184);
+	var _namespace = __webpack_require__(184);
 
-	__webpack_require__(185);
+	var _namespace2 = _interopRequireDefault(_namespace);
+
+	var _browser = __webpack_require__(185);
+
+	var _browser2 = _interopRequireDefault(_browser);
 
 	__webpack_require__(186);
 
@@ -31519,12 +31700,18 @@
 
 	__webpack_require__(189);
 
+	__webpack_require__(190);
+
+	__webpack_require__(191);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 	_core2["default"].extend({
 	    Point: _point2["default"],
 	    Path: _path2["default"],
 	    Paper: _paper2["default"],
+	    namespace: _namespace2["default"],
+	    browser: _browser2["default"],
 	    init: function init(option) {
 	        return this.Paper(option);
 	    }
@@ -31909,9 +32096,13 @@
 
 	__webpack_require__(183);
 
-	var _namespace = __webpack_require__(190);
+	var _namespace = __webpack_require__(184);
 
 	var _namespace2 = _interopRequireDefault(_namespace);
+
+	var _browser = __webpack_require__(185);
+
+	var _browser2 = _interopRequireDefault(_browser);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -31962,7 +32153,7 @@
 	        }
 	        return (0, _jquery2["default"])(el);
 	    },
-	    getInnerHTML: function getInnerHTML() {
+	    getSVGXML: function getSVGXML() {
 	        var svg = this.svg;
 	        return svg.parent().html();
 	    },
@@ -31999,6 +32190,33 @@
 	    },
 	    select: function select(selector) {
 	        return (0, _jquery2["default"])(selector, this.svg.ownerDocument);
+	    },
+	    downloadPNG: function downloadPNG(name) {
+	        if (_browser2["default"].ie) {
+	            return false;
+	        }
+	        var paper = this;
+	        var xml = this.getSVGXML();
+	        var image = new Image();
+	        image.onload = function () {
+	            var canvas = document.createElement("canvas");
+	            canvas.width = paper.svg.width();
+	            canvas.height = paper.svg.height();
+	            var ctx = canvas.getContext("2d");
+	            ctx.drawImage(image, 0, 0);
+	            var a = document.createElement('a');
+	            a.href = canvas.toDataURL('image/png'); //将画布内的信息导出为png图片数据
+	            alert(a.href);
+	            a.download = name || document.title + '_t=' + new Date().getTime(); //设定下载名称
+	            a.target = "_blank";
+	            if (_browser2["default"].chrome) {
+	                a.click();
+	            } else {
+	                window.open(a.href);
+	            }
+	        };
+	        image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(xml)));
+	        return image;
 	    }
 	};
 	Paper.prototype.init.prototype = Paper.fn = Paper.prototype;
@@ -32248,6 +32466,289 @@
 
 /***/ },
 /* 184 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = {
+	    svg: "http://www.w3.org/2000/svg",
+	    xlink: "http://www.w3.org/1999/xlink",
+	    html: "http://www.w3.org/1999/xhtml"
+	};
+
+/***/ },
+/* 185 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
+
+	!function (name, definition) {
+	  if (typeof module != 'undefined' && module.exports) module.exports = definition();else if (true) !(__WEBPACK_AMD_DEFINE_FACTORY__ = (definition), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));else this[name] = definition();
+	}('bowser', function () {
+	  /**
+	    * See useragents.js for examples of navigator.userAgent
+	    */
+
+	  var t = true;
+
+	  function detect(ua) {
+
+	    function getFirstMatch(regex) {
+	      var match = ua.match(regex);
+	      return match && match.length > 1 && match[1] || '';
+	    }
+
+	    function getSecondMatch(regex) {
+	      var match = ua.match(regex);
+	      return match && match.length > 1 && match[2] || '';
+	    }
+
+	    var iosdevice = getFirstMatch(/(ipod|iphone|ipad)/i).toLowerCase(),
+	        likeAndroid = /like android/i.test(ua),
+	        android = !likeAndroid && /android/i.test(ua),
+	        chromeos = /CrOS/.test(ua),
+	        silk = /silk/i.test(ua),
+	        sailfish = /sailfish/i.test(ua),
+	        tizen = /tizen/i.test(ua),
+	        webos = /(web|hpw)os/i.test(ua),
+	        windowsphone = /windows phone/i.test(ua),
+	        windows = !windowsphone && /windows/i.test(ua),
+	        mac = !iosdevice && !silk && /macintosh/i.test(ua),
+	        linux = !android && !sailfish && !tizen && !webos && /linux/i.test(ua),
+	        edgeVersion = getFirstMatch(/edge\/(\d+(\.\d+)?)/i),
+	        versionIdentifier = getFirstMatch(/version\/(\d+(\.\d+)?)/i),
+	        tablet = /tablet/i.test(ua),
+	        mobile = !tablet && /[^-]mobi/i.test(ua),
+	        result;
+
+	    if (/opera|opr/i.test(ua)) {
+	      result = {
+	        name: 'Opera',
+	        opera: t,
+	        version: versionIdentifier || getFirstMatch(/(?:opera|opr)[\s\/](\d+(\.\d+)?)/i)
+	      };
+	    } else if (/yabrowser/i.test(ua)) {
+	      result = {
+	        name: 'Yandex Browser',
+	        yandexbrowser: t,
+	        version: versionIdentifier || getFirstMatch(/(?:yabrowser)[\s\/](\d+(\.\d+)?)/i)
+	      };
+	    } else if (windowsphone) {
+	      result = {
+	        name: 'Windows Phone',
+	        windowsphone: t
+	      };
+	      if (edgeVersion) {
+	        result.msedge = t;
+	        result.version = edgeVersion;
+	      } else {
+	        result.msie = t;
+	        result.version = getFirstMatch(/iemobile\/(\d+(\.\d+)?)/i);
+	      }
+	    } else if (/msie|trident/i.test(ua)) {
+	      result = {
+	        name: 'Internet Explorer',
+	        msie: t,
+	        version: getFirstMatch(/(?:msie |rv:)(\d+(\.\d+)?)/i)
+	      };
+	    } else if (chromeos) {
+	      result = {
+	        name: 'Chrome',
+	        chromeos: t,
+	        chromeBook: t,
+	        chrome: t,
+	        version: getFirstMatch(/(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (/chrome.+? edge/i.test(ua)) {
+	      result = {
+	        name: 'Microsoft Edge',
+	        msedge: t,
+	        version: edgeVersion
+	      };
+	    } else if (/chrome|crios|crmo/i.test(ua)) {
+	      result = {
+	        name: 'Chrome',
+	        chrome: t,
+	        version: getFirstMatch(/(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (iosdevice) {
+	      result = {
+	        name: iosdevice == 'iphone' ? 'iPhone' : iosdevice == 'ipad' ? 'iPad' : 'iPod'
+	      };
+	      // WTF: version is not part of user agent in web apps
+	      if (versionIdentifier) {
+	        result.version = versionIdentifier;
+	      }
+	    } else if (sailfish) {
+	      result = {
+	        name: 'Sailfish',
+	        sailfish: t,
+	        version: getFirstMatch(/sailfish\s?browser\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (/seamonkey\//i.test(ua)) {
+	      result = {
+	        name: 'SeaMonkey',
+	        seamonkey: t,
+	        version: getFirstMatch(/seamonkey\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (/firefox|iceweasel/i.test(ua)) {
+	      result = {
+	        name: 'Firefox',
+	        firefox: t,
+	        version: getFirstMatch(/(?:firefox|iceweasel)[ \/](\d+(\.\d+)?)/i)
+	      };
+	      if (/\((mobile|tablet);[^\)]*rv:[\d\.]+\)/i.test(ua)) {
+	        result.firefoxos = t;
+	      }
+	    } else if (silk) {
+	      result = {
+	        name: 'Amazon Silk',
+	        silk: t,
+	        version: getFirstMatch(/silk\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (android) {
+	      result = {
+	        name: 'Android',
+	        version: versionIdentifier
+	      };
+	    } else if (/phantom/i.test(ua)) {
+	      result = {
+	        name: 'PhantomJS',
+	        phantom: t,
+	        version: getFirstMatch(/phantomjs\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (/blackberry|\bbb\d+/i.test(ua) || /rim\stablet/i.test(ua)) {
+	      result = {
+	        name: 'BlackBerry',
+	        blackberry: t,
+	        version: versionIdentifier || getFirstMatch(/blackberry[\d]+\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (webos) {
+	      result = {
+	        name: 'WebOS',
+	        webos: t,
+	        version: versionIdentifier || getFirstMatch(/w(?:eb)?osbrowser\/(\d+(\.\d+)?)/i)
+	      };
+	      /touchpad\//i.test(ua) && (result.touchpad = t);
+	    } else if (/bada/i.test(ua)) {
+	      result = {
+	        name: 'Bada',
+	        bada: t,
+	        version: getFirstMatch(/dolfin\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (tizen) {
+	      result = {
+	        name: 'Tizen',
+	        tizen: t,
+	        version: getFirstMatch(/(?:tizen\s?)?browser\/(\d+(\.\d+)?)/i) || versionIdentifier
+	      };
+	    } else if (/safari/i.test(ua)) {
+	      result = {
+	        name: 'Safari',
+	        safari: t,
+	        version: versionIdentifier
+	      };
+	    } else {
+	      result = {
+	        name: getFirstMatch(/^(.*)\/(.*) /),
+	        version: getSecondMatch(/^(.*)\/(.*) /)
+	      };
+	    }
+
+	    // set webkit or gecko flag for browsers based on these engines
+	    if (!result.msedge && /(apple)?webkit/i.test(ua)) {
+	      result.name = result.name || "Webkit";
+	      result.webkit = t;
+	      if (!result.version && versionIdentifier) {
+	        result.version = versionIdentifier;
+	      }
+	    } else if (!result.opera && /gecko\//i.test(ua)) {
+	      result.name = result.name || "Gecko";
+	      result.gecko = t;
+	      result.version = result.version || getFirstMatch(/gecko\/(\d+(\.\d+)?)/i);
+	    }
+
+	    // set OS flags for platforms that have multiple browsers
+	    if (!result.msedge && (android || result.silk)) {
+	      result.android = t;
+	    } else if (iosdevice) {
+	      result[iosdevice] = t;
+	      result.ios = t;
+	    } else if (windows) {
+	      result.windows = t;
+	    } else if (mac) {
+	      result.mac = t;
+	    } else if (linux) {
+	      result.linux = t;
+	    }
+
+	    // OS version extraction
+	    var osVersion = '';
+	    if (result.windowsphone) {
+	      osVersion = getFirstMatch(/windows phone (?:os)?\s?(\d+(\.\d+)*)/i);
+	    } else if (iosdevice) {
+	      osVersion = getFirstMatch(/os (\d+([_\s]\d+)*) like mac os x/i);
+	      osVersion = osVersion.replace(/[_\s]/g, '.');
+	    } else if (android) {
+	      osVersion = getFirstMatch(/android[ \/-](\d+(\.\d+)*)/i);
+	    } else if (result.webos) {
+	      osVersion = getFirstMatch(/(?:web|hpw)os\/(\d+(\.\d+)*)/i);
+	    } else if (result.blackberry) {
+	      osVersion = getFirstMatch(/rim\stablet\sos\s(\d+(\.\d+)*)/i);
+	    } else if (result.bada) {
+	      osVersion = getFirstMatch(/bada\/(\d+(\.\d+)*)/i);
+	    } else if (result.tizen) {
+	      osVersion = getFirstMatch(/tizen[\/\s](\d+(\.\d+)*)/i);
+	    }
+	    if (osVersion) {
+	      result.osversion = osVersion;
+	    }
+
+	    // device type extraction
+	    var osMajorVersion = osVersion.split('.')[0];
+	    if (tablet || iosdevice == 'ipad' || android && (osMajorVersion == 3 || osMajorVersion == 4 && !mobile) || result.silk) {
+	      result.tablet = t;
+	    } else if (mobile || iosdevice == 'iphone' || iosdevice == 'ipod' || android || result.blackberry || result.webos || result.bada) {
+	      result.mobile = t;
+	    }
+
+	    // Graded Browser Support
+	    // http://developer.yahoo.com/yui/articles/gbs
+	    if (result.msedge || result.msie && result.version >= 10 || result.yandexbrowser && result.version >= 15 || result.chrome && result.version >= 20 || result.firefox && result.version >= 20.0 || result.safari && result.version >= 6 || result.opera && result.version >= 10.0 || result.ios && result.osversion && result.osversion.split(".")[0] >= 6 || result.blackberry && result.version >= 10.1) {
+	      result.a = t;
+	    } else if (result.msie && result.version < 10 || result.chrome && result.version < 20 || result.firefox && result.version < 20.0 || result.safari && result.version < 6 || result.opera && result.version < 10.0 || result.ios && result.osversion && result.osversion.split(".")[0] < 6) {
+	      result.c = t;
+	    } else result.x = t;
+
+	    return result;
+	  }
+
+	  var bowser = detect(typeof navigator !== 'undefined' ? navigator.userAgent : '');
+
+	  bowser.test = function (browserList) {
+	    for (var i = 0; i < browserList.length; ++i) {
+	      var browserItem = browserList[i];
+	      if (typeof browserItem === 'string') {
+	        if (browserItem in bowser) {
+	          return true;
+	        }
+	      }
+	    }
+	    return false;
+	  };
+
+	  /*
+	   * Set our detect method to the main bowser object so we can
+	   * reuse it to test other user agents.
+	   * This is needed to implement future tests.
+	   */
+	  bowser._detect = detect;
+
+	  return bowser;
+	});
+
+/***/ },
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32278,8 +32779,8 @@
 	        });
 	    },
 	    angleLine: function angleLine(x, y, angle, len) {
-	        var x2 = x + len * Math.cos(angle * Math.PI / 2);
-	        var y2 = y + len * Math.sin(angle * Math.PI / 2);
+	        var x2 = x + len * Math.cos(angle * Math.PI / 180);
+	        var y2 = y + len * Math.sin(angle * Math.PI / 180);
 	        return this.append("line", {
 	            x1: x,
 	            y1: y,
@@ -32432,8 +32933,8 @@
 	        return this.append("image", {
 	            "xlink:href": url,
 	            "src": url,
-	            "x": x1,
-	            "y": y1,
+	            "x": minx,
+	            "y": miny,
 	            "width": width,
 	            "height": height
 	        });
@@ -32441,7 +32942,7 @@
 	});
 
 /***/ },
-/* 185 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32457,6 +32958,56 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 	_path2["default"].fn.extend({
+	    getAbsolutePoints: function getAbsolutePoints() {
+	        var actions = this.pathStack;
+	        var x = 0,
+	            y = 0;
+	        var points = [];
+	        for (var i = 0; i < actions.length; i++) {
+	            var action = actions[i];
+	            var name = action.action;
+	            var baseName = name.toLowerCase();
+	            var params = action.params;
+	            if (baseName !== 'z') {
+	                var lastParam = params[params.length - 1];
+	                var point = String(lastParam).split(',').map(function (val) {
+	                    return parseFloat(val);
+	                });
+	                var x_new, y_new;
+	                if (baseName == 'v') {
+	                    x_new = 0;
+	                    y_new = point[0];
+	                } else if (baseName == 'h') {
+	                    x_new = point[0];
+	                    y_new = 0;
+	                } else {
+	                    x_new = point[0];
+	                    y_new = point[1];
+	                }
+	                if (/[A-Z]/g.test(name)) {
+	                    x = x_new;
+	                    y = y_new;
+	                } else {
+	                    x += x_new;
+	                    y += y_new;
+	                }
+	                points.push({ x: x, y: y });
+	            }
+	        }
+	        return points;
+	    },
+	    getCurPoint: function getCurPoint() {
+	        var actions = this.pathStack;
+	        var x = 0,
+	            y = 0;
+	        var points = this.getAbsolutePoints();
+	        if (points.length > 0) {
+	            var p = points[points.length - 1];
+	            x = p.x;
+	            y = p.y;
+	        }
+	        return { x: x, y: y };
+	    },
 	    angleLineTo: function angleLineTo(angle, len) {
 	        len = Math.abs(len);
 	        var dx = len * Math.cos(angle * Math.PI / 180);
@@ -32469,6 +33020,10 @@
 	        return this.moveTo(dx, dy);
 	    },
 	    angleArcTo: function angleArcTo(angle, cx, cy, r) {
+	        if (angle == 0) {
+	            this;
+	        }
+	        var angle1 = angle % 360;
 	        if (arguments.length < 4) {
 	            console.log("path error: more arguments needed!");
 	        }
@@ -32480,10 +33035,23 @@
 	        var point = this.getCurPoint();
 	        var x = point.x;
 	        var y = point.y;
-	        var endPoint = (0, _point2["default"])(x, y).rotate(angle, cx, cy);
+	        var endPoint;
+	        if (angle % 360 != 0) {
+	            endPoint = (0, _point2["default"])(x, y).rotate(angle, cx, cy);
+	        }
 	        var flagClock = isClockWise ? 1 : 0;
-	        var isLargeArc = angle > 180 ? 1 : 0;
-	        return this.ArcTo(r, r, 0, isLargeArc, flagClock, endPoint.x, endPoint.y);
+	        var isLargeArc = Math.abs(angle) >= 180 ? 1 : 0;
+	        if (angle >= 360) {
+	            var endPoint1 = (0, _point2["default"])(x, y).rotate(isClockWise ? 200 : -200, cx, cy);
+	            this.ArcTo(r, r, 0, 1, flagClock, endPoint1.x, endPoint1.y);
+	            this.ArcTo(r, r, 0, 0, flagClock, x, y);
+	            var endPoint2 = (0, _point2["default"])(x, y).rotate(angle1, cx, cy);
+	            debugger;
+	            this.arcTo(r, r, 0, Math.abs(angle1) > 180 ? 1 : 0, flagClock, endPoint2.x, endPoint2.y);
+	            return this;
+	        } else {
+	            return this.ArcTo(r, r, 0, isLargeArc, flagClock, endPoint.x, endPoint.y);
+	        }
 	    },
 	    clockWiseArcTo: function clockWiseArcTo(cx, cy, endx, endy, r) {},
 	    antiClockArcTo: function antiClockArcTo(cx, cy, endx, endy, r) {},
@@ -32527,7 +33095,7 @@
 	});
 
 /***/ },
-/* 186 */
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32681,7 +33249,7 @@
 	});
 
 /***/ },
-/* 187 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32829,7 +33397,7 @@
 	});
 
 /***/ },
-/* 188 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32852,7 +33420,7 @@
 	});
 
 /***/ },
-/* 189 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32919,15 +33487,47 @@
 	});
 
 /***/ },
-/* 190 */
-/***/ function(module, exports) {
+/* 192 */
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
-	module.exports = {
-	    svg: "http://www.w3.org/2000/svg",
-	    xlink: "http://www.w3.org/1999/xlink"
-	};
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(157);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	var Performance = _react2["default"].createClass({
+	    displayName: 'Performance',
+
+	    render: function render() {
+	        return _react2["default"].createElement('div', {
+	            __self: this
+	        });
+	    },
+	    componentDidMount: function componentDidMount() {
+	        var el = _reactDom2["default"].findDOMNode(this);
+	        var width = window.innerWidth;
+	        var height = window.innerHeight;
+	        var paper = cad.init({
+	            el: el,
+	            width: width,
+	            height: height
+	        });
+	        paper.rect(0, 0, width, height).fill("#000");
+	        paper.circle(50, 50, 50);
+	        paper.angleLine(50, 50, -90, 40);
+	        paper.angleLine(50, 50, 0, 40);
+	        paper.path(new cad.Path().MoveTo(100, 100).angleArcTo(350, 200, 200, 200)).stroke("red");
+	        paper.path(new cad.Path().MoveTo(100, 100).angleArcTo(320, 200, 200, 200));
+	    }
+	});
+	module.exports = Performance;
 
 /***/ }
 /******/ ]);

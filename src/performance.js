@@ -15,23 +15,11 @@ var Performance = React.createClass({
                 height:height,
             });
         paper.rect(0,0,width,height).fill("#000");
-        paper.svg.on("click",function(){
-            paper.downloadPNG();
-        })
-        var n = 0;
-        var timer = setTimeout(test,1000);
-        function test() {
-            for(var i =0 ;i<30;i++) {
-                paper.circle(Math.random()*width,Math.random()*height,Math.random()*100);
-            }
-            n++;
-            if(n<5) {
-                timer =  setTimeout(test,1000)
-            } else {
-                clearTimeout(timer);
-            }
-        }
-    },
-
+        paper.circle(50,50,50);
+        paper.angleLine(50,50,-90,40);
+        paper.angleLine(50,50,0,40);
+        paper.path(new cad.Path().MoveTo(100,100).angleArcTo(350,200,200,200)).stroke("red")
+        paper.path(new cad.Path().MoveTo(100,100).angleArcTo(320,200,200,200))
+    }
 })
 module.exports = Performance;

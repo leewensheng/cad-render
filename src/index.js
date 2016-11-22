@@ -10,7 +10,7 @@ import Sorttable from "../lib/sorttable"
 import Animation from "../lib/svg/animation"
 import CreateUrl from '../lib/url'
 import cad from '../lib/svg'
-import Performace from './performance'
+import Performance from './performance'
 window.cad = cad;
 window.React = React;
 window.ReactDOM = ReactDOM;
@@ -159,9 +159,6 @@ var SVG = React.createClass({
         paper.image(0,0,250,250,"http://ww1.sinaimg.cn/mw690/6cefc1a7jw1fa0of045e7j20zk0qogzo.jpg").useDefs("filter","blur")
 
         var count = 0;
-        $(paper.svg).on("click",function(){
-            paper.downloadPNG();
-        })
         $(paper.svg).on("mousemove touchstart touchmove",function(e){
             return;
             e.preventDefault();
@@ -237,4 +234,4 @@ function drop(target){
    var me = ReactDOM.findDOMNode(this);
    $(me).append($(el).get(0).cloneNode(true));
 }
-ReactDOM.render(<Nav />,document.getElementById("root"))
+ReactDOM.render(<Performance />,document.getElementById("root"))
