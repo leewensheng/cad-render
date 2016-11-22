@@ -28,3 +28,16 @@ shape模块不应该直接创建，应该传入path，返回一个path string
 
 
 point支持缩放
+
+
+
+将SVG图像嵌入到HTML文件有多种方法：
+使用<iframe>元素来嵌入SVG图像
+使用<img>元素来嵌入SVG图像
+将SVG图像作为背景图像嵌入
+直接使用<svg>元素
+使用<embed>元素来嵌入SVG图像
+使用<object>元素来嵌入SVG图像
+
+
+<foreignobject>研究应用

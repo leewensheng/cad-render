@@ -31544,6 +31544,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 	var cad = {
+	    version: 1.0,
 	    extend: _jquery2["default"].extend
 	};
 	module.exports = cad;
@@ -31908,6 +31909,10 @@
 
 	__webpack_require__(183);
 
+	var _namespace = __webpack_require__(190);
+
+	var _namespace2 = _interopRequireDefault(_namespace);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 	var Paper = function Paper(option) {
@@ -31941,8 +31946,8 @@
 	    },
 	    createSVGElement: function createSVGElement(tagName, attributes) {
 	        tagName = _jquery2["default"].trim(tagName);
-	        var SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
-	        var XLink_NS = 'http://www.w3.org/1999/xlink';
+	        var SVG_NAMESPACE = _namespace2["default"].svg;
+	        var XLink_NS = _namespace2["default"].xlink;
 	        var el = document.createElementNS(SVG_NAMESPACE, tagName);
 	        if ((typeof attributes === 'undefined' ? 'undefined' : _typeof(attributes)) === 'object') {
 	            for (var key in attributes) {
@@ -32912,6 +32917,17 @@
 		};
 		return ret;
 	});
+
+/***/ },
+/* 190 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = {
+	    svg: "http://www.w3.org/2000/svg",
+	    xlink: "http://www.w3.org/1999/xlink"
+	};
 
 /***/ }
 /******/ ]);
