@@ -11,13 +11,13 @@ var Performance = React.createClass({
         var height = window.innerHeight;
         var paper = cad.init({
                 el:el,
-                width:50,
-                height:50
+                width:"100%",
+                height:window.innerHeight
             });
-        paper.svg.attr("viewBox","0 0 20 20")
-        paper.circle(10,10,8).stroke("#ddd",1)
-        paper.angleLine(9,11,-90,6).stroke('#ddd',1)
-        paper.angleLine(9,11,0,6).stroke('#ddd',1)
+
+        var path = new cad.Path().M(100,0)
+                    .angleArcTo(900,100,100,100).v(55);
+        paper.path(path.toString())
     }
 })
 module.exports = Performance;
