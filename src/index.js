@@ -43,7 +43,7 @@ var SVG = React.createClass({
         paper.importDefs("shadow",{
             offsetX:0,
             offsetY:0
-        }).importDefs("blur",5);
+        }).importDefs("blur",10);
         paper.importDefs("linearGradient",{stops:[{
             offset:"0%",
             color:"red"

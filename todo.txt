@@ -10,7 +10,7 @@ layer切换支持,color增强
 ２.标准图形库丰富（多角星，扇饼环、心形、水滴，螺旋，齿轮，雪花
 ３.div包裹一层以支持tooltip,chart接口初步实现简单饼图
 ５.出demo 文档
-6.dom方法扩展，支持拖动。
+6.dom方法扩展，支持拖动,scale,rotate,transform,translate
 7其他如二维码支持
 path支持clone,connectToPath();
 
