@@ -160,7 +160,6 @@ var SVG = React.createClass({
 
         var count = 0;
         $(paper.svg).on("mousemove touchstart touchmove",function(e){
-            return;
             e.preventDefault();
             e.stopPropagation();
             var point = paper.mouse(e);
@@ -176,7 +175,7 @@ var SVG = React.createClass({
                                 strokeOpacity:1e-6
                                 },
                                 2000,
-                                'easeout',function(){
+                                'SinusoidalOut',function(){
                 $(this).remove();
             })
         })
@@ -234,4 +233,4 @@ function drop(target){
    var me = ReactDOM.findDOMNode(this);
    $(me).append($(el).get(0).cloneNode(true));
 }
-ReactDOM.render(<Performace />,document.getElementById("root"))
+ReactDOM.render(<Nav />,document.getElementById("root"))

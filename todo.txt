@@ -15,7 +15,7 @@ layer切换支持,color增强
 path支持clone,connectToPath();
 
 path,text,rect,polygen等支持镜像
-
+path支持log功能
 8.高级功能，布局，物理引擎、cad参数化支持
 
 9.https://my.oschina.net/u/2400083/blog/483870
