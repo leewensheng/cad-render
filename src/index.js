@@ -57,7 +57,7 @@ var SVG = React.createClass({
             r2:280,
             teeth:20
         }).rotate(9,380,380).useDefs("fill","linearGradient").dash("5,10",500)
-            /*.animateMotion({
+            .animateMotion({
             path:new cad.Path().MoveTo(0,0)
                                 .lineTo(100,100)
                                 .angleArcTo(45,70,200,200,true)
@@ -66,7 +66,7 @@ var SVG = React.createClass({
             dur:'2s',
             begein:'0s',
             repeatCount:"indefinite"
-        })*/
+        })
         var mirrorPoint = cad.Point(380,380).mirror(620,50,620,70);
         paper.addShape("gear",mirrorPoint.x,mirrorPoint.y,{
             r1:200,
@@ -109,6 +109,7 @@ var SVG = React.createClass({
                 color:"pink"
             }]
         })
+        paper.addShape("heart",380,380,{size:200}).useDefs("fill","pinkGradient");
         paper.append("circle",{
             cx:380,
             cy:380,
@@ -139,6 +140,8 @@ var SVG = React.createClass({
             y:0
         },{x:150,y:150},{x:0,y:300}]).fill("#555");
         var p = cad.Point;
+        paper.polyline([p(3,5),p(220,200),p(500,500)]).stroke("555",20);
+        paper.diagonalRect(0,0,500,500,50).fill("#aaa");
         //扇形
         paper.addShape("sector",300,300,{
             startAngle:50,
@@ -147,11 +150,9 @@ var SVG = React.createClass({
             innerRadius:100
         }).fill("blue").fill("red")
 
-        paper.addShape("heart",380,380,{size:200}).useDefs("fill","pinkGradient");
-
-        paper.addShape("sinCurve",300,300,{
-            start:10
-        }).fill("blue")
+        //正弦曲线
+        paper.addShape("sinCurve",300,300).fill("blue");
+        paper.sector(200,200,-60,60,200).fill("blue")
         var count = 0;
         $(paper.svg).on("mousemove touchstart touchmove",function(e){
             return;
