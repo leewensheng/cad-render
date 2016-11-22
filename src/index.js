@@ -159,7 +159,11 @@ var SVG = React.createClass({
         paper.image(0,0,250,250,"http://ww1.sinaimg.cn/mw690/6cefc1a7jw1fa0of045e7j20zk0qogzo.jpg").useDefs("filter","blur")
 
         var count = 0;
+        $(paper.svg).on("click",function(){
+            paper.downloadPNG();
+        })
         $(paper.svg).on("mousemove touchstart touchmove",function(e){
+            return;
             e.preventDefault();
             e.stopPropagation();
             var point = paper.mouse(e);
