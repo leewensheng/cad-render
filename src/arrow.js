@@ -50,7 +50,7 @@ var Arrow = React.createClass({
         	size:50
         }).useDefs("fill","linearGradient");*/
         var arrow = paper.addShape("markLine",cx,cy,cx,cy-150).fill("#fff")
-        var len = 200;
+        var len = 250;
         var Point = cad.Point;
         var p1 ,p2,p3,p4;
         p1 = Point(cx-len/2,cy);
@@ -133,13 +133,13 @@ var Arrow = React.createClass({
         }
         function moveArrow(dy,elem){
         	cad.animation.init({
-				from:0,
-				to:250,
-				during:600*80/(dy+20),
+				from:Math.min(dy,80),
+				to:-800,
+				during:1000*80/(dy+20),
 				target:elem,
 				ease:'linear',
 				exefunc:function(v){
-					this.attr("transform",'translate(0,'+-1*v+')');
+					this.attr("transform",'translate(0,'+ v +')');
 				},
 				callback:function(){
 					setTimeout(function(){
@@ -148,7 +148,7 @@ var Arrow = React.createClass({
 			  				var new_arrow = paper.addShape("markLine",cx,cy,cx,cy-150).fill("#fff");
 			  				arrows.push(new_arrow);
 			  			}
-					},400);
+					},200);
 
 					this.remove();
 				}
