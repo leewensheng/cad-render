@@ -121,7 +121,7 @@ var Arrow = React.createClass({
         function moveArrow(dy,elem){
         	cad.animation.init({
 				from:0,
-				to:300,
+				to:250,
 				during:600*80/(dy+20),
 				target:elem,
 				ease:'linear',
@@ -129,6 +129,9 @@ var Arrow = React.createClass({
 					this.attr("transform",'translate(0,'+-1*v+')');
 				},
 				callback:function(){
+					setTimeout(function(){
+						image.removeAttr('filter');
+					},400);
 					this.remove();
 				}
 			})
