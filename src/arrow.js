@@ -4,13 +4,16 @@ import ReactDOM from 'react-dom'
 var Arrow = React.createClass({
 	render(){
 		var url  = "http://dx.sc.chinaz.com/Files/DownLoad/sound1/201503/5618.mp3";
+		var url2 = "http://xunlei.sc.chinaz.com/Files/DownLoad/sound1/201504/5751.mp3";
 		return <div>
-		<audio ref="mp3" preload src={url}>
+		<audio ref="mp3" preload src={url}></audio>
+		<audio ref="mp2" preload src={url2}>
 		</audio>
 		</div>;
 	},
 	componentDidMount(){
 		var mp3 = this.refs.mp3;
+		var mp2 = this.refs.mp2;
 		var el = ReactDOM.findDOMNode(this);
         var width = window.innerWidth;
         var height = window.innerHeight;
@@ -107,13 +110,15 @@ var Arrow = React.createClass({
 			arrows[0].attr("transform",'translate(0,'+dy+')')
         }
         function animateBow(dy) {
-        	setTimeout(function(){
         		mp3.currentTime = 0;
         		mp3.play();
         		setTimeout(function(){
         			mp3.pause();
-        		},800)
-        	},200*80/(dy+30));
+        			mp2.play();
+        			setTimeout(function(){
+        				mp2.pause();
+        			},800)
+        		},600)
         	cad.animation.stopAnimation(bow);
 			cad.animation.init({
 				from:Math.min(dy,80),
