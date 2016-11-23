@@ -102,6 +102,7 @@ var Arrow = React.createClass({
 			arrows[0].attr("transform",'translate(0,'+dy+')')
         }
         function animateBow(dy) {
+        	cad.animation.stopAnimation(bow);
 			cad.animation.init({
 				from:Math.min(dy,80),
 				to:0,
