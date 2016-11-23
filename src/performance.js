@@ -11,19 +11,16 @@ var Performance = React.createClass({
         var height = window.innerHeight;
         var paper = cad.init({
                 el:el,
-                width:160,
-                height:160
+                width:window.innerWidth,
+                height:window.innerHeight
             });
         paper.configLayer({
             stroke:"#fff",
             fill:"none",
             "stroke-width":2
         })
-        paper.viewBox(0,0,16,16);
-        var path = new cad.Path();
-        paper.circle(8,8,7);
-        path.M(8,8).v(-4).M(8,8).h(4);
-        paper.path(path);
+        paper.ellipse(360,200,300,100).fill('red');
+        paper.diagonalEllipses(100,100,250,500).fill("blue").stroke("pink",30);
     }
 })
 module.exports = Performance;

@@ -11,6 +11,8 @@ import Animation from "../lib/svg/animation"
 import CreateUrl from '../lib/url'
 import cad from '../lib/svg'
 import Performance from './performance'
+import Arrow from './arrow'
+
 window.cad = cad;
 window.React = React;
 window.ReactDOM = ReactDOM;
@@ -163,7 +165,7 @@ var SVG = React.createClass({
             fill:"none",
             "stroke-width":2.5
         })
-        $(paper.svg).on("mousemove touchstart touchmove",function(e){
+        paper.on("mousemove touchstart touchmove",function(e){
             e.preventDefault();
             e.stopPropagation();
             var point = paper.mouse(e);
@@ -237,4 +239,4 @@ function drop(target){
    var me = ReactDOM.findDOMNode(this);
    $(me).append($(el).get(0).cloneNode(true));
 }
-ReactDOM.render(<Nav />,document.getElementById("root"))
+ReactDOM.render(<Arrow />,document.getElementById("root"))
