@@ -3,9 +3,14 @@ import ReactDOM from 'react-dom'
 
 var Arrow = React.createClass({
 	render(){
-		return <div></div>;
+		var url  = "http://dx.sc.chinaz.com/Files/DownLoad/sound1/201503/5618.mp3";
+		return <div>
+		<audio ref="mp3" preload src={url}>
+		</audio>
+		</div>;
 	},
 	componentDidMount(){
+		var mp3 = this.refs.mp3;
 		var el = ReactDOM.findDOMNode(this);
         var width = window.innerWidth;
         var height = window.innerHeight;
@@ -35,9 +40,9 @@ var Arrow = React.createClass({
         var width = paper.width();
         var height = paper.height();
         var c = paper.getCenterPoint();
-        var cx = c.x,cy = c.y+20;
+        var cx = c.x,cy = c.y+50;
         var url = "https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1479912943&di=8606a07092618bdfeb7661ed447da4a0&src=http://f1.diyitui.com/b9/bb/f6/99/84/1a/a8/9b/27/14/60/4c/99/43/90/59.jpg";
-        var image = paper.image(cx-40,10,80,80,url);
+        var image = paper.image(cx-50,10,100,100,url);
         /*paper.addShape("heart",cx,cy-200,{
         	size:50
         }).useDefs("fill","linearGradient");
@@ -102,6 +107,13 @@ var Arrow = React.createClass({
 			arrows[0].attr("transform",'translate(0,'+dy+')')
         }
         function animateBow(dy) {
+        	setTimeout(function(){
+        		mp3.currentTime = 0;
+        		mp3.play();
+        		setTimeout(function(){
+        			mp3.pause();
+        		},800)
+        	},200*80/(dy+30));
         	cad.animation.stopAnimation(bow);
 			cad.animation.init({
 				from:Math.min(dy,80),
@@ -132,7 +144,12 @@ var Arrow = React.createClass({
 				callback:function(){
 					setTimeout(function(){
 						image.removeAttr('filter');
-					},400);
+						if(arrows.length==0) {
+			  				var new_arrow = paper.addShape("markLine",cx,cy,cx,cy-150).fill("#fff");
+			  				arrows.push(new_arrow);
+			  			}
+					},200);
+
 					this.remove();
 				}
 			})
