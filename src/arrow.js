@@ -148,7 +148,7 @@ var Arrow = React.createClass({
 			  				var new_arrow = paper.addShape("markLine",cx,cy,cx,cy-150).fill("#fff");
 			  				arrows.push(new_arrow);
 			  			}
-					},200);
+					},400);
 
 					this.remove();
 				}
