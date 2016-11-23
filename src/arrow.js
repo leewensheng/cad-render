@@ -110,10 +110,11 @@ var Arrow = React.createClass({
 			arrows[0].attr("transform",'translate(0,'+dy+')')
         }
         function animateBow(dy) {
-        		mp3.currentTime = 0;
+        		mp3.currentTime = 1;
         		mp3.play();
         		setTimeout(function(){
         			mp3.pause();
+        			mp2.currentTime = 1;
         			mp2.play();
         			setTimeout(function(){
         				mp2.pause();
