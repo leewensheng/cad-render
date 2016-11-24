@@ -42,4 +42,4 @@ point支持缩放
 
 <foreignobject>研究应用
 后续动作  制作pie line bar column 等charts
-完善文档，推广
+文档整理，推广
