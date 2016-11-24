@@ -22,7 +22,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
     entry:{
-        index:"./src/index.js"
+        index:"./lib/svg/index"
     },
     output:{
         path:"./build/",
