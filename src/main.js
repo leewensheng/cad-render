@@ -145,8 +145,8 @@ var SVG = React.createClass({
         },1000,'elastic');
         paper.addShape("regularPolgon",150,150,{
             num:5,size:100
-        }).fill("blue").attr('fill',"url(#linearGradient)")
-        paper.on("mousemove touchstart touchmove",function(e){
+        }).fill("blue").attr('fill',"url(#linearGradient)");
+        paper.on("mousemove click touchstart touchmove",function(e){
             e.preventDefault();
             e.stopPropagation();
             var point = paper.mouse(e);
