@@ -1,11 +1,8 @@
 三点得圆半径
 color模块增强,
-layer支持临时切换
-动画支持transform ,color属性，支持暂停、延迟、取消
+动画支持color属性  支持暂停、延迟，多动画的队列冲突处理（起始值）
 shape模块不应该直接创建，应该传入path，返回一个path string
 然后提供getShape()接口，方便组合组成block
-block模块
-
 
 支持DOM自定义动画
 １.timer支持，动画支持color dpath transform属性,line模块，point完善(中点，切点，最近点，等分点)

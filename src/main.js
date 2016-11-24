@@ -58,10 +58,6 @@ var SVG = React.createClass({
             cy:mirrorPoint.y,
             r:50
         })
-        paper.addShape("bendLine",400,220,{
-            h:20,
-            len:400
-        })
 
         //样条曲线
         var points = [{x:100,y:100},{x:150,y:150},{x:200,y:100},{x:250,y:150},{x:300,y:100},{x:350,y:150},{x:400,y:100},{
@@ -145,8 +141,11 @@ var SVG = React.createClass({
         })
         //块测试
         var block = paper.addBlock("circle",50,50,50).fill("red").transition({
-            transform:"translate(100,100)scale(1.5)"
-        },1000,'elastic')
+            transform:"translate(500,500)scale(1.5)"
+        },1000,'elastic');
+        paper.addShape("regularPolgon",150,150,{
+            num:5,size:100
+        }).fill("blue").attr('fill',"url(#linearGradient)")
         paper.on("mousemove touchstart touchmove",function(e){
             e.preventDefault();
             e.stopPropagation();
