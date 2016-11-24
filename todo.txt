@@ -1,39 +1,38 @@
-检验边界条件下的图形表现,angleArcTo,sector
-角度为0，360度
-point的angleto换成anglemoveto
 paper的扩展方法需要考虑参数异常
 paper viewbox方法要支持
 三点得圆半径
-layer切换支持,color增强
+color模块增强,
+layer支持临时切换
 动画支持transform ,color属性，支持暂停、延迟、取消
+shape模块不应该直接创建，应该传入path，返回一个path string
+然后提供getShape()接口，方便组合组成block
+block模块
+
+
 支持DOM自定义动画
-高度、宽度正确获取、中心点
 １.timer支持，动画支持color dpath transform属性,line模块，point完善(中点，切点，最近点，等分点)
 ２.标准图形库丰富（多角星，扇饼环、心形、水滴，螺旋，齿轮，雪花
 ３.div包裹一层以支持tooltip,chart接口初步实现简单饼图
 ５.出demo 文档
 6.dom方法扩展，支持拖动,scale,rotate,transform,translate
 7其他如二维码支持
-path支持clone,connectToPath();
+path支持clone,scale,connectToPath();
+path调试
 
-path,text,rect,polygen等支持镜像
-path支持log功能
+dom镜像操作
+
 8.高级功能，布局，物理引擎、cad参数化支持
 
 9.https://my.oschina.net/u/2400083/blog/483870
 点击下载功能  下载SVG PNG
 
 填充defs patter 支持斜线，点，等CAD案例
-
-shape模块不应该直接创建，应该传入path，返回一个path string
-然后提供getShape()接口，方便组合组成block
-
+更多滤镜支持 灰度，RGB通道 研究martix
 
 point支持缩放
 
-
-
 将SVG图像嵌入到HTML文件有多种方法：
+
 使用<iframe>元素来嵌入SVG图像
 使用<img>元素来嵌入SVG图像
 将SVG图像作为背景图像嵌入
@@ -41,5 +40,6 @@ point支持缩放
 使用<embed>元素来嵌入SVG图像
 使用<object>元素来嵌入SVG图像
 
-
 <foreignobject>研究应用
+后续动作  制作pie line bar column 等charts
+完善文档，推广
