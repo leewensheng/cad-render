@@ -1,5 +1,3 @@
-paper的扩展方法需要考虑参数异常
-paper viewbox方法要支持
 三点得圆半径
 color模块增强,
 layer支持临时切换

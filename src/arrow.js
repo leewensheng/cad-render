@@ -48,10 +48,10 @@ var Arrow = React.createClass({
         var image = paper.image(cx-50,10,100,100,url);
         /*paper.addShape("heart",cx,cy-200,{
         	size:50
-        }).useDefs("fill","linearGradient");
+        }).attr("fill","url(#linearGradient)");;
         paper.addShape("heart",cx,cy-220,{
         	size:50
-        }).useDefs("fill","linearGradient");*/
+        }).attr("fill","url(#linearGradient)");*/
         var arrow = paper.addShape("markLine",cx,cy,cx,cy-150).fill("#fff")
         var len = 250;
         var Point = cad.Point;
@@ -133,7 +133,7 @@ var Arrow = React.createClass({
 					this.attr("d",path);
 				},
 				callback:function(){
-					image.useDefs("filter","gray");
+					image.atr("filter","url(#gray)");
 				}
 			})
         }
