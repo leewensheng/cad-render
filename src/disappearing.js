@@ -30,7 +30,7 @@ var Disappear = React.createClass({
             }).attr('stroke',color);
             circle.transition({
                                 r:100,
-                                strokeOpacity:1e-6
+                                "stroke-opacity":1e-6
                                 },
                                 2000,
                                 Math.sqrt,function(){
