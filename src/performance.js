@@ -21,10 +21,6 @@ var Performance = React.createClass({
             "stroke-width":2
         })
         paper.addBlock("chrome",200,200,100);
-        paper.on('click',function(){
-            paper.downloadSVG();
-        })
-
     }
 })
 module.exports = Performance;
