@@ -9,7 +9,7 @@ shape模块不应该直接创建，应该传入path，返回一个pathobj|| stri
 ５.出demo 文档
 6.dom方法扩展，支持拖动,scale,rotate,transform,translate
 7其他如二维码支持
-path支持clone,scale,connectToPath();
+point scale ,path支持clone,scale,connectToPath();
 path调试
 
 dom镜像操作
@@ -22,7 +22,6 @@ dom镜像操作
 填充defs patter 支持斜线，点，等CAD案例
 更多滤镜支持 灰度，RGB通道 研究martix
 
-point支持缩放
 
 将SVG图像嵌入到HTML文件有多种方法：
 
