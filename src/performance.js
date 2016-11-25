@@ -21,6 +21,7 @@ var Performance = React.createClass({
         })
         paper.ellipse(360,200,300,100).fill('red');
         paper.diagonalEllipses(100,100,250,500).fill("blue").stroke("pink",30);
+        paper.addShape('markLine',0,0,500,500,{width:50,height:80}).rotate(15,80,80).fill('red').stroke("red")
     }
 })
 module.exports = Performance;

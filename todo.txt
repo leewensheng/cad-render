@@ -9,7 +9,7 @@ shape模块不应该直接创建，应该传入path，返回一个pathobj|| stri
 ５.出demo 文档
 6.dom方法扩展，支持拖动,scale,rotate,transform,translate
 7其他如二维码支持
-point scale ,path支持clone,scale,connectToPath();
+path支持clone,connectToPath();
 path调试
 
 dom镜像操作
