@@ -3,15 +3,13 @@ color模块增强,建议引入npm color
 动画支持color属性  支持暂停、延迟，多动画的队列冲突处理（起始值）建议用function wrap callback
 shape模块不应该直接创建，应该传入path，返回一个pathobj|| string
 然后提供getShape()接口，方便组合组成block
-１.timer支持，动画支持color dpath transform属性,line模块，point完善(中点，切点，最近点，等分点)
+line模块
+１.timer支持，动画支持color path ，point完善(中点，切点，最近点，等分点)
 ２.标准图形库丰富（多角星，扇饼环、心形、水滴，螺旋，齿轮，雪花
 ３.div包裹一层以支持tooltip,chart接口初步实现简单饼图
 ５.出demo 文档
-6.dom方法扩展，支持拖动,scale,rotate,transform,translate
-7其他如二维码支持
-path支持clone,connectToPath();
-path调试
 
+7其他如二维码支持
 dom镜像操作
 
 8.高级功能，布局，物理引擎、cad参数化支持
