@@ -37,7 +37,7 @@ var SVG = React.createClass({
             r2:280,
             teeth:20
         }).rotate(9,380,380).attr("fill","url(#linearGradient)").dash("5,10",500)
-            .animateMotion({
+       /*     .animateMotion({
             path:new cad.Path().MoveTo(0,0)
                                 .lineTo(100,100)
                                 .angleArcTo(45,70,200,200,true)
@@ -46,7 +46,7 @@ var SVG = React.createClass({
             dur:'2s',
             begein:'0s',
             repeatCount:"indefinite"
-        })
+        })*/
         var mirrorPoint = cad.Point(380,380).mirror(620,50,620,70);
         paper.addShape("gear",mirrorPoint.x,mirrorPoint.y,{
             r1:200,
@@ -143,30 +143,9 @@ var SVG = React.createClass({
         var block = paper.addBlock("circle",50,50,50).fill("red").transition({
             transform:"translate(500,500)scale(1.5)"
         },1000,'elastic');
-        paper.addShape("regularPolgon",150,150,{
+        paper.addShape("regularPolygon",150,150,{
             num:5,size:100
         }).fill("blue").attr('fill',"url(#linearGradient)");
-        paper.on("mousemove click touchstart touchmove",function(e){
-            e.preventDefault();
-            e.stopPropagation();
-            var point = paper.mouse(e);
-            count++;
-            var color = cad.hsl(count%360,100,50);
-            var circle = paper.append("circle",{
-                cx:point.x,
-                cy:point.y,
-                r:1e-6
-            }).attr('stroke',color);
-            circle.transition({
-                                r:100,
-                                strokeOpacity:1e-6
-                                },
-                                2000,
-                                'SinusoidalOut',function(){
-                $(this).remove();
-            })
-        })
-
     }
 })
 module.exports = SVG;
