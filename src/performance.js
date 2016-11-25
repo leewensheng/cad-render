@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import $ from 'jquery'
 var Performance = React.createClass({
     render:function(){
         return <div>
@@ -15,13 +16,12 @@ var Performance = React.createClass({
                 height:window.innerHeight
             });
         paper.configLayer({
-            stroke:"#fff",
+            stroke:"none",
             fill:"none",
             "stroke-width":2
         })
-        paper.ellipse(360,200,300,100).fill('red');
-        paper.diagonalEllipses(100,100,250,500).fill("blue").stroke("pink",30);
-        paper.addShape('markLine',0,0,500,500,{width:50,height:80}).rotate(15,80,80).fill('red').stroke("red")
+        paper.addBlock("chrome",200,200,100);
+
     }
 })
 module.exports = Performance;
