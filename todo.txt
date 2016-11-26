@@ -1,3 +1,4 @@
+数学方法完善，参考D３，sum min max,ascding discending mean　详见http://blog.mn886.net/chenjianhua/show/773c07b3abce/index.html
 三点得圆半径
 defs模块改成this = paper上下文
 验证transtion时对大写转换的影响
