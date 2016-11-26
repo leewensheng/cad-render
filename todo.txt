@@ -1,10 +1,10 @@
 三点得圆半径
-验证symbol模块
+defs模块改成this = paper上下文
 验证transtion时对大写转换的影响
 color模块增强,建议引入npm color
-动画支持color属性  支持暂停、延迟，多动画的队列冲突处理（起始值）建议用function wrap callback
+动画支持color属性  支持暂停、延迟，多动画的队列冲突处理（起始值)(建议在end后检查queue队列2,没有from则from = lastend)
 line模块补缺各种等分点,POINT支持获取圆上的切点
-１.timer支持，动画支持color path ，point完善(中点，切点，最近点，等分点)
+１.timer支持，动画支持color stroke-color stroke-dash，point完善(中点，切点，最近点，等分点)
 ２.标准图形库丰富（多角星，扇饼环、心形、水滴，螺旋，齿轮，雪花
 ３.div包裹一层以支持tooltip,chart接口初步实现简单饼图
 ５.出demo 文档

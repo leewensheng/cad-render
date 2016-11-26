@@ -23,7 +23,7 @@ var Performance = React.createClass({
         paper.importBlock("chrome",100);
         paper.importSymbol('chrome2');
         paper.use("chrome",0,0);
-        paper.use("chrome2",50,50,400,400)
+        paper.use("chrome2",50,50,400,400).linkURL("http://www.baidu.com")
     }
 })
 module.exports = Performance;
