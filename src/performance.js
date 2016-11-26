@@ -21,7 +21,9 @@ var Performance = React.createClass({
             "stroke-width":2
         })
         paper.importBlock("chrome",100);
-        paper.use("chrome",100,100);
+        paper.use("chrome",100,100).click(function(){
+            
+        })
     }
 })
 module.exports = Performance;
