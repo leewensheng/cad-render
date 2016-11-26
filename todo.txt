@@ -1,5 +1,5 @@
 三点得圆半径
-验证use defs symbol,考虑block模块的重写
+验证symbol模块
 验证transtion时对大写转换的影响
 color模块增强,建议引入npm color
 动画支持color属性  支持暂停、延迟，多动画的队列冲突处理（起始值）建议用function wrap callback
