@@ -12,7 +12,7 @@ var Performance = React.createClass({
         var height = window.innerHeight;
         var paper = cad.init({
                 el:el,
-                width:window.innerWidth,
+                width:"100%",
                 height:window.innerHeight
             });
         paper.configLayer({
@@ -23,7 +23,8 @@ var Performance = React.createClass({
         paper.importBlock("chrome",100);
         paper.importSymbol('chrome2');
         paper.use("chrome",0,0);
-        paper.use("chrome2",50,50,400,400).linkURL("http://www.baidu.com")
+        paper.use("chrome2",50,50,400,400).linkURL("http://www.baidu.com");
+        paper.title("chrome")
     }
 })
 module.exports = Performance;
