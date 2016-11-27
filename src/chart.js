@@ -9,7 +9,7 @@ var Pie = React.createClass({
 		var el = ReactDOM.findDOMNode(this);
 		var pie = new Chart({
 			el:el,
-			data:[1,2,3,4,5,6]
+			data:[1,1,0.56]
 		});
 	}
 });
