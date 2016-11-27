@@ -1,0 +1,16 @@
+core
+axis
+tooltip
+legend
+pie
+config
+
+
+
+组件接口
+{
+    数据
+    配置
+    上下文
+    对接(tooltip,legend,event)
+}
