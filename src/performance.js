@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import $ from 'jquery'
 var Performance = React.createClass({
     render:function(){
         return <div>
@@ -11,16 +12,22 @@ var Performance = React.createClass({
         var height = window.innerHeight;
         var paper = cad.init({
                 el:el,
-                width:window.innerWidth,
-                height:window.innerHeight
+                width:"100%",
+                height:window.innerHeight-10
             });
         paper.configLayer({
-            stroke:"#fff",
+            stroke:"none",
             fill:"none",
             "stroke-width":2
         })
-        paper.ellipse(360,200,300,100).fill('red');
-        paper.diagonalEllipses(100,100,250,500).fill("blue").stroke("pink",30);
+        paper.importBlock("chrome",100);
+        paper.importSymbol('chrome2');
+        var p = paper.use("chrome",0,0);
+        paper.use("chrome2",50,50,400,400).linkURL("http://www.baidu.com");
+        paper.title("chrome")
+        paper.on("click",function(){
+            p.upperZIndex(1);
+        })
     }
 })
 module.exports = Performance;

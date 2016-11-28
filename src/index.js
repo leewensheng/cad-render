@@ -12,9 +12,9 @@ import CreateUrl from '../lib/url'
 import cad from '../lib/svg'
 import Performance from './performance'
 import Arrow from './arrow'
-import SVG from  './main'
+import Main from  './main'
 import Disappear from './disappearing'
-
+import Pie from './chart'
 window.cad = cad;
 window.React = React;
 window.ReactDOM = ReactDOM;
@@ -25,4 +25,4 @@ function drop(target){
    var me = ReactDOM.findDOMNode(this);
    $(me).append($(el).get(0).cloneNode(true));
 }
-ReactDOM.render(<Disappear />,document.getElementById("root"))
+ReactDOM.render(<Pie />,document.getElementById("root"))
