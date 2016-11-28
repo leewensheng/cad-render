@@ -1,5 +1,4 @@
 数学方法完善，参考D３，sum min max,ascding discending mean　详见http://blog.mn886.net/chenjianhua/show/773c07b3abce/index.html
-layer模块改造，支持无id的layer，支持直接切换dom layer
 path 的Spline spline M m等柯里化
 chart规划
 三点得圆半径
