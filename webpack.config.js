@@ -20,9 +20,11 @@ http://gaearon.github.io/react-hot-loader/getstarted/
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var path = require("path");
 module.exports = {
     entry:{
-        index:"./src/index"
+        index:"./src/index",
+        vendor:['react','react-dom','jquery']
     },
     output:{
         path:"./build/",
@@ -62,7 +64,13 @@ module.exports = {
         })
     ],
     resolve:{
-        extensions:['','.js','.jsx','.json']
+        extensions:['','.js','.jsx','.json'],
+        root: path.join(__dirname),
+        alias:{
+            'react':'react/dist/react.js',
+            'react-dom':'react-dom/dist/react-dom.js',
+            'jquery':'jquery/dist/jquery.js'
+        }
     }/*,
     externals:{
         'react':'React',
