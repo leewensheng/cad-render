@@ -9,7 +9,7 @@
         
     </div>
     <script src="./js/jquery.min.js"></script>
-    <script src='./js/cad.js'></script>
+    <script src='../dist/cad.js'></script>
     <script>
     	var width = window.innerWidth;
     	var height = window.innerHeight;
@@ -19,7 +19,8 @@
     		height:height
     	});
     	paper.configLayer({
-    		fill:"none"
+    		fill:"none",
+            "stroke-width":2.5
     	})
     	paper.rect(0,0,width,height).fill("#000");
     	var count = 0;
@@ -39,7 +40,7 @@
                                 strokeOpacity:1e-6
                                 },
                                 2000,
-                                'SinusoidalOut',function(){
+                                Math.sqrt,function(){
                 $(this).remove();
             })
         })
