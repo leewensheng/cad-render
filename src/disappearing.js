@@ -17,6 +17,8 @@ var Disappear = React.createClass({
             "stroke-width":2.5
         })
          var count = 0;
+         paper.importSymbol("chrome2");
+         paper.use("chrome2",0,0,300,300)
          paper.on("mousemove  touchstart touchmove",function(e){
             e.preventDefault();
             e.stopPropagation();
