@@ -12,13 +12,15 @@ var Disappear = React.createClass({
                 el:el,
                 width:window.innerWidth,
                 height:window.innerHeight
-            });
+        });
         paper.configLayer({
-            "stroke-width":2.5
+            'stroke-width':2.5
         })
          var count = 0;
-         /*paper.importSymbol("chrome2");
-         paper.use("chrome2",0,0,300,300)*/
+         paper.importSymbol("chrome2");
+         paper.importBlock("chrome",200);
+         paper.use("chrome2",0,0,300,300)
+         paper.use("chrome",0,0,500,500)
          paper.on("mousemove  touchstart touchmove",function(e){
             e.preventDefault();
             e.stopPropagation();
