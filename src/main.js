@@ -140,9 +140,7 @@ var SVG = React.createClass({
             "stroke-width":2.5
         })
         //块测试
-        var block = paper.addBlock("circle",50,50,50).fill("red").transition({
-            transform:"translate(500,500)scale(1.5)"
-        },1000,'elastic');
+        paper.addBlock("chrome",100)
         paper.addShape("regularPolygon",150,150,{
             num:5,size:100
         }).fill("blue").attr('fill',"url(#linearGradient)");
