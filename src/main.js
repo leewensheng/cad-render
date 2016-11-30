@@ -91,8 +91,6 @@ var SVG = React.createClass({
             cy:380,
             r:50
         })
-        paper.append("text").attr("x",50).attr("y",50).attr("font-size",50).text('test').attr("stroke","red")
-        
         //阵列
         /*paper.append('circle').attr("r",20).arrayCopy(35,22,function(x,y){
             $(this).attr("cx",x*40+20).attr("cy",y*40+20).attr("fill",cad.hsl(x*y%360,50,50))
@@ -102,7 +100,7 @@ var SVG = React.createClass({
         paper.addShape("markLine",200,200,300,500,{width:20,height:60}).fill("red").stroke("red")
         
         //文本
-        paper.text("李文胜",0,0,{
+        paper.text(0,0,'李文胜',{
             fontSize:450,
             baseline:"top",
             align:"middle"
