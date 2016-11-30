@@ -17,8 +17,8 @@ var Disappear = React.createClass({
             "stroke-width":2.5
         })
          var count = 0;
-         paper.importSymbol("chrome2");
-         paper.use("chrome2",0,0,300,300)
+         /*paper.importSymbol("chrome2");
+         paper.use("chrome2",0,0,300,300)*/
          paper.on("mousemove  touchstart touchmove",function(e){
             e.preventDefault();
             e.stopPropagation();
@@ -30,12 +30,13 @@ var Disappear = React.createClass({
                 cy:point.y,
                 r:1e-6
             }).attr('stroke',color);
+            var ease = Math.sqrt;
             circle.transition({
                                 r:100,
                                 "stroke-opacity":1e-6
                                 },
                                 2000,
-                                Math.sqrt,function(){
+                               ease,function(){
                 $(this).remove();
             })
         })

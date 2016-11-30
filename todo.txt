@@ -1,3 +1,6 @@
+优化动画性能
+color模块检测rgb hsl
+采样 插值区分，完善
 数学方法完善，参考D３，sum min max,ascding discending mean　详见http://blog.mn886.net/chenjianhua/show/773c07b3abce/index.html
 支持暂停、延迟，多动画的队列冲突处理（起始值)(建议在end后检查queue队列2,没有from则from = lastend)
 path 的Spline spline M m等柯里化
