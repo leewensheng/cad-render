@@ -15,6 +15,7 @@ import Arrow from './arrow'
 import Main from  './main'
 import Disappear from './disappearing'
 import Pie from './chart'
+import Transform from './transform'
 window.cad = cad;
 window.React = React;
 window.ReactDOM = ReactDOM;
@@ -25,4 +26,4 @@ function drop(target){
    var me = ReactDOM.findDOMNode(this);
    $(me).append($(el).get(0).cloneNode(true));
 }
-ReactDOM.render(<Disappear />,document.getElementById("root"))
+ReactDOM.render(<Transform />,document.getElementById("root"))

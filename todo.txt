@@ -1,4 +1,5 @@
 优化：
+uppperzindex改成置顶API用this.parentNode.appendChild(this)
 rgb hsl优化
 后续动作
 1.采样 插值区分，完善
