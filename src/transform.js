@@ -19,8 +19,10 @@ var Transform = React.createClass({
             "stroke":"#fff",
             "stroke-width":0.1
         });
-        paper.rect(0,0,20,20).arrayCopy(48,25,function(x,y){
-            var color = cad.hsl(x/48*360,100,y/25*100);
+        var m = parseInt(window.innerWidth/20);
+        var n = parseInt(window.innerHeight/20);
+        paper.rect(0,0,20,20).arrayCopy(m,n,function(x,y){
+            var color = cad.hsl(x/m*360,100,y/n*100);
             $(this).translate(x*20,y*20).fill(color).rotate(0,0,0);
         }).on("mouseover",mouseover);
         function mouseover(e){
