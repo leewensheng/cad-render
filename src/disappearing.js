@@ -21,8 +21,8 @@ var Disappear = React.createClass({
          paper.importBlock("chrome",200);
          //paper.use("chrome2",0,0,300,300);
         // paper.use("chrome",0,0,500,500);
-         paper.importDefs("line",60,10).attr("id","line");
-         paper.importDefs("block",50).attr("id","block");
+         paper.importDefs("line",60,10).attr("id","line").attr("stroke",'yellow')
+         paper.importDefs("block",50).attr("id","block").attr("stroke","blue");
          paper.rect(20,20,100,100).fill("url(#line)").stroke("#fff");
          paper.circle(200,200,120).fill("url(#block)").stroke("#fff")
          paper.on("mousemove  touchstart touchmove",function(e){
