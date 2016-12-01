@@ -19,4 +19,4 @@ function drop(target){
    var me = ReactDOM.findDOMNode(this);
    $(me).append($(el).get(0).cloneNode(true));
 }
-ReactDOM.render(<Main />,document.getElementById("root"))
+ReactDOM.render(<Performance />,document.getElementById("root"))

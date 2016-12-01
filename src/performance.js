@@ -22,12 +22,8 @@ var Performance = React.createClass({
         })
         paper.importBlock("chrome",100);
         paper.importSymbol('chrome2');
-        var p = paper.use("chrome",0,0);
-        paper.use("chrome2",50,50,400,400).linkURL("http://www.baidu.com");
-        paper.title("chrome")
-        paper.on("click",function(){
-            p.upperZIndex(1);
-        })
+        var chrome = paper.use("chrome2",-200,-200,400,400).linkURL("http://www.baidu.com/s?wd=chrome").title("chrome");
+        chrome.translate(200,200).transition({transform:'translate(200,200)rotate(3600)'},50000,'linear')
     }
 })
 module.exports = Performance;

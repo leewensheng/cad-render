@@ -1,4 +1,6 @@
 优化：
+transform动画之前merge之前的transform属性
+尽快支持timer或者无限期动画
 取消默认图层，默认图层是svg
 后续动作
 1.采样 插值区分，完善
