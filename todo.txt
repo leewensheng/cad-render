@@ -1,5 +1,6 @@
 优化：
 研究jquery animate，保持接口一致性
+martrix镜像研究
 uppperzindex改成置顶API用this.parentNode.appendChild(this)
 rgb hsl优化
 后续动作
