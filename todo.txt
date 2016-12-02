@@ -1,7 +1,7 @@
 优化：
-transform动画之前merge之前的transform属性
-尽快支持timer或者无限期动画
-取消默认图层，默认图层是svg
+研究jquery animate，保持接口一致性
+uppperzindex改成置顶API用this.parentNode.appendChild(this)
+rgb hsl优化
 后续动作
 1.采样 插值区分，完善
 2填充defs patter 支持斜线，点，等CAD案例

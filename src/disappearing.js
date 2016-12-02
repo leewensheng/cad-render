@@ -10,8 +10,8 @@ var Disappear = React.createClass({
         var el = ReactDOM.findDOMNode(this);
         var paper = cad.init({
                 el:el,
-                width:window.innerWidth,
-                height:window.innerHeight
+                width:"100%",
+                height:window.innerHeight-3
         });
         paper.configLayer({
             'stroke-width':2.5
@@ -21,9 +21,11 @@ var Disappear = React.createClass({
          paper.importBlock("chrome",200);
          //paper.use("chrome2",0,0,300,300);
         // paper.use("chrome",0,0,500,500);
-         paper.importDefs("line",45,20).attr("id","line");
+         paper.importDefs("line",60,10).attr("id","line").attr("stroke",'yellow')
+         paper.importDefs("block",50).attr("id","block").attr("stroke","blue").attr("stroke-width",5)
          paper.rect(20,20,100,100).fill("url(#line)").stroke("#fff");
-         paper.circle(200,200,120).fill("url(#line)").stroke("#fff")
+         paper.circle(200,200,150).fill("url(#block)").stroke("#fff")
+         .transition({transform:"rotate(360,200,200)"},60000,'linear')
          paper.on("mousemove  touchstart touchmove",function(e){
             var point = paper.mouse(e);
             count++;
