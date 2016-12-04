@@ -1,10 +1,10 @@
-优化：
+优化
 研究jquery animate，保持接口一致性
 uppperzindex改成置顶API用this.parentNode.appendChild(this)
 rgb hsl优化
+arraycopy优化，传入dom参数，支持无callback
 后续动作
 1.采样 插值区分，完善
-2填充defs patter 支持斜线，点，等CAD案例
 3.文档，教程,demo
 4chart规划
 

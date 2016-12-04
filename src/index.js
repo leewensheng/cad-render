@@ -26,4 +26,4 @@ function drop(target){
    var me = ReactDOM.findDOMNode(this);
    $(me).append($(el).get(0).cloneNode(true));
 }
-ReactDOM.render(<Transform />,document.getElementById("root"))
+ReactDOM.render(<Disappear />,document.getElementById("root"))
