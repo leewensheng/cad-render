@@ -3011,17 +3011,17 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	_core2.default.extend({
-		$$interpolates: {},
+		$$samples: {},
 		defineSample: function definedInterpolate(name, func) {
-			this.$$interpolates[name] = func;
+			this.$$samples[name] = func;
 		},
 		sample: function interpolate(name) {
 			var args = Array.prototype.slice.call(arguments, 1);
 			if (typeof name == "function") {
 				return name.apply(null, args);
 			} else {
-				if (typeof _core2.default.$$interpolates[name] == 'function') {
-					return _core2.default.$$interpolates[name].apply(null, args);
+				if (typeof _core2.default.$$samples[name] == 'function') {
+					return _core2.default.$$samples[name].apply(null, args);
 				} else {
 					return false;
 				}
