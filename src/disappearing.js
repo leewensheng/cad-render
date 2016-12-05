@@ -28,8 +28,6 @@ var Disappear = React.createClass({
          .attr("transform","rotate(0,200,200)")
          .transition({transform:"rotate(360,200,200)"},60000,'linear')
          paper.on("mousemove  touchstart touchmove",function(e){
-            e.preventDefault();
-            e.stopPropagation();
             var point = paper.mouse(e);
             count++;
             var color = cad.hsl(count%360,100,50);
@@ -47,6 +45,7 @@ var Disappear = React.createClass({
                                ease,function(){
                 $(this).remove();
             })
+            e.preventDefault();
         })
     }
 })
