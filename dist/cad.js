@@ -1364,14 +1364,14 @@
 	        return ease[name];
 	    },
 
-	    objectInterpolate: function objectInterpolate(from, to, dt, during, ease) {
+	    objectSample: function objectInterpolate(from, to, dt, during, ease) {
 	        var ret = _jquery2.default.extend(true, {}, from);
 	        for (var key in from) {
 	            if (_typeof(from[key]) !== 'object') {
 	                var change = to[key] - from[key];
 	                ret[key] = from[key] + ease(dt / during) * change;
 	            } else {
-	                ret[key] = Animation.objectInterpolate(from[key], to[key], dt, during, ease);
+	                ret[key] = Animation.objectSample(from[key], to[key], dt, during, ease);
 	            }
 	        }
 	        return ret;
@@ -1379,7 +1379,7 @@
 	    tick: function tick() {
 	        var animations = this.animations,
 	            timestamp = new Date().getTime();
-	        var objectInterpolate = this.objectInterpolate;
+	        var objectInterpolate = this.objectSample;
 	        var me,
 	            target,
 	            queue,
@@ -2775,7 +2775,7 @@
 	    var num = size;
 	    for (var i = 0; i < num; i++) {
 	        var angle = 360 / num * i;
-	        var point = _core2.default.interpolate("heart", angle * Math.PI / 180, option.size);
+	        var point = _core2.default.sample("heart", angle * Math.PI / 180, option.size);
 	        point.x = cx + point.x * option.size / 32.69;
 	        point.y = cy + point.y * option.size / 32.69;
 	        points.push(point);
@@ -2789,7 +2789,7 @@
 	    var height = option.height;
 	    var width = option.width;
 	    var interval = option.interval;
-	    var ret = _core2.default.rangeInterpolate(Math.sin, 0, Math.PI * 2 * width / interval, width / 5);
+	    var ret = _core2.default.rangeSample(Math.sin, 0, Math.PI * 2 * width / interval, width / 5);
 	    var x = ret[0],
 	        y = ret[1];
 	    var points = x.map(function (val, index) {
@@ -3012,10 +3012,10 @@
 
 	_core2.default.extend({
 		$$interpolates: {},
-		definedInterpolate: function definedInterpolate(name, func) {
+		defineSample: function definedInterpolate(name, func) {
 			this.$$interpolates[name] = func;
 		},
-		interpolate: function interpolate(name) {
+		sample: function interpolate(name) {
 			var args = Array.prototype.slice.call(arguments, 1);
 			if (typeof name == "function") {
 				return name.apply(null, args);
@@ -3027,7 +3027,7 @@
 				}
 			}
 		},
-		objectInterpolate: function objectInterpolate(name, obj) {
+		objectSample: function objectInterpolate(name, obj) {
 			var me = this;
 			var call_func;
 			if (typeof name == 'function') {
@@ -3044,19 +3044,19 @@
 			}
 			return obj;
 		},
-		arrayInterpolate: function arrayInterpolate() {
+		arraySample: function arrayInterpolate() {
 			var name = arguments[0];
 			var args = Array.prototype.slice.call(arguments, 1);
 			var ret = arr.map(function (val, index) {
 				if (typeof name == 'function') {
 					return name.call(null, val);
 				} else {
-					return _core2.default.interpolate.call(null, name, val);
+					return _core2.default.sample.call(null, name, val);
 				}
 			});
 			return ret;
 		},
-		rangeInterpolate: function rangeInterpolate(name, from, to, num) {
+		rangeSample: function rangeInterpolate(name, from, to, num) {
 			var args = Array.prototype.slice.call(arguments, 1);
 			var gap = (to - from) / num;
 			var arr = [];
@@ -3069,13 +3069,13 @@
 				if (typeof name == 'function') {
 					return name.call(null, val);
 				} else {
-					return _core2.default.interpolate.apply(null, name, val);
+					return _core2.default.sample.apply(null, name, val);
 				}
 			});
 			return [arr, ret];
 		}
 	});
-	_core2.default.definedInterpolate("heart", function (t) {
+	_core2.default.defineSample("heart", function (t) {
 		var ret = {
 			x: 16 * Math.pow(Math.sin(t), 3),
 			y: 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t)
