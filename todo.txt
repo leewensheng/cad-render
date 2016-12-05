@@ -1,13 +1,12 @@
 优化
-数组采样和对象采样，插值
+插值的完善，支持对象插值，颜色插值，transform插值
 transiton模块对外接口，还是直接暴露
 研究jquery animate，保持接口一致性
 martrix镜像研究
 uppperzindex改成置顶API用this.parentNode.appendChild(this)
-rgb hsl优化
+rgb hsl优化统一
 arraycopy优化，传入dom参数，支持无callback
 后续动作
-1.采样 插值区分，完善
 3.文档，教程,demo
 4chart规划
 
