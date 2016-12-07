@@ -1,11 +1,6 @@
-优化
-transiton模块对外接口，还是直接暴露
-研究jquery animate，保持接口一致性
+各模块的测试
 martrix镜像研究
 uppperzindex改成置顶API用this.parentNode.appendChild(this)
-rgb hsl优化统一
-arraycopy优化，传入dom参数，支持无callback
-后续动作
 3.文档，教程,demo
 4chart规划
 
