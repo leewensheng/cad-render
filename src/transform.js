@@ -22,7 +22,7 @@ var Transform = React.createClass({
         var m = parseInt(window.innerWidth/20);
         var n = parseInt(window.innerHeight/20);
         paper.rect(0,0,20,20).arrayCopy(m,n,function(x,y){
-            var color = cad.hsl(x/m*360,100,y/n*100);
+            var color = cad.hsl(x/m*360,1,y/n);
             $(this).translate(x*20,y*20).fill(color).rotate(0,0,0);
         }).on("mouseover",mouseover);
         function mouseover(e){
