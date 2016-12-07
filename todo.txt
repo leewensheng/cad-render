@@ -1,5 +1,4 @@
 优化
-插值的完善，支持对象插值，颜色插值，transform插值
 transiton模块对外接口，还是直接暴露
 研究jquery animate，保持接口一致性
 martrix镜像研究
