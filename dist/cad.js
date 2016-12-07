@@ -2685,13 +2685,13 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	_core2.default.extend({
-	    $shapes: {},
+	    $$shapes: {},
 	    defineShape: function defineShape(name, func) {
-	        this.$shapes[name] = func;
+	        this.$$shapes[name] = func;
 	    },
 	    getShapePath: function getShapePath() {
 	        var args = Array.prototype.slice.call(arguments, 1);
-	        var shape = _core2.default.$shapes[name];
+	        var shape = _core2.default.$$shapes[name];
 	        if (!shape) {
 	            return;
 	        } else {
@@ -2700,7 +2700,7 @@
 	    }
 	});
 	_paper2.default.fn.addShape = function (name, x, y, options) {
-	    var shape = _core2.default.$shapes[name];
+	    var shape = _core2.default.$$shapes[name];
 	    var args = Array.prototype.slice.call(arguments, 1);
 	    if (!shape) {
 	        console.log("error:　undefined shape");
