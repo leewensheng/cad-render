@@ -1,5 +1,7 @@
 各模块的测试
+downloadPNG功能检测
 动画模块的改造,transition(option)
+timer模块
 paper addStyle是否需要
 martrix镜像研究
 uppperzindex改成置顶API用this.parentNode.appendChild(this)
