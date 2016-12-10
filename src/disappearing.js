@@ -30,7 +30,7 @@ var Disappear = React.createClass({
          paper.on("mousemove  touchstart touchmove",function(e){
             var point = paper.mouse(e);
             count++;
-            var color = cad.hsl(count%360,100,50);
+            var color = cad.hsl(count%360,1,0.5);
             var circle = paper.append("circle",{
                 cx:point.x,
                 cy:point.y,
