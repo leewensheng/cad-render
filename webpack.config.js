@@ -23,7 +23,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var path = require("path");
 module.exports = {
     entry:{
-        index:"./src/index",
+        index:"./test/index",
         vendor:['react','react-dom','jquery']
     },
     output:{

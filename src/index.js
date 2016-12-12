@@ -1,24 +1,50 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import "./test.css"
-import "./index.css"
-import $ from 'jquery'
-import Animation from "../lib/svg/animation"
-import cad from '../lib/svg'
-import Performance from './performance'
-import Arrow from './arrow'
-import Main from  './main'
-import Disappear from './disappearing'
-import Pie from './chart'
-import Transform from './transform'
+import cad from './core.js'
+import Path from './path'
+import Point from './point'
+import Line  from './line'
+import Paper from './paper'
+import namespace from './namespace'
+import browser from './browser'
+import transition from './animation'
+import Color from './color'
+import './paper_extend'
+import './layer'
+import './path_extend'
+import './shape'
+import './def.js'
+import './color/index'
+import './sample'
+import './interpolate'
+import  './block'
+import './math'
+cad.extend({
+	  transition:transition,
+    Point:Point,
+    Line:Line,
+    Path:Path,
+    Paper:Paper,
+    namespace:namespace,
+    browser:browser,
+    init:function(option){
+        return this.Paper(option);
+    }
+})
+cad.extend({
+   rgb:function(r,g,b){
+        var arr = [r,g,b];
+        return "rgb(" + arr.join(",") +")";
+   },
+   hsl:function(h,s,l){
+    var color =  new Color({h:h,s:s,l:l}).toHex();
+    return color;
+   },
+   darken:function(color,ration) {
+        return  new Color(color).darken(ration);
+   },
+   brighten:function(color,ration) {
+        return  new Color(color).brighten(ration);
+   },
+   Color:Color
+})
 window.cad = cad;
-window.React = React;
-window.ReactDOM = ReactDOM;
-
-function drop(target){
-    target.revert();
-   var el = ReactDOM.findDOMNode(target)
-   var me = ReactDOM.findDOMNode(this);
-   $(me).append($(el).get(0).cloneNode(true));
-}
-ReactDOM.render(<Disappear />,document.getElementById("root"))
+module.exports = cad;

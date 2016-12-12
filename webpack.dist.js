@@ -29,7 +29,7 @@ var uglifyJSPlugin = new webpack.optimize.UglifyJsPlugin({
     });
 module.exports = {
     entry:{
-        cad:"./lib/svg/index",
+        cad:"./src/index",
     },
     output:{
         path:"./build/",
