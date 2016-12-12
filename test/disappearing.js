@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import cad from '../lib/svg'
+import cad from '../src/svg'
 
 var Disappear = React.createClass({
     render(){

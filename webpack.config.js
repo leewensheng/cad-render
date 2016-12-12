@@ -57,7 +57,7 @@ module.exports = {
         }),
         new ExtractTextPlugin("styles.css"),
         new HtmlWebpackPlugin({
-            template:"./src/template.html",
+            template:"./test/template.html",
             title:"输出测试",
             filename:"index.html",
             hash:true
