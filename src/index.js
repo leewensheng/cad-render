@@ -1,14 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import ClassName from '../lib/class-name'
-import Draggable from  '../lib/draggable'
 import "./test.css"
-import Droppable from "../lib/droppable"
 import "./index.css"
 import $ from 'jquery'
-import Sorttable from "../lib/sorttable"
 import Animation from "../lib/svg/animation"
-import CreateUrl from '../lib/url'
 import cad from '../lib/svg'
 import Performance from './performance'
 import Arrow from './arrow'
@@ -26,4 +21,4 @@ function drop(target){
    var me = ReactDOM.findDOMNode(this);
    $(me).append($(el).get(0).cloneNode(true));
 }
-ReactDOM.render(<Transform />,document.getElementById("root"))
+ReactDOM.render(<Disappear />,document.getElementById("root"))
