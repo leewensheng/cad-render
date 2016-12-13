@@ -14,11 +14,4 @@ import Transform from './transform'
 window.cad = cad;
 window.React = React;
 window.ReactDOM = ReactDOM;
-
-function drop(target){
-    target.revert();
-   var el = ReactDOM.findDOMNode(target)
-   var me = ReactDOM.findDOMNode(this);
-   $(me).append($(el).get(0).cloneNode(true));
-}
 ReactDOM.render(<Disappear />,document.getElementById("root"))
