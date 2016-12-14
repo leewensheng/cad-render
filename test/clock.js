@@ -45,7 +45,7 @@ var Clock = React.createClass({
                 }
                 var point = new cad.Point(cx,cy);
                 point.angleMoveTo(i*6,radius-80).rotate(-90,cx,cy);
-                paper.text(point.x,point.y,t).attr('text-anchor','middle');
+                paper.text(point.x,point.y,t,{baseline:'middle'}).attr('text-anchor','middle');
             } else {
                 $(this).attr('stroke-width',2);
             }
