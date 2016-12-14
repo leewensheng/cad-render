@@ -67,7 +67,7 @@ path.fn.extend({
                 var lastParam = params[params.length - 1];
                 var point = String(lastParam).split(',').map(function(val){
                     return parseFloat(val);
-                })
+                });
                 var x_new ,y_new;
                 if(baseName == 'v'){
                     x_new = 0;
