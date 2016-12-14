@@ -184,7 +184,7 @@ $.fn.rotate  = function(angle,cx,cy){
         obj.rotateY = cy;
         var str = $.getTransform(obj);
         $(dom).attr('transform',str);
-    })
+    });
     return this;
 }
 $.fn.stroke = function(color,width,opacity){

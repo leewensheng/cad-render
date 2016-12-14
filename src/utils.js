@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import browser from './browser.js'
 //$ to trim
 var utils = {
 
@@ -60,6 +61,13 @@ utils.getTransform = function(obj){
     transY = obj.transY || 0;
     scale = obj.scale || 1;
     rotate = obj.rotate||0;
+    if(Math.abs(rotate)<0.81024&&browser.msie) {
+        if(rotate>=0) {
+            rotate = 0.81024;
+        } else {
+            rotate = -0.81024;
+        }
+    }
     rotateX  = obj.rotateX || 0;
     rotateY = obj.rotateY || 0;
     skewX = obj.skewX ||0;

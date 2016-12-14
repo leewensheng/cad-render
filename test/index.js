@@ -11,7 +11,8 @@ import Arrow from './arrow'
 import Main from  './main'
 import Disappear from './disappearing'
 import Transform from './transform'
-window.cad = cad;
+import Clock from './clock.js'
+
 window.React = React;
 window.ReactDOM = ReactDOM;
-ReactDOM.render(<Main />,document.getElementById("root"))
+ReactDOM.render(<Disappear />,document.getElementById("root"))

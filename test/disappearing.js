@@ -25,8 +25,8 @@ var Disappear = React.createClass({
          paper.importDefs("block",50).attr("id","block").attr("stroke","blue").attr("stroke-width",5)
          paper.rect(20,20,100,100).fill("url(#line)").stroke("#fff");
          paper.circle(200,200,100).fill("url(#block)").stroke("#fff")
-         .attr("transform","rotate(0,200,200)")
-         .transition({transform:"rotate(360,200,200)"},60000,'linear')
+             .rotate(0,200,200)
+             .transition({transform:"rotate(360,200,200)"},60000,'linear')
          paper.on("mousemove  touchstart touchmove",function(e){
             var point = paper.mouse(e);
             count++;
