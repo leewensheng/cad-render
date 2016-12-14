@@ -30,9 +30,9 @@ var Clock = React.createClass({
         paper.angleLine(cx,cy,angleH,radius*0.6).stroke("#9FA6AA",5);
         paper.angleLine(cx,cy,angleM,radius*0.75).stroke("#9FA6AA",5);
         var p = cad.Point(cx,cy).angleMoveTo(angleS+180,radius*0.2);
-        var pointer = paper.angleLine(p.x,p.y,angleS,radius*1.05).stroke("#9FA6AA",3).rotate(0,cx,cy);
+        var pointer = paper.angleLine(0,0,angleS,radius*0.8).stroke("#9FA6AA",3).rotate(0).translate(cx,cy);
         pointer.transition({
-            transform:"rotate("+ [360000,cx,cy].join(',') +")"
+            transform:"rotate(360000)"
         },60000000,'linear');
         paper.circle(cx,cy,10).fill("#1F4955").stroke("none");
         var tick = paper.angleLine(cx,cy+radius-40,-90,20).stroke("#9FA6AA").arrayCopy(60,function(i){

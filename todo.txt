@@ -1,4 +1,6 @@
 各模块的测试
+ie下的旋转只对原点比较精确，
+故ie旋转动画需要先translate到旋转点（绘图时相对于原点绘制)
 动画模块的改造,transition(option)
 timer模块与transition模块优化
 paper addStyle是否需要
