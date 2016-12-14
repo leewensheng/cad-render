@@ -14,4 +14,4 @@ import Transform from './transform'
 window.cad = cad;
 window.React = React;
 window.ReactDOM = ReactDOM;
-ReactDOM.render(<Disappear />,document.getElementById("root"))
+ReactDOM.render(<Main />,document.getElementById("root"))

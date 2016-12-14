@@ -105,7 +105,7 @@ var Arrow = React.createClass({
         function refreshBow(d) {
         	var dy = Math.min(d,80);
 			p4 = Point(cx,cy+dy);
-			var path = new cad.Path().SplineTo([p1,p4,p3]);
+			var path = new cad.Path().CurveToAll([p1,p4,p3]);
 			bow.attr('d',path);
 			arrows[0].attr("transform",'translate(0,'+dy+')')
         }
@@ -129,7 +129,7 @@ var Arrow = React.createClass({
 				ease:'easeOut',
 				exefunc:function(v){
 					var p = Point(cx,cy);
-					var path = new cad.Path().SplineTo([p1,p.moveBy(0,-1*v/2),p3]);
+					var path = new cad.Path().CurveToAll([p1,p.moveBy(0,-1*v/2),p3]);
 					this.attr("d",path);
 				},
 				callback:function(){

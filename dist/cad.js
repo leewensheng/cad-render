@@ -2841,7 +2841,7 @@
 	        return this.append("polyline").attr("points", p.join(" "));
 	    },
 	    spline: function spline(points) {
-	        var path = new _path3.default().SplineTo(points);
+	        var path = new _path3.default().CurveToAll(points);
 	        return this.append("path").attr('d', path.toString());
 	    },
 	    sector: function sector(cx, cy, startAngle, endAngle, radius, innerRadius) {
@@ -3147,7 +3147,7 @@
 	    },
 	    clockWiseArcTo: function clockWiseArcTo(cx, cy, endx, endy, r) {},
 	    antiClockArcTo: function antiClockArcTo(cx, cy, endx, endy, r) {},
-	    __splineTo: function __splineTo(points, isAboslute) {
+	    __curveToAll: function __splineTo(points, isAboslute) {
 	        var data = [];
 	        var p0 = points[0];
 	        var p1 = points[1];
@@ -3190,11 +3190,11 @@
 	        }
 	        return this;
 	    },
-	    splineTo: function splineTo(points) {
-	        return this.__splineTo(points, false);
+	    curveToAll: function splineTo(points) {
+	        return this.__curveToAll(points, false);
 	    },
-	    SplineTo: function SplineTo(points) {
-	        return this.__splineTo(points, true);
+	    CurveToAll: function SplineTo(points) {
+	        return this.__curveToAll(points, true);
 	    },
 	    __lineToAll: function __lineToAll(points, isAboslute) {
 	        for (var i = 0; i < points.length; i++) {
@@ -3325,7 +3325,7 @@
 	        point.y = cy + point.y * option.size / 32.69;
 	        points.push(point);
 	    }
-	    return path.SplineTo(points);
+	    return path.CurveToAll(points);
 	});
 	_core2.default.defineShape("sinCurve", function (cx, cy, option) {
 	    var path = new _core2.default.Path();
@@ -3343,7 +3343,7 @@
 	            y: cy + y[index] * height
 	        };
 	    });
-	    return path.SplineTo(points);
+	    return path.CurveToAll(points);
 	});
 	_core2.default.defineShape("markLine", function (x1, y1, x2, y2, option) {
 	    //这个宜作为箭头

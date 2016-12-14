@@ -99,7 +99,7 @@ cad.defineShape("heart",function(cx,cy,option){
         point.y = cy + point.y*option.size/32.69;
         points.push(point);
     }
-    return path.SplineTo(points);
+    return path.CurveToAll(points);
 })
 cad.defineShape("sinCurve",function(cx,cy,option){
     var path = new cad.Path();
@@ -116,7 +116,7 @@ cad.defineShape("sinCurve",function(cx,cy,option){
             y:(cy+y[index]*height)
         }
     })
-    return path.SplineTo(points);
+    return path.CurveToAll(points);
 })
 cad.defineShape("markLine",function(x1,y1,x2,y2,option){
     //这个宜作为箭头
