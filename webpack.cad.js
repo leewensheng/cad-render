@@ -1,10 +1,30 @@
+// new webpack.optimize.CommonsChunkPlugin('common.js');
+/*
+var uglifyJSPlugin = new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        //supresses warnings, usually from module minification
+        warnings: false
+      }
+    }),
+*/
+//    new webpack.NoErrorsPlugin()
+/*
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+https://www.npmjs.com/package/html-webpack-plugin
+
+
+new webpack.HotModuleReplacementPlugin()
+http://gaearon.github.io/react-hot-loader/getstarted/
+*/
+
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var path = require("path");
 module.exports = {
     entry:{
-        index:"./doc/index"
+        index:"./test/index",
+        vendor:['react','react-dom','jquery']
     },
     output:{
         path:"./build/",
@@ -23,6 +43,12 @@ module.exports = {
             {
                 test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css')
             }
+        ],
+        postLoaders: [
+          {
+            test: /\.jsx?$/,
+            loaders: ['es3ify-loader']
+          }
         ]
     },
     plugins:[
@@ -45,5 +71,10 @@ module.exports = {
             'react-dom':'react-dom/dist/react-dom.js',
             'jquery':'jquery/dist/jquery.js'
         }
-    }
+    }/*,
+    externals:{
+        'react':'React',
+        'react-dom':'ReactDOM',
+        "jquery":"jQuery"
+    }*/
 }
