@@ -19,7 +19,7 @@ $.fn.transition = function(attr,during,ease,callback){
             }
             var is_busy = Animation.isAnimating(dom);
             if(is_busy) {
-                Animation.stopAnimation(dom,true);
+                Animation.stopAnimation(dom);
             }
             var from = {};
             var to = attr;
