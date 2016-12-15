@@ -15,4 +15,4 @@ import Clock from './clock.js'
 
 window.React = React;
 window.ReactDOM = ReactDOM;
-ReactDOM.render(<Clock />,document.getElementById("root"))
+ReactDOM.render(<Disappear />,document.getElementById("root"))

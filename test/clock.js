@@ -27,9 +27,12 @@ var Clock = React.createClass({
         var angleS = s%60/60*360 -90;
         paper.configLayer({"stroke-linecap":"round","stroke":"#9FA6AA"})
         paper.circle(cx,cy,radius).stroke("#929CAC",3);
+        //时钟
         paper.angleLine(cx,cy,angleH,radius*0.6).stroke("#9FA6AA",5);
-        paper.angleLine(cx,cy,angleM,radius*0.75).stroke("#9FA6AA",5);
+        //分钟
+        paper.angleLine(cx,cy,angleM,radius*0.7).stroke("#9FA6AA",5);
         var p = cad.Point(cx,cy).angleMoveTo(angleS+180,radius*0.2);
+        //秒钟
         var pointer = paper.angleLine(0,0,angleS,radius*0.8).stroke("#9FA6AA",3).rotate(0).translate(cx,cy);
         pointer.transition({
             transform:"rotate(360000)"

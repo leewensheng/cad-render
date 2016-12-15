@@ -187,6 +187,7 @@ Animation = {
             var cur_obj = animations[index];
             cur_obj.queue.push(option)
         } else {
+            option.startTime = new Date().getTime();
             animations.push({
                 target:target,
                 queue:[option]
