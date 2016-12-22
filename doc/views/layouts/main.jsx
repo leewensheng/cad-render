@@ -1,5 +1,6 @@
 import React from 'react'
 import Header from '../../components/header'
+import '../../statics/css/normalize.css'
 import '../../statics/css/main.css'
 var Main = React.createClass({
 	render(){

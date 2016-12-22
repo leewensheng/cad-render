@@ -22,6 +22,10 @@ module.exports = {
             },
             {
                 test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css')
+            },
+            {   
+                test: /\.(png|jpg)$/, 
+                loader: 'url-loader?limit=8192&name=img/[name].[ext]'
             }
         ]
     },

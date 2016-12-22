@@ -1,3 +1,51 @@
+html * {
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Helvetica Neue', 'Helvetica', tahoma, 'Hiragino Sans GB', 'PingFang SC', 'STHeitiSC-Light', 'Microsoft YaHei', Arial, sans-serif;
+}
+.nav {
+    background: #0D2031;
+}
 .header {
-	background: red;
+    width: 1000px;
+    height: 60px;
+    padding: 15px 0;
+    margin: 0 auto;
+}
+/*logo*/
+.sub-title {
+    color: #eee;
+    margin-left: 5px;
+}
+.logo-wrap {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+}
+.logo {
+    display: inline-block;
+    vertical-align: middle;
+    width: 32px;
+    height: 32px;
+    background: url(../img/logo.png) no-repeat center;
+    background-size: 32px 32px;
+}
+/*导航栏*/
+.nav-tabs {
+    float: right;
+    margin-top: 5px;
+}
+.nav-tabs li{
+    float: left;
+    margin-left: 30px;
+}
+.nav-tabs li>a{
+    font-size: 14px;
+    color: #666;
+    text-decoration: none;
+    transition: color ease 300ms;
+}
+.nav-tabs li:hover>a{
+    color: #fff;
 }

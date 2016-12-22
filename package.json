@@ -30,6 +30,7 @@
     "bowser": "^1.4.6",
     "es3ify-loader": "^0.2.0",
     "html-webpack-plugin": "^2.21.0",
+    "image-loader": "0.0.1",
     "jquery": "^3.0.0",
     "react": "^0.14.8",
     "react-addons-css-transition-group": "^15.3.1",
@@ -38,6 +39,7 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.5.1",
     "redux": "^3.5.2",
+    "url-loader": "^0.5.7",
     "vue": "^1.0.27"
   }
 }
