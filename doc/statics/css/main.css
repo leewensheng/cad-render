@@ -2,6 +2,7 @@ html * {
     box-sizing: border-box;
 }
 body {
+    overflow: hidden;
     font-family: 'Helvetica Neue', 'Helvetica', tahoma, 'Hiragino Sans GB', 'PingFang SC', 'STHeitiSC-Light', 'Microsoft YaHei', Arial, sans-serif;
 }
 .nav {
