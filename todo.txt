@@ -1,4 +1,5 @@
 各模块的测试
+paper destroy();
 阴影，模糊的引入方式抽象,createLinearGradient,
 ie下的旋转只对原点比较精确，
 故ie旋转动画需要先translate到旋转点（绘图时相对于原点绘制)

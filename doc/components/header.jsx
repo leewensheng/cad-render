@@ -6,9 +6,9 @@ module.exports = React.createClass({
 			<div className="nav">
                  <div className="header">
                      <Link to="/" className="logo-wrap">
-                         <span className="logo"></span>CADRender
+                         <span className="logo"></span> CAD Render
                      </Link>
-                     <span className="sub-title">better</span>
+                     <span className="sub-title"></span>
                      <ul className="nav-tabs clearfix">
                          <li>
                              <Link to="start">快速上手</Link>

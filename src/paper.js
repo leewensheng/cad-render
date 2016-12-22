@@ -114,6 +114,11 @@ Paper.prototype = {
         this.svg.on.apply(this.svg,args);
         return this;
     },
+    off:function(){
+        var args = Array.prototype.slice.call(arguments,0);
+        this.svg.off.apply(this.svg,args);
+        return this;
+    },
     getSVGXML:function(){
         var svg = this.svg;
         return svg.parent().html();
@@ -163,6 +168,11 @@ Paper.prototype = {
                 window.open(a.href);
             }
         return this;
+    },
+    destroy:function(){
+        this.currentLayer = null;
+        this.svg.remove();
+        this.svg = null;
     }
 }
 Paper.prototype.init.prototype = Paper.fn = Paper.prototype;

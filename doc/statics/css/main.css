@@ -6,6 +6,7 @@ body {
 }
 .nav {
     background: #0D2031;
+    min-width: 1200px;
 }
 .header {
     width: 1000px;

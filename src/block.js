@@ -84,7 +84,7 @@ cad.defineBlock('chrome',function(r){
     })
     return shapes.add([c1,c2]);
  })
-cad.defineSymbol('chrome2',function(symbol){
+cad.defineSymbol('chrome',function(symbol){
     var paper = this;
     symbol.attr('viewBox',"0 0 100 100");
     var r = 50;
