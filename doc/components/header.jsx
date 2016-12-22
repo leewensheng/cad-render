@@ -26,9 +26,9 @@ module.exports = React.createClass({
                              <Link to="about">关于</Link>
                          </li>
                          <li>
-                             <Link to="start">
+                             <a href="https://github.com/leewensheng/cad-render" target="_blank">
                                 <i className="icon icon-git"></i>github
-                            </Link>
+                            </a>
                          </li>
                      </ul>
                  </div>        
