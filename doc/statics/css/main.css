@@ -45,8 +45,14 @@ body {
     font-size: 14px;
     color: #666;
     text-decoration: none;
-    transition: color ease 300ms;
+    transition: all ease 300ms;
+    fill:#666;
 }
 .nav-tabs li:hover>a{
     color: #fff;
+    fill: #fff;
+}
+.icon-github {
+    vertical-align: middle;
+    margin-right: 5px;
 }
