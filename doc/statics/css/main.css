@@ -44,7 +44,7 @@ body {
 }
 .nav-tabs li>a{
     font-size: 14px;
-    color: #666;
+    color: #888;
     text-decoration: none;
     transition: all ease 300ms;
     fill:#666;
