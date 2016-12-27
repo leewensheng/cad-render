@@ -24,3 +24,17 @@
 .text-muted {
 	color:#aaa;
 }
+
+.nav-list li {
+	padding: 5px 12px;
+}
+li>.nav-list {
+	margin-left: 4px;
+	display: block;
+}
+li.open>.nav-list {
+	display: block;
+}
+.title {
+	font-weight: bold;
+}

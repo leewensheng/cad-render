@@ -4,16 +4,18 @@ html * {
 body {
     overflow: hidden;
     font-family: 'Helvetica Neue', 'Helvetica', tahoma, 'Hiragino Sans GB', 'PingFang SC', 'STHeitiSC-Light', 'Microsoft YaHei', Arial, sans-serif;
+    padding-top: 60px;
 }
 .nav {
     background: #0D2031;
-    min-width: 1200px;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 .header {
-    width: 1000px;
     height: 60px;
     padding: 15px 0;
-    margin: 0 auto;
+    margin: 0 50px;
 }
 /*logo*/
 .sub-title {
@@ -56,4 +58,19 @@ body {
 .icon-github {
     vertical-align: middle;
     margin-right: 5px;
+}
+
+
+.doc {
+    display: flex;
+}
+.doc .doc-content{
+    flex: 1;
+}
+.doc .doc-nav {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    overflow: auto;
+    padding: 20px 12px;
 }

@@ -11,14 +11,15 @@ module.exports = React.createClass({
                      <span className="sub-title"></span>
                      <ul className="nav-tabs clearfix">
                          <li>
-                             <Link to="start">快速上手</Link>
+                             <Link to="start">教程</Link>
+                         </li>
+                        <li>
+                             <Link to="api">API</Link>
                          </li>
                          <li>
                              <Link to="demo">示例</Link>
                          </li>
-                         <li>
-                             <Link to="api">API</Link>
-                         </li>
+             
                          <li>
                              <Link to="download">下载</Link>
                          </li>
