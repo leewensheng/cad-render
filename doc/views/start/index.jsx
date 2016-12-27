@@ -28,7 +28,7 @@ module.exports = React.createClass({
                             <Link to="/start/">基本图形</Link>
                             <ul className="nav-list">
                                 <li>
-                                    <a href="#">线段</a>
+                                    <a href="#">直线</a>
                                 </li>
                                 <li>
                                     <a href="#">矩形</a>
