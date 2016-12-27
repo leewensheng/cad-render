@@ -129,10 +129,11 @@ var SVG = React.createClass({
         paper.addShape("sinCurve",300,300).fill("blue");
         //扇形图
         paper.sector(200,200,-60,60,200).fill("blue");
-        /*//图片
+        //图片
+        /*  
         paper.image(0,0,250,250,"http://ww1.sinaimg.cn/mw690/6cefc1a7jw1fa0of045e7j20zk0qogzo.jpg")
-            .attr("filter","url(#blur)")*/
-
+            .attr("filter","url(#blur)")
+        */
         var count = 0;
         paper.addLayer("test",{
             fill:"none",

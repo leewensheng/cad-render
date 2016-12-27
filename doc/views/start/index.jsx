@@ -9,7 +9,7 @@ module.exports = React.createClass({
         }
     },
     render(){
-        var sideWidth = "300px";
+        var sideWidth = "250px";
         var navHeight = this.state.navHeight;
        return( 
         <div className="doc">
@@ -17,10 +17,15 @@ module.exports = React.createClass({
                 <div className="side-nav">
                     <p className="title">基础</p>
                     <ul className="nav-list">
-                        <li><Link to="/start/install">安装</Link></li>
-                        <li><Link to="/start/introduction">介绍</Link></li>
+                        <li><Link to="/start">安装</Link></li>
+                        <li>
+                        <Link to="/start/introduction">介绍</Link>
+                            <ul className="nav-list">
+                                <li><Link to="/start/qibu">起步</Link></li>
+                            </ul>
+                        </li>
                         <li className="open">
-                            <Link to="/start/install">基本图形</Link>
+                            <Link to="/start/">基本图形</Link>
                             <ul className="nav-list">
                                 <li>
                                     <a href="#">线段</a>
@@ -52,7 +57,7 @@ module.exports = React.createClass({
                             </ul>
                         </li>
                         <li>
-                            <Link to="/start/install">内置图形</Link>
+                            <Link to="/start">内置图形</Link>
                             <ul className="nav-list">
                                 <li >
                                     <a href="#">扇形</a>
@@ -69,11 +74,18 @@ module.exports = React.createClass({
                      <p className="title">图形操作</p>
                     <ul className="nav-list">
                         <li>
+                            <Link to="/start/install">设置属性</Link>
+                        </li>
+                        <li>
+                            <Link to="/start/install">绑定事件</Link>
+                        </li>
+                        <li>
                             <Link to="/start/install">描边和填充</Link>
                         </li>
                         <li><Link to="dom">平移</Link></li>
                         <li><Link to="dom">旋转</Link></li>
-                        <li><Link to="dom">倾斜</Link></li>
+                        <li><Link to="dom">缩放</Link></li>
+                        <li><Link to="dom">添加链接</Link></li>
                         <li><Link to="dom">拷贝</Link></li>
                         <li><Link to="dom">绘图次序</Link></li>
                     </ul>
@@ -93,6 +105,20 @@ module.exports = React.createClass({
                     <p className="title">进阶</p>
                     <ul className="nav-list">
                         <li>
+                            <Link to="/start/install">路径</Link>
+                            <ul className="nav-list">
+                                <li>
+                                    <a href="#">基本指令</a>
+                                </li>
+                                <li>
+                                    <a href="#">扩展指令</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><Link to="start/point">点</Link></li>
+                        <li><Link to="start/line">线</Link></li>
+                        <li><Link to="start/color">颜色处理</Link></li>
+                        <li>
                             <Link to="/start/install">动画</Link>
                             <ul className="nav-list">
                                 <li>
@@ -107,7 +133,7 @@ module.exports = React.createClass({
                             </ul>
                         </li>
                         <li>
-                            <Link to="/start/install">滤镜</Link>
+                            <Link to="/start">滤镜</Link>
                             <ul className="nav-list">
                                 <li>
                                     <a href="#">阴影</a>
@@ -138,7 +164,7 @@ module.exports = React.createClass({
                 </div>
             </div>
             <div className="doc-content" style={{marginLeft:sideWidth}}>
-                <h1>2fddfdf</h1>
+                {this.props.children}
             </div>
         </div>
         )

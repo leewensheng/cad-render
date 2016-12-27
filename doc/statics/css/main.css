@@ -66,6 +66,8 @@ body {
 }
 .doc .doc-content{
     flex: 1;
+    padding: 12px;
+    padding-right: 300px;
 }
 .doc .doc-nav {
     position: fixed;
