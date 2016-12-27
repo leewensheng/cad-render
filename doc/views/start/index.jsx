@@ -52,7 +52,7 @@ module.exports = React.createClass({
                             </ul>
                         </li>
                         <li>
-                            <Link to="/start/install">内置形状</Link>
+                            <Link to="/start/install">内置图形</Link>
                             <ul className="nav-list">
                                 <li >
                                     <a href="#">扇形</a>
@@ -64,42 +64,31 @@ module.exports = React.createClass({
                                     <a href="#">箭头</a>
                                 </li>
                             </ul>
-                        </li>
-                        <li className="open">
-                            <Link to="/start/install">图层管理</Link>
-                            <ul className="nav-list">
-                                <li>
-                                    <a href="#">默认图层</a>
-                                </li>
-                                <li>
-                                    <a href="#">工作图层</a>
-                                </li>
-                                <li>
-                                    <a href="#">图层操作</a>
-                                </li>
-
-                            </ul>
-                        </li>
-                           
+                        </li>   
                     </ul>
                      <p className="title">图形操作</p>
                     <ul className="nav-list">
                         <li>
                             <Link to="/start/install">描边和填充</Link>
-                            <ul className="nav-list">
-                                 <li>
-                                    <a href="#">描边</a>
-                                </li>
-                                <li>
-                                    <a href="#">填充</a>
-                                </li>
-                            </ul>
                         </li>
                         <li><Link to="dom">平移</Link></li>
                         <li><Link to="dom">旋转</Link></li>
                         <li><Link to="dom">倾斜</Link></li>
                         <li><Link to="dom">拷贝</Link></li>
                         <li><Link to="dom">绘图次序</Link></li>
+                    </ul>
+                    <p className="title">图层管理</p>
+                    <ul className="nav-list">
+                        <li>
+                            <a href="#">默认图层</a>
+                        </li>
+                        <li>
+                            <a href="#">工作图层</a>
+                        </li>
+                        <li>
+                            <a href="#">图层操作</a>
+                        </li>
+
                     </ul>
                     <p className="title">进阶</p>
                     <ul className="nav-list">
