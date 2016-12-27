@@ -2,6 +2,7 @@ import $ from 'jquery'
 import "./dom"
 import namespace from './namespace'
 import browser from './browser'
+import {dataUrlToBlob} from './utils'
 var Paper = function(option){
     return new Paper.prototype.init(option);
 }
@@ -119,7 +120,7 @@ Paper.prototype = {
         this.svg.off.apply(this.svg,args);
         return this;
     },
-    getSVGXML:function(){
+    getXML:function(){
         var svg = this.svg;
         return svg.parent().html();
     },
@@ -128,21 +129,30 @@ Paper.prototype = {
             callback.call(null,"")
         }
         var paper = this;
-        var xml = this.getSVGXML();
+        var xml = this.getXML();
+        var width = paper.width();
+        var height = paper.height();
         var image = new Image();
+        image.width = width;
+        image.height = height;
+        var src;
+        var dataUrl = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(xml)));
+        var blob = dataUrlToBlob(dataUrl);
+        src = URL.createObjectURL(blob);
         image.onload = function(){
             var canvas = document.createElement("canvas");
-            canvas.width = paper.svg.width();
-            canvas.height = paper.svg.height();
+            canvas.width = width;
+            canvas.height = height;
             var ctx = canvas.getContext("2d");
             ctx.drawImage(image, 0, 0);
             var data = canvas.toDataURL('image/png');
+            URL.revokeObjectURL(src);
             callback.call(this,data);
-        }
-        image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(xml)));
+        };
+        image.src = src;
         return this;
     },
-    downloadPNG:function(name) {
+    downloadImage:function(name) {
         this.getBase64(function(base64){
             var a = document.createElement('a');
             a.href = base64;  //将画布内的信息导出为png图片数据
@@ -153,11 +163,11 @@ Paper.prototype = {
             } else {
                 window.open(a.href);
             }
-        })
+        });
         return this;
     },
     downloadSVG:function(){
-        var xml = this.getSVGXML();
+        var xml = this.getXML();
         var base64 = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(xml)));
         var a = document.createElement('a');
             a.href = base64;  //将画布内的信息导出为png图片数据

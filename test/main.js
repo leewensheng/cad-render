@@ -144,7 +144,7 @@ var SVG = React.createClass({
             num:5,size:100
         }).fill("blue").attr('fill',"url(#linearGradient)");
         paper.on("click",function(){
-            //paper.downloadPNG();
+            paper.downloadImage();
         })
     }
 })

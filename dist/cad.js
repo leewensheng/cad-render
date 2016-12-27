@@ -857,7 +857,7 @@
 	        this.svg.on.apply(this.svg, args);
 	        return this;
 	    },
-	    getSVGXML: function getSVGXML() {
+	    getXML: function getSVGXML() {
 	        var svg = this.svg;
 	        return svg.parent().html();
 	    },
@@ -866,7 +866,7 @@
 	            callback.call(null, "");
 	        }
 	        var paper = this;
-	        var xml = this.getSVGXML();
+	        var xml = this.getXML();
 	        var image = new Image();
 	        image.onload = function () {
 	            var canvas = document.createElement("canvas");
@@ -880,7 +880,7 @@
 	        image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(xml)));
 	        return this;
 	    },
-	    downloadPNG: function downloadPNG(name) {
+	    downloadImage: function downloadPNG(name) {
 	        this.getBase64(function (base64) {
 	            var a = document.createElement('a');
 	            a.href = base64; //将画布内的信息导出为png图片数据
@@ -895,7 +895,7 @@
 	        return this;
 	    },
 	    downloadSVG: function downloadSVG() {
-	        var xml = this.getSVGXML();
+	        var xml = this.getXML();
 	        var base64 = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(xml)));
 	        var a = document.createElement('a');
 	        a.href = base64; //将画布内的信息导出为png图片数据

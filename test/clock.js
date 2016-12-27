@@ -57,7 +57,7 @@ var Clock = React.createClass({
         var color = cad.brighten("#9FA6AA",0.3);
         paper.circle(cx,cy,radius*0.9).stroke(color,20);
         paper.on("click",function(){
-            //paper.downloadPNG('test');
+            //paper.downloadImage('test');
         })
     }
 })
