@@ -4,8 +4,11 @@ import Introduction from "../../views/start/introduction.jsx"
 module.exports = {
     path:'start',
     component:Start,
-    indexRoute:{component:Introduction},
     childRoutes:[
+    	{
+    		path:'introduction',
+    		component:Introduction
+    	},
     	{
     		path:'install',
     		component:Install
@@ -17,6 +20,10 @@ module.exports = {
         {
             path:"basic-shapes",
             component:require("../../views/start/basic-shapes")
+        },
+        {
+        	path:"inside-shapes",
+            component:require("../../views/start/inside-shapes")
         }
     ]
 }

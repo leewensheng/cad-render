@@ -1,5 +1,6 @@
 import React from 'react'
 import Header from '../../components/header'
+import MobileHeader from '../../components/mobile-header'
 import '../../statics/css/normalize.css'
 import '../../statics/css/main.css'
 import '../../statics/css/ui.css'
@@ -10,6 +11,7 @@ var Main = React.createClass({
 		return (
 			<div>
 				<Header/>
+				<MobileHeader />
 				<div className="page-main">
 					{children}
 				</div>

@@ -19,20 +19,20 @@ module.exports = React.createClass({
                     <ul className="nav-list">
                         <li><Link  activeClassName="active" to="/start/install">安装</Link></li>
                         <li>
-                        <Link to="/start">介绍</Link>
+                        <Link  activeClassName="active" to="/start/introduction">介绍</Link>
                             <ul className="nav-list">
                                 <li><Link to="/start">起步</Link></li>
                             </ul>
                         </li>
                         <li>
-                        <Link to="/start/agreen">约定</Link>
+                        <Link  activeClassName="active" to="/start/agreen">约定</Link>
                             <ul className="nav-list">
                                 <li><Link to="/start">坐标系</Link></li>
                                 <li><Link to="/start">角度</Link></li>
                             </ul>
                         </li>
                         <li className="open">
-                            <Link to="/start/basic-shapes">基本图形</Link>
+                            <Link  activeClassName="active" to="/start/basic-shapes">基本图形</Link>
                             <ul className="nav-list">
                                 <li>
                                     <a href="#">直线</a>
@@ -64,8 +64,11 @@ module.exports = React.createClass({
                             </ul>
                         </li>
                         <li>
-                            <Link to="/start">内置图形</Link>
+                            <Link to="/start/inside-shapes">内置图形</Link>
                             <ul className="nav-list">
+                                <li >
+                                    <a href="#">正多边形</a>
+                                </li>
                                 <li >
                                     <a href="#">扇形</a>
                                 </li>

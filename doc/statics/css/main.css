@@ -69,9 +69,10 @@ body {
     padding-left: 80px;
     padding-right: 20px;
 }
-@media (min-width: 1000px) {
+
+@media (min-width: 1300px) {
     .doc .doc-content {
-        padding-right: 300px;
+        padding-right: 250px;
     }
 }
 .doc .doc-nav {
@@ -82,8 +83,40 @@ body {
     padding: 20px 12px;
     padding-left: 50px;
     background: #fff;
+    z-index: 11;
+    transition: left linear 200ms;
 }
-
+.mobile-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 12px;
+    background: #0D2031;
+    color:#fff;
+}
+.doc .doc-nav.open {
+    left:0;
+}
+@media (max-width: 630px) {
+  .doc .doc-nav {
+    left: -300px;
+    top:50px;
+  }
+  .doc .doc-content {
+    padding-left: 12px;
+    margin-left: 0!important;
+    max-width: 100%;
+    padding-right: 12px;
+  }
+  .mobile-nav {
+    display: block;
+  }
+  .nav {
+    display: none;
+  }
+}
 .doc .doc-nav a {
     text-decoration: none;
 }
@@ -93,4 +126,11 @@ body {
 .content h1 {
     line-height: 1.5;
     border-bottom: 1px solid #ddd;
+}
+.content svg {
+    max-width:100%!important;
+}
+.content p *{
+    word-break: break-all;
+    white-space: normal;
 }

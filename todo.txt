@@ -1,5 +1,6 @@
 各模块的测试
 addBlock统统添加到g里面
+text模块改造，禁止改变原始x,y，改用dx,dy实现
 一套标注系统(坐标，半径直径，角度，距离（水平，垂直，对齐）)
 批量引入defs
 dowloadImge方法,createObjectUrl

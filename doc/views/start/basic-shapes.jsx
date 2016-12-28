@@ -103,15 +103,49 @@ paper.diagonalellipse(30,30,230,320);
 
 
                 <h2>路径</h2>
-                <p>路径(path)是svg中最强大最灵活的元素，各种复杂的图形都是由path绘制的</p>
-                <p>路径包含</p>
+                <p>路径(path)是svg中最强大最灵活的元素，各种复杂的图形都是由path绘制的。
+                    <br/>路径相当于一支画笔，时而放下，时而拿起，可以用弧线、直线、曲线，
+                    组合起来就形成了各种复杂的图形.
+                </p>
+                <p>cad render有专门的<code>path</code>模块用来生成你想要的路径</p>
+                <p>路径的指令详细见链接 <a href="">svg中的path</a> </p>
                 <pre>
 {
 `<script>
+    /**绘制一条路径
+    1.移动到点(0,0)
+    2.绘制直线到(100,100)
+    3.垂直线到 y = 50的地方
+    4.水平线到 x = 200 的地方
+    5.绘制顺时针圆弧到相对点50,50，半径是30
+    */
+    paper.path("M 0,0 L 100,100 V50 H200 a30 30 1 0 1 50 50")
 </script>`
 }               </pre>
-                <div ref="path" style={{height:200}}></div>             
-            </div>
+                <div ref="path" style={{height:200}}></div> 
+
+
+                 <h2>文本</h2>
+                <p>文本位置由一个参考点和对齐方式确定（左，中，右），cad render同时提供了垂直方向的对齐方式</p>
+                <pre>
+{
+`<script>
+    paper.path("M 0,0 L 100,100 V50 H200 a30 30 1 0 1 50 50")
+</script>`
+}               </pre>
+                <div ref="text" style={{height:200}}></div>     
+
+
+                 <h2>图片</h2>
+                <p>图片引入需要指定引入的左顶点坐标，和插入的宽度、高度，以及图片的地址.
+                <br/>图片会自动适应区域保持宽度比</p>
+                <pre>
+{
+`<script>
+    paper.image(10,10,270,129.5,"https://www.baidu.com/img/bd_logo1.png");
+</script>`
+}               </pre>
+                <div ref="image" style={{height:200}}></div>                </div>
         )
     },
     componentDidMount(){
@@ -122,6 +156,9 @@ paper.diagonalellipse(30,30,230,320);
         this.ellipse();
         this.polygon();
         this.polyline();
+        this.path();
+        this.text();
+        this.image();
     },
     line(){
         var el = this.refs.line;
@@ -212,5 +249,43 @@ paper.diagonalellipse(30,30,230,320);
         points.push({x:130,y:130});
         points.push({x:180,y:150});
         paper.polyline(points);
+        points.map(function(p,n){
+            paper.text(p.x,p.y-20,'p'+n).fill("#fff")
+        })
+    },
+    path(){
+        var el = this.refs.path;
+        var paper = new cad.Paper({el:el});
+        paper.configLayer({
+        stroke:"#fff"
+        })
+        paper.rect(0,0,paper.width(),paper.height()).fill("#000");
+        paper.path("M 0,0 L 100,100 V50 H200 a30 30 1 0 1 50 50")
+    },
+    text(){
+        var el = this.refs.text;
+        var paper = new cad.Paper({el:el});
+        paper.configLayer({fill:"#fff"})
+        paper.rect(0,0,paper.width(),paper.height()).fill("#000");
+        paper.line(0,100,300,100).stroke("#fff");
+        paper.line(100,0,100,200).stroke("#fff");
+        paper.text(100,100,'A',{
+            fontSize:80,
+            align:"middle"
+        });
+         paper.text(100,100,'A',{
+            fontSize:80,
+            align:"left"
+        }).fill("red");
+        paper.text(100,100,'A',{
+            fontSize:80,
+            align:"right"
+        }).fill("green");
+    },
+    image(){
+        var el = this.refs.image;
+        var paper = new cad.Paper({el:el});
+        paper.rect(0,0,paper.width(),paper.height()).fill("#000");
+        paper.image(10,10,270,129.5,"https://www.baidu.com/img/bd_logo1.png");
     }
 })
