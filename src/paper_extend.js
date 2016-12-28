@@ -76,7 +76,7 @@ paper.fn.extend({
             rotate = option.rotate,
             fontWeight = option.fontWeight;
 
-        var elem = this.append("text");
+        var elem = this.append("text",{stroke:"none"});
         elem.attr('x',x);
         elem.attr("font-size",fontSize);
         elem.attr('rotate',rotate);
@@ -132,6 +132,12 @@ paper.fn.extend({
             ry:ry||0
         })
     } ,
+    arc:function(cx,cy,radius,startAngle,endAngle){
+        var p1 = Point(cx,cy).angleMoveTo(startAngle,radius);
+        var path = new cad.Path();
+        path.M(p1.x,p1.y).angleArcTo(endAngle - startAngle,cx,cy,radius);
+        return this.path(path.toString());
+    },
     path:function(path){
         if(typeof path == 'object') {
             path = path.toString();

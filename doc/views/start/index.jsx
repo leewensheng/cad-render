@@ -3,7 +3,7 @@ import {Link} from 'react-router'
 import SideMenu from '../../components/side-menu.jsx'
 module.exports = React.createClass({
     getInitialState(){
-        var totalHeight = window.innerHeight;
+        var totalHeight = document.documentElement.clientHeight;
         return {
             navHeight:totalHeight - 60
         }
@@ -17,11 +17,18 @@ module.exports = React.createClass({
                 <div className="side-nav">
                     <p className="title">基础</p>
                     <ul className="nav-list">
-                        <li><Link to="/start">安装</Link></li>
+                        <li><Link to="/start/install">安装</Link></li>
                         <li>
-                        <Link to="/start/introduction">介绍</Link>
+                        <Link to="/start">介绍</Link>
                             <ul className="nav-list">
-                                <li><Link to="/start/qibu">起步</Link></li>
+                                <li><Link to="/start">起步</Link></li>
+                            </ul>
+                        </li>
+                        <li>
+                        <Link to="/start/agreen">约定</Link>
+                            <ul className="nav-list">
+                                <li><Link to="/start">坐标系</Link></li>
+                                <li><Link to="/start">角度</Link></li>
                             </ul>
                         </li>
                         <li className="open">
@@ -89,7 +96,7 @@ module.exports = React.createClass({
                         <li><Link to="dom">拷贝</Link></li>
                         <li><Link to="dom">绘图次序</Link></li>
                     </ul>
-                    <p className="title">图层管理</p>
+                    <p className="title">图层</p>
                     <ul className="nav-list">
                         <li>
                             <a href="#">默认图层</a>
@@ -98,7 +105,7 @@ module.exports = React.createClass({
                             <a href="#">工作图层</a>
                         </li>
                         <li>
-                            <a href="#">图层操作</a>
+                            <a href="#">图层管理</a>
                         </li>
 
                     </ul>
@@ -147,6 +154,20 @@ module.exports = React.createClass({
                             </ul>
                         </li>
                         <li>
+                            <Link to="/start">填充</Link>
+                            <ul className="nav-list">
+                                <li>
+                                    <a href="#">线性渐变</a>
+                                </li>
+                                <li>
+                                    <a href="#">径向渐变</a>
+                                </li>
+                                <li>
+                                    <a href="#">patter</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
                             <Link to="/start/install">复用</Link>
                             <ul className="nav-list">
                                 <li>
@@ -171,8 +192,8 @@ module.exports = React.createClass({
     },
     componentDidMount(){
         window.addEventListener("resize",()=>{
-            var totalHeight = window.innerHeight;
+        var totalHeight = document.documentElement.clientHeight;
             this.setState({navHeight:totalHeight - 60})
-        })
+        });
     }
 })

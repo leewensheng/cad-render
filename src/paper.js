@@ -4,7 +4,7 @@ import namespace from './namespace'
 import browser from './browser'
 import {dataUrlToBlob} from './utils'
 var Paper = function(option){
-    return new Paper.prototype.init(option);
+    return this.init(option);
 }
 Paper.prototype = {
     mouse:function(e,mutiple){
@@ -185,6 +185,6 @@ Paper.prototype = {
         this.svg = null;
     }
 }
-Paper.prototype.init.prototype = Paper.fn = Paper.prototype;
+Paper.fn = Paper.prototype;
 Paper.extend = Paper.fn.extend = $.extend;
 module.exports = Paper;

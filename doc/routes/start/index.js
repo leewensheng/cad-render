@@ -4,15 +4,15 @@ import Introduction from "../../views/start/introduction.jsx"
 module.exports = {
     path:'start',
     component:Start,
-    indexRoute:{component:Install},
+    indexRoute:{component:Introduction},
     childRoutes:[
     	{
-    		path:'introduction',
-    		component:Introduction
+    		path:'install',
+    		component:Install
     	},
     	{
-    		path:"qibu",
-    		component:require("../../views/start/qibu.jsx")
+    		path:'agreen',
+    		component:require("../../views/start/agreen")
     	}
     ]
 }

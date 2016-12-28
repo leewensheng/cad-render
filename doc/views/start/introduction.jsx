@@ -16,7 +16,23 @@ module.exports = React.createClass({
 					<br/>jquery式的链式操作和动画。
 					<br/>强大的path模块和point模块
 				</p>
+				<h2>起步</h2>
+               <p className="tip">假设你已经学习了基础的svg知识，推荐一个网站</p>
+               <p>引入jquery和cad.js</p>
+               <h3>创建画布</h3>
+               <pre>{'<script>\n  var paper = new cad.Paper({el:"#demo"})\n</script>'}</pre>
+               <h3>愉快地玩耍</h3>
+               <pre>{'//画一条从点(0,0)到点(100,100)的直线\n paper.line(0,0,100,100);'}</pre>
+			   <div ref="demo" style={{height:300}}></div>
 			</div>
 		)
+	},
+	componentDidMount(){
+		var ref = this.refs.demo;
+		var paper = new cad.Paper({el:ref});
+		paper.rect(0,0,paper.width(),paper.height()).fill("#000");
+		paper.configLayer({"fill":"#fff"})
+		paper.line(0,0,100,100).stroke("#fff");
+		paper.text(110,110,"p(100,100)").fill("lightgreen")
 	}
 })

@@ -5,6 +5,8 @@ module.exports = {
 	component:Main,
 	indexRoute:{component:Home},
 	childRoutes:[
-        require("./start/index.js")
+        require("./start/index.js"),
+        require("./api/index.js"),
+        require("./demo/index.js")
 	]
 }
