@@ -11,20 +11,20 @@ module.exports = React.createClass({
                      <span className="sub-title"></span>
                      <ul className="nav-tabs clearfix">
                          <li>
-                             <Link to="start/introduction">教程</Link>
+                             <Link activeClassName="active" to="start/introduction">教程</Link>
                          </li>
                         <li>
-                             <Link to="api">API</Link>
+                             <Link  activeClassName="active" to="api">API</Link>
                          </li>
                          <li>
-                             <Link to="demo">示例</Link>
+                             <Link activeClassName="active"  to="demo">示例</Link>
                          </li>
              
                          <li>
-                             <Link to="download">下载</Link>
+                             <Link activeClassName="active"  to="download">下载</Link>
                          </li>
                          <li>
-                             <Link to="about">关于</Link>
+                             <Link activeClassName="active" to="about">关于</Link>
                          </li>
                          <li>
                              <a href="https://github.com/leewensheng/cad-render" target="_blank">

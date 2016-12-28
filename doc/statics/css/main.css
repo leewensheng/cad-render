@@ -51,6 +51,9 @@ body {
     transition: all ease 300ms;
     fill:#666;
 }
+.nav-tabs li a.active{
+    color:#fff;
+}
 .nav-tabs li:hover>a{
     color: #fff;
     fill: #fff;
