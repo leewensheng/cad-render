@@ -1,5 +1,9 @@
 各模块的测试
+addBlock统统添加到g里面
+一套标注系统(坐标，半径直径，角度，距离（水平，垂直，对齐）)
+批量引入defs
 dowloadImge方法,createObjectUrl
+marker的研究(path line polyline polygon支持marker)
 paper destroy()完善
 阴影，模糊的引入方式抽象,createLinearGradient,
 ie下的旋转只对原点比较精确，

@@ -13,6 +13,10 @@ module.exports = {
     	{
     		path:'agreen',
     		component:require("../../views/start/agreen")
-    	}
+    	},
+        {
+            path:"basic-shapes",
+            component:require("../../views/start/basic-shapes")
+        }
     ]
 }

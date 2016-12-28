@@ -7,7 +7,7 @@ module.exports = React.createClass({
 				<h1>介绍</h1>
 				<h2>关于cad render</h2>
 				<p>
-					cad render是一个svg绘图图，它参考了cad中的图层概念和一些绘图技巧。
+					cad render是一个轻量但强大的svg绘图库，它参考了cad中的图层概念和一些绘图技巧。
 					<br/>除了支持普通的图形
 					如 线、矩形、圆、椭圆、折线、多边形、路径外，还内置了扇形、心形、正多边形等常用图形。
 					<br/>并且可以方便地自定义可重复使用的图形。

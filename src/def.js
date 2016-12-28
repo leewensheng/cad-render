@@ -3,6 +3,7 @@ import paper from './paper'
 import fills from './defs/gradient'
 import filters from './defs/filters'
 import patterns from './defs/patterns'
+import marker from './defs/marker'
 cad.extend({
 	$$defs:{},
 	registDefs:function(){
@@ -32,3 +33,4 @@ paper.fn.importDefs = function(name,option){
 cad.registDefs(fills);
 cad.registDefs(filters);
 cad.registDefs(patterns);
+cad.registDefs(marker);

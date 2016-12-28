@@ -44,7 +44,7 @@ paper.fn.extend({
             ry:ry
         })
     },
-    diagonalEllipses:function(x1,y1,x2,y2){
+    diagonalEllipse:function(x1,y1,x2,y2){
         var minx,miny,maxx,maxy,cx,cy,rx,ry;
         minx = Math.min(x1,x2);
         miny = Math.min(y1,y2);

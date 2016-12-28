@@ -17,7 +17,7 @@ module.exports = React.createClass({
                 <div className="side-nav">
                     <p className="title">基础</p>
                     <ul className="nav-list">
-                        <li><Link to="/start/install">安装</Link></li>
+                        <li><Link  activeClassName="active" to="/start/install">安装</Link></li>
                         <li>
                         <Link to="/start">介绍</Link>
                             <ul className="nav-list">
@@ -32,7 +32,7 @@ module.exports = React.createClass({
                             </ul>
                         </li>
                         <li className="open">
-                            <Link to="/start/">基本图形</Link>
+                            <Link to="/start/basic-shapes">基本图形</Link>
                             <ul className="nav-list">
                                 <li>
                                     <a href="#">直线</a>

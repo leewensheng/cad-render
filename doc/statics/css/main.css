@@ -4,6 +4,7 @@ html * {
 body {
     font-family: 'Helvetica Neue', 'Helvetica', tahoma, 'Hiragino Sans GB', 'PingFang SC', 'STHeitiSC-Light', 'Microsoft YaHei', Arial, sans-serif;
     padding-top: 60px;
+    overflow-x: hidden;
 }
 .nav {
     background: #0D2031;
@@ -65,8 +66,13 @@ body {
 }
 .doc .doc-content{
     flex: 1;
-    padding: 12px;
-    padding-right: 300px;
+    padding-left: 80px;
+    padding-right: 20px;
+}
+@media (min-width: 1000px) {
+    .doc .doc-content {
+        padding-right: 300px;
+    }
 }
 .doc .doc-nav {
     position: fixed;
@@ -74,4 +80,17 @@ body {
     left: 0;
     overflow: auto;
     padding: 20px 12px;
+    padding-left: 50px;
+    background: #fff;
+}
+
+.doc .doc-nav a {
+    text-decoration: none;
+}
+.content {
+    padding-bottom: 50px;
+}
+.content h1 {
+    line-height: 1.5;
+    border-bottom: 1px solid #ddd;
 }

@@ -1,0 +1,215 @@
+import React from 'react'
+
+module.exports = React.createClass({
+    render(){
+        return (
+            <div className="content">
+                <h1 className="content-title">基本图形</h1>
+                <h2>直线</h2>
+                <p>绘制一条直线的方法有两种</p>
+                <ul className="dot-list">
+                    <li>两点决定一条直线</li>
+                    <li>以一个点为起始点，向一定的方向延伸一定长度到达另一点</li>
+                </ul>
+                <pre>
+{
+`<script>
+//过(50,150),(300,150)画线
+paper.line(50,150,300,150);
+//过(50,150)，画一个角度为-45°，长度为150的直线
+paper.angleLine(50,150,-45,150)
+</script>`
+}               </pre>
+                <div ref="line" style={{height:200}}></div>
+                <h2>矩形</h2>
+                <p>绘制矩形的方法有两种</p>
+                <ul className="dot-list">
+                    <li>由矩形的左上角顶点坐标和矩形的宽度，长度确定</li>
+                    <li>由矩形的任一对角线的两端点坐标确定</li>
+                </ul>
+                <pre>
+{
+`<script>
+//顶点坐标、宽度、长度绘制的矩形
+paper.rect(20,20,100,100);
+//由对角线确定的矩形
+paper.diagonalRect(220,20,320,120)
+</script>`
+}               </pre>
+                <div ref="rect" style={{height:200}}></div>
+
+
+
+                <h2>圆形</h2>
+                <p>圆形由圆心坐标和半径确定</p>
+                <pre>
+{
+`<script>
+//圆心(130,130),半径80
+paper.circle(130,130,80);
+</script>`
+}               </pre>
+                <div ref="circle" style={{height:200}}></div>
+
+                <h2>椭圆</h2>
+                <p>椭圆有两种画法</p>
+                <ul className="dot-list">
+                    <li>椭圆中心坐标和水平轴、垂直轴的半径</li>
+                    <li>椭圆的外接矩形的对角线两端点坐标</li>
+                </ul>
+                <pre>
+{
+`<script>
+//中心点和两轴半径确定的圆
+paper.ellipse(130,130,80,40);
+//外接矩形确定的椭圆
+paper.diagonalellipse(30,30,230,320);
+</script>`
+}               </pre>
+                <div ref="ellipse" style={{height:200}}></div>
+
+
+                <h2>多边形</h2>
+                <p>多边形由至少3个不在同一直线上的点确定</p>
+                <pre>
+{
+`<script>
+    //经过点(100,100),(150,150),(170,80)的多边形
+    var points = [];
+    points.push({x:100,y:100});
+    points.push({x:150,y:150});
+    points.push({x:170,y:80});
+    paper.polygon(points);
+</script>`
+}               </pre>
+                <div ref="polygon" style={{height:200}}></div>
+
+
+
+                <h2>折线</h2>
+                <p>由直线经过一系列点连起来的折线</p>
+                <pre>
+{
+`<script>
+    var points = [];
+    points.push({x:30,y:40});
+    points.push({x:50,y:150});
+    points.push({x:130,y:130});
+    points.push({x:180,y:150});
+    paper.polyline(points);
+</script>`
+}               </pre>
+                <div ref="polyline" style={{height:200}}></div> 
+
+
+                <h2>路径</h2>
+                <p>路径(path)是svg中最强大最灵活的元素，各种复杂的图形都是由path绘制的</p>
+                <p>路径包含<p>
+                <pre>
+{
+`<script>
+</script>`
+}               </pre>
+                <div ref="path" style={{height:200}}></div>              </div>
+        )
+    },
+    componentDidMount(){
+        this.setState({})
+        this.line();
+        this.rect();
+        this.circle();
+        this.ellipse();
+        this.polygon();
+        this.polyline();
+    },
+    line(){
+        var el = this.refs.line;
+        var paper = new cad.Paper({el:el});
+        paper.rect(0,0,paper.width(),paper.height()).fill("#000");
+        paper.configLayer({
+            fill:"#fff",
+            stroke:"#fff"
+        });
+        var cx = 50,cy=150;
+        paper.line(cx,cy,300,cy);
+        paper.angleLine(cx,cy,-45,150);
+        paper.circle(cx,cy,4);
+        paper.circle(300,cy,4);
+        paper.arc(cx,cy,40,0,-45).fill("none");
+        paper.text(cx+50,cy-23,'45°');
+        paper.text(cx+100,cy+20,'两点画线');
+        paper.text(60,80,'角度线')
+    },
+    rect(){
+        var el = this.refs.rect;
+        var paper = new cad.Paper({el:el});
+        paper.rect(0,0,paper.width(),paper.height()).fill("#000");
+        paper.configLayer({
+            fill:"#fff",
+            stroke:"#fff"
+        });
+        paper.rect(20,20,100,100).fill("none");
+        paper.diagonalRect(220,20,320,120).fill("none");
+        paper.text(20,140,"顶点、宽度、长度");
+        paper.text(240,140,"对角线两点");
+        paper.text(70,30,"width",{align:'middle'});
+        paper.text(40,70,"height",{align:'middle'});
+        paper.circle(20,20,3);
+        paper.circle(220,20,3);
+        paper.circle(320,120,3);
+        paper.line(220,20,320,120).dash(5);
+    },
+    circle(){
+        var el = this.refs.circle;
+        var paper = new cad.Paper({el:el});
+        paper.rect(0,0,paper.width(),paper.height()).fill("#000");
+        paper.circle(100,100,80).stroke("#fff");
+        paper.circle(100,100,3).fill("#fff");
+    },
+    ellipse(){
+        var el = this.refs.ellipse;
+        var paper = new cad.Paper({el:el});
+        paper.configLayer({
+        stroke:"#fff"
+        })
+        var cx = 120,cy = 100,r1= 100,r2= 50;
+        paper.rect(0,0,paper.width(),paper.height()).fill("#000");
+        paper.ellipse(cx,cy,r1,r2).stroke("#fff"); 
+        paper.circle(cx,cy,4).fill("#fff"); 
+        paper.line(cx-r1,cy,cx+r1,cy).dash(5);
+        paper.line(cx,cy-r2,cx,cy+r2).dash(5);
+
+        paper.diagonalEllipse(270,50,470,150).stroke("#fff");
+        paper.diagonalRect(270,50,470,150).dash(4).stroke("#fff");
+        paper.circle(270,50,4).fill("#fff");
+        paper.circle(470,150,4).fill("#fff");
+        paper.line(270,50,470,150).dash(5).stroke("#fff");
+    },
+    polygon(){
+        var el = this.refs.polygon;
+        var paper = new cad.Paper({el:el});
+        paper.rect(0,0,paper.width(),paper.height()).fill("#000");
+        var points = [];
+        points.push({x:100,y:100});
+        points.push({x:150,y:150});
+        points.push({x:170,y:80});
+        paper.polygon(points).stroke("#fff");
+        paper.text(30,90,'(100,100)').fill("lightblue");
+        paper.text(120,160,'(150,150)').fill("lightblue");
+        paper.text(170,60,'(170,80)').fill("lightblue");
+    },
+    polyline(){
+        var el = this.refs.polyline;
+        var paper = new cad.Paper({el:el});
+        paper.configLayer({
+        stroke:"#fff"
+        })
+        paper.rect(0,0,paper.width(),paper.height()).fill("#000");
+        var points = [];
+        points.push({x:30,y:40});
+        points.push({x:50,y:150});
+        points.push({x:130,y:130});
+        points.push({x:180,y:150});
+        paper.polyline(points);
+    }
+})
