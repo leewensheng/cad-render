@@ -104,13 +104,14 @@ paper.diagonalellipse(30,30,230,320);
 
                 <h2>路径</h2>
                 <p>路径(path)是svg中最强大最灵活的元素，各种复杂的图形都是由path绘制的</p>
-                <p>路径包含<p>
+                <p>路径包含</p>
                 <pre>
 {
 `<script>
 </script>`
 }               </pre>
-                <div ref="path" style={{height:200}}></div>              </div>
+                <div ref="path" style={{height:200}}></div>             
+            </div>
         )
     },
     componentDidMount(){
