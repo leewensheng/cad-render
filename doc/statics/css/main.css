@@ -86,6 +86,7 @@ body {
     padding: 20px 12px;
     padding-left: 50px;
     background: #fff;
+    border-right: 1px solid #ddd;
     z-index: 11;
     transition: left linear 200ms;
 }
@@ -101,8 +102,9 @@ body {
 }
 .doc .doc-nav.open {
     left:0;
+    box-shadow: 3px 0 3px #ddd;
 }
-@media (max-width: 630px) {
+@media (max-width: 640px) {
   .doc .doc-nav {
     left: -300px;
     top:50px;

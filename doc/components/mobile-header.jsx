@@ -11,6 +11,17 @@ module.exports = React.createClass({
 			</div>		
 		)
 	},
+	componentDidMount(){
+		window.addEventListener("resize",this.handleResize);
+	},
+	componentWillUnmount(){
+		window.removeEventListener("resize",this.handleResize);
+	},
+	handleResize(){
+		if(window.innerWidth > 640) {
+			$(".doc-nav").removeClass("open");
+		}
+	},
 	openSide(){
 		$(".doc-nav").toggleClass("open");
 	}
