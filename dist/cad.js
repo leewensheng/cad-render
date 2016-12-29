@@ -135,9 +135,9 @@
 	});
 	window.cad = _core2.default;
 	if (typeof window.define === 'function') {
-	  var ref = [];
-	  window.define(function (ref, module, exports) {
-	    return window.cad;
+	  var ref = ['jquery'];
+	  window.define(ref, function ($) {
+	    return _core2.default;
 	  });
 	} else if (true) {
 	  module.exports = window.cad;
