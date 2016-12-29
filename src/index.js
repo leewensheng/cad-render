@@ -47,4 +47,11 @@ cad.extend({
    Color:Color
 })
 window.cad = cad;
-module.exports = cad;
+if(typeof window.define === 'function') {
+  var ref = [];
+  window.define(function(ref,module,exports){
+    return window.cad;
+  }) 
+} else if(typeof module !== 'undefined') {
+  module.exports =  window.cad;
+}

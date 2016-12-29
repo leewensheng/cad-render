@@ -14,7 +14,7 @@ module.exports = {
     },
     output:{
         path:"./dist/",
-        filename:"cad.js"
+        filename:"cad.min.js"
     },
     module:{
         loaders:[
@@ -29,7 +29,7 @@ module.exports = {
         ]
     },
     plugins:[
-        //uglifyJSPlugin
+        uglifyJSPlugin
     ],
     resolve:{
         extensions:['','.js','.jsx','.json']
