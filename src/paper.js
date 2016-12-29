@@ -88,7 +88,7 @@ Paper.prototype = {
         var width = option.width||$(el).width();
         var height = option.height||$(el).height();
         var svg = this.createSVGElement('svg',{width:width,height:height,xmlns:"http://www.w3.org/2000/svg"});
-        var defs = this.createSVGElement("defs").attr("id","global_defs");
+        var defs = this.createSVGElement("defs");
         $(el).append(svg);
         $(svg).append(defs);
         this.svg = svg;

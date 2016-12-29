@@ -26,6 +26,10 @@ module.exports = {
             {   
                 test: /\.(png|jpg)$/, 
                 loader: 'url-loader?limit=8192&name=img/[name].[ext]'
+            },
+            {
+                test:/\.demo\.html/,
+                loader:'file-loader?name=demo/[name].[hash].[ext]'
             }
         ]
     },

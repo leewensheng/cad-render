@@ -1,23 +1,32 @@
 import React from 'react'
-import {Link} from 'react-router'
 
 var Menu = React.createClass({
+    getInitialState(){
+        var height = document.documentElement.clientHeight;
+        return {
+            height:height - 60
+        }
+    },
+    resize(){
+         var height = document.documentElement.clientHeight;
+         this.setState({height: height-60});
+    },
     render(){
-        var links = this.props.links||[]
-        return (
-            <div className="doc-nav">
-                <p className="title">{this.props.title}</p>
-                <ul className="nav-list">
-                    {
-                        this.props.links.map(function(link){
-                            return <li>
-                                    <Link to={link.to}>{link.name}</Link>
-                                    </li>
-                        })
-                    }
-                </ul>
+        var {width} = this.props;
+        var height  = this.state.height;
+        var style = {width,height};
+        return(
+            <div className="doc-nav" style={style}>
+                {this.props.children}
             </div>
         )
+    },
+    componentDidMount(){
+        var that = this;
+        window.addEventListener("resize",this.resize);
+    },
+    componentWillUnmount(){
+        window.removeEventListener("resize",this.resize);
     }
 })
 module.exports = Menu;

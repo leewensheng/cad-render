@@ -5,6 +5,9 @@ a {
 h1 ,h2,h3{
 	font-family: serif;
 }
+iframe {
+	border:1px solid #ddd;
+}
 code {
 	background: #eee;
 	color: #E96900;

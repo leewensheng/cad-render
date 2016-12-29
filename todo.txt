@@ -1,4 +1,17 @@
 各模块的测试
+importBlock不要用addLayer，addLayer不应考虑这种情况
+研究canvas和ie8的统一抽象
+sincurve bugfix
+Promise式的动画
+属性应当支持驼峰式命名
+
+cx cy d dx dy fill fillOpacity fontFamily fontSize fx fy gradientTransform
+gradientUnits markerEnd markerMid markerStart offset opacity
+patternContentUnits patternUnits points preserveAspectRatio r rx ry
+spreadMethod stopColor stopOpacity stroke strokeDasharray strokeLinecap
+strokeOpacity strokeWidth textAnchor transform version viewBox x1 x2 x y1 y2 y
+
+
 addBlock统统添加到g里面
 text模块改造，禁止改变原始x,y，改用dx,dy实现
 一套标注系统(坐标，半径直径，角度，距离（水平，垂直，对齐）)

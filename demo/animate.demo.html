@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>clock</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <script src="../lib/jquery.min.js"></script>
+    <script src="../dist/cad.js"></script>
+</head>
+<style>
+    body {
+        margin: 0;
+    }
+</style>
+<body>
+<script>
+    var paper = cad.init({
+        el:"body",
+        width:"100%",
+        height:window.innerHeight-10
+    })
+    paper.configLayer({
+        "stroke-width":2.5
+    });
+    paper.rect(0,0,paper.width(),paper.height()).fill("#000");
+    var count = 0;
+    paper.on("mousemove  touchstart touchmove",function(e){
+        var point = paper.mouse(e);
+        count++;
+        var color = cad.hsl(count%360,1,0.5);
+        var circle = paper.append("circle",{
+            cx:point.x,
+            cy:point.y,
+            r:1e-6
+        }).attr('stroke',color);
+        var ease = Math.sqrt;
+        circle.transition({
+                            r:100,
+                            "stroke-opacity":1e-6
+                            },
+                            2000,
+                           ease,function(){
+            $(this).remove();
+        })
+        e.preventDefault();
+    })
+</script>
+</body>
+</html>

@@ -2,18 +2,11 @@ import React from 'react'
 import {Link} from 'react-router'
 import SideMenu from '../../components/side-menu.jsx'
 module.exports = React.createClass({
-    getInitialState(){
-        var totalHeight = document.documentElement.clientHeight;
-        return {
-            navHeight:totalHeight - 60
-        }
-    },
     render(){
-        var sideWidth = "250px";
-        var navHeight = this.state.navHeight;
+       var sideWidth = 250;
        return( 
         <div className="doc">
-            <div className="doc-nav" style={{width:sideWidth,height:navHeight}}>
+            <SideMenu width={sideWidth}>
                 <div className="side-nav">
                     <p className="title">基础</p>
                     <ul className="nav-list">
@@ -186,17 +179,11 @@ module.exports = React.createClass({
                         </li>
                     </ul>
                 </div>
-            </div>
+            </SideMenu>
             <div className="doc-content" style={{marginLeft:sideWidth}}>
                 {this.props.children}
             </div>
         </div>
         )
-    },
-    componentDidMount(){
-        window.addEventListener("resize",()=>{
-        var totalHeight = document.documentElement.clientHeight;
-            this.setState({navHeight:totalHeight - 60})
-        });
     }
 })

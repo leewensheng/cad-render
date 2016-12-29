@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>clock</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <script src="../lib/jquery.min.js"></script>
+    <script src="../dist/cad.js"></script>
+</head>
+<style>
+    body {
+        margin: 0;
+    }
+</style>
+<body>
+<script>
+    var paper = cad.init({
+        el:"body",
+        width:"100%",
+        height:window.innerHeight-10
+    })
+    paper.configLayer({
+        "stroke":"none"
+    });
+    paper.rect(0,0,paper.width(),paper.height()).fill("#000");
+    var data = [1,2,3,4];
+    var colors = ['#00A1A1',"#28FFBB","#DB1774","#F20000"];
+    var sum = cad.sum(data);
+    var cx = paper.width()/2;
+    var cy = paper.height()/2;
+    var radius = Math.min(paper.width(),paper.height())/2*0.7;
+    var startAngle = -90;
+    data.reduce(function(start,end,index){
+        var startAngle = start;
+        var endAngle = startAngle + end/sum*360;
+        paper.sector(cx,cy,startAngle,endAngle,radius).fill(colors[index]);
+        return endAngle;
+    },startAngle)
+</script>
+</body>
+</html>
