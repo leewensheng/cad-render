@@ -94,13 +94,13 @@
 
 	__webpack_require__(12);
 
-	__webpack_require__(24);
-
 	__webpack_require__(25);
 
 	__webpack_require__(26);
 
 	__webpack_require__(27);
+
+	__webpack_require__(28);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -113,7 +113,7 @@
 	     namespace: _namespace2.default,
 	     browser: _browser2.default,
 	     init: function init(option) {
-	          return this.Paper(option);
+	          return new this.Paper(option);
 	     }
 	});
 	_core2.default.extend({
@@ -122,7 +122,8 @@
 	          return "rgb(" + arr.join(",") + ")";
 	     },
 	     hsl: function hsl(h, s, l) {
-	          return new _color2.default({ h: h, s: s, l: l }).toHex();
+	          var color = new _color2.default({ h: h, s: s, l: l }).toHex();
+	          return color;
 	     },
 	     darken: function darken(color, ration) {
 	          return new _color2.default(color).darken(ration);
@@ -157,7 +158,7 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	module.exports = window.jQuery||window.Zepto;
+	module.exports = window.$;
 
 /***/ },
 /* 3 */
@@ -744,10 +745,12 @@
 
 	var _browser2 = _interopRequireDefault(_browser);
 
+	var _utils = __webpack_require__(14);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Paper = function Paper(option) {
-	    return new Paper.prototype.init(option);
+	    return this.init(option);
 	};
 	Paper.prototype = {
 	    mouse: function mouse(e, mutiple) {
@@ -830,7 +833,7 @@
 	        var width = option.width || (0, _jquery2.default)(el).width();
 	        var height = option.height || (0, _jquery2.default)(el).height();
 	        var svg = this.createSVGElement('svg', { width: width, height: height, xmlns: "http://www.w3.org/2000/svg" });
-	        var defs = this.createSVGElement("defs").attr("id", "global_defs");
+	        var defs = this.createSVGElement("defs");
 	        (0, _jquery2.default)(el).append(svg);
 	        (0, _jquery2.default)(svg).append(defs);
 	        this.svg = svg;
@@ -857,7 +860,12 @@
 	        this.svg.on.apply(this.svg, args);
 	        return this;
 	    },
-	    getXML: function getSVGXML() {
+	    off: function off() {
+	        var args = Array.prototype.slice.call(arguments, 0);
+	        this.svg.off.apply(this.svg, args);
+	        return this;
+	    },
+	    getXML: function getXML() {
 	        var svg = this.svg;
 	        return svg.parent().html();
 	    },
@@ -867,20 +875,29 @@
 	        }
 	        var paper = this;
 	        var xml = this.getXML();
+	        var width = paper.width();
+	        var height = paper.height();
 	        var image = new Image();
+	        image.width = width;
+	        image.height = height;
+	        var src;
+	        var dataUrl = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(xml)));
+	        var blob = (0, _utils.dataUrlToBlob)(dataUrl);
+	        src = URL.createObjectURL(blob);
 	        image.onload = function () {
 	            var canvas = document.createElement("canvas");
-	            canvas.width = paper.svg.width();
-	            canvas.height = paper.svg.height();
+	            canvas.width = width;
+	            canvas.height = height;
 	            var ctx = canvas.getContext("2d");
 	            ctx.drawImage(image, 0, 0);
 	            var data = canvas.toDataURL('image/png');
+	            URL.revokeObjectURL(src);
 	            callback.call(this, data);
 	        };
-	        image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(xml)));
+	        image.src = src;
 	        return this;
 	    },
-	    downloadImage: function downloadPNG(name) {
+	    downloadImage: function downloadImage(name) {
 	        this.getBase64(function (base64) {
 	            var a = document.createElement('a');
 	            a.href = base64; //将画布内的信息导出为png图片数据
@@ -906,9 +923,14 @@
 	            window.open(a.href);
 	        }
 	        return this;
+	    },
+	    destroy: function destroy() {
+	        this.currentLayer = null;
+	        this.svg.remove();
+	        this.svg = null;
 	    }
 	};
-	Paper.prototype.init.prototype = Paper.fn = Paper.prototype;
+	Paper.fn = Paper.prototype;
 	Paper.extend = Paper.fn.extend = _jquery2.default.extend;
 	module.exports = Paper;
 
@@ -956,7 +978,7 @@
 	            };
 	            var is_busy = _animation2.default.isAnimating(dom);
 	            if (is_busy) {
-	                _animation2.default.stopAnimation(dom, true);
+	                _animation2.default.stopAnimation(dom);
 	            }
 	            var from = {};
 	            var to = attr;
@@ -1483,6 +1505,7 @@
 	            var cur_obj = animations[index];
 	            cur_obj.queue.push(option);
 	        } else {
+	            option.startTime = new Date().getTime();
 	            animations.push({
 	                target: target,
 	                queue: [option]
@@ -2315,6 +2338,10 @@
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
+	var _browser = __webpack_require__(15);
+
+	var _browser2 = _interopRequireDefault(_browser);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	//$ to trim
@@ -2380,7 +2407,8 @@
 	    rotateY = obj.rotateY || 0;
 	    skewX = obj.skewX || 0;
 	    skewY = obj.skewY || 0;
-	    return 'translate(' + [transX, transY].join(',') + ')' + 'scale(' + scale + ')' + 'rotate(' + [rotate, rotateX, rotateY].join(',') + ')' + 'skewX(' + skewX + ')' + 'skewY(' + skewY + ')';
+	    var ret = 'translate(' + [transX, transY].join(',') + ')' + 'scale(' + scale + ')' + 'rotate(' + [rotate, rotateX, rotateY].join(',') + ')' + 'skewX(' + skewX + ')' + 'skewY(' + skewY + ')';
+	    return ret;
 	};
 	utils.isTransform = function (transform) {
 	    if (transform === '') {
@@ -2394,6 +2422,17 @@
 	    if (scale || translate || rotate || skewX || skewY) {
 	        return true;
 	    }
+	};
+	utils.dataUrlToBlob = function (dataurl) {
+	    var arr = dataurl.split(','),
+	        mime = arr[0].match(/:(.*?);/)[1],
+	        bstr = atob(arr[1]),
+	        n = bstr.length,
+	        u8arr = new Uint8Array(n);
+	    while (n--) {
+	        u8arr[n] = bstr.charCodeAt(n);
+	    }
+	    return new Blob([u8arr], { type: mime });
 	};
 	module.exports = utils;
 
@@ -2730,7 +2769,7 @@
 	            ry: ry
 	        });
 	    },
-	    diagonalEllipses: function diagonalEllipses(x1, y1, x2, y2) {
+	    diagonalEllipse: function diagonalEllipse(x1, y1, x2, y2) {
 	        var minx, miny, maxx, maxy, cx, cy, rx, ry;
 	        minx = Math.min(x1, x2);
 	        miny = Math.min(y1, y2);
@@ -2762,7 +2801,7 @@
 	            rotate = option.rotate,
 	            fontWeight = option.fontWeight;
 
-	        var elem = this.append("text");
+	        var elem = this.append("text", { stroke: "none" });
 	        elem.attr('x', x);
 	        elem.attr("font-size", fontSize);
 	        elem.attr('rotate', rotate);
@@ -2817,6 +2856,12 @@
 	            rx: rx || 0,
 	            ry: ry || 0
 	        });
+	    },
+	    arc: function arc(cx, cy, radius, startAngle, endAngle) {
+	        var p1 = (0, _point2.default)(cx, cy).angleMoveTo(startAngle, radius);
+	        var path = new cad.Path();
+	        path.M(p1.x, p1.y).angleArcTo(endAngle - startAngle, cx, cy, radius);
+	        return this.path(path.toString());
 	    },
 	    path: function path(_path) {
 	        if ((typeof _path === 'undefined' ? 'undefined' : _typeof(_path)) == 'object') {
@@ -2945,7 +2990,7 @@
 			}
 			var g = this.createSVGElement(tag, config).addClass("cad-layer");
 			if (type == 'block') {
-				this.svg.find("#global_defs").append(g);
+				this.svg.find("defs").append(g);
 			} else {
 				this.svg.append(g);
 			}
@@ -3055,6 +3100,60 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function __curveToAll(points, isAboslute) {
+	    var data = [];
+	    var p0 = points[0];
+	    var p1 = points[1];
+	    var pnPrev = points[points.length - 2];
+	    var pn = points[points.length - 1];
+	    var angle = (0, _point2.default)(p0).getAngleTo(p1.x, p1.y);
+	    var m1 = (0, _point2.default)(p0).angleMoveTo(angle, 1);
+	    var angle2 = (0, _point2.default)(pn).getAngleTo(pnPrev.x, pnPrev.y);
+	    var mn = (0, _point2.default)(pn).angleMoveTo(angle, 1);
+	    points.unshift({ x: m1.x, y: m1.y });
+	    points.push({ x: mn.x, y: mn.y });
+	    for (var i = 1; i < points.length - 2; i++) {
+	        var p = points[i];
+	        var p0 = points[i - 1];
+	        var p1 = points[i + 1];
+	        var p2 = points[i + 2];
+	        var x = p.x,
+	            y = p.y;
+	        var param = {};
+	        var x1, y1, x2, y2;
+	        x1 = p.x + (p1.x - p0.x) / 4;
+	        y1 = p.y + (p1.y - p0.y) / 4;
+	        x2 = p1.x - (p2.x - p.x) / 4;
+	        y2 = p1.y - (p2.y - p.y) / 4;
+	        param = { x: x, y: y, x1: x1, y1: y1, x2: x2, y2: y2, endx: p1.x, endy: p1.y };
+	        data.push(param);
+	    }
+	    if (isAboslute) {
+	        this.MoveTo(points[1].x, points[1].y);
+	    } else {
+	        this.moveTo(points[1].x, points[1].y);
+	    }
+	    for (var i = 0; i < data.length; i++) {
+	        var d = data[i];
+	        if (isAboslute) {
+	            this.C(d.x1, d.y1, d.x2, d.y2, d.endx, d.endy);
+	        } else {
+	            this.c(d.x1, d.y1, d.x2, d.y2, d.endx, d.endy);
+	        }
+	    }
+	    return this;
+	}
+	function __lineToAll(points, isAboslute) {
+	    for (var i = 0; i < points.length; i++) {
+	        var p = points[i];
+	        if (isAboslute) {
+	            this.LineTo(p.x, p.y);
+	        } else {
+	            this.lineTo(p.x, p.y);
+	        }
+	    }
+	    return this;
+	}
 	_path2.default.fn.extend({
 	    getAbsolutePoints: function getAbsolutePoints() {
 	        var actions = this.pathStack;
@@ -3147,65 +3246,17 @@
 	    },
 	    clockWiseArcTo: function clockWiseArcTo(cx, cy, endx, endy, r) {},
 	    antiClockArcTo: function antiClockArcTo(cx, cy, endx, endy, r) {},
-	    __curveToAll: function __splineTo(points, isAboslute) {
-	        var data = [];
-	        var p0 = points[0];
-	        var p1 = points[1];
-	        var pnPrev = points[points.length - 2];
-	        var pn = points[points.length - 1];
-	        var angle = (0, _point2.default)(p0).getAngleTo(p1.x, p1.y);
-	        var m1 = (0, _point2.default)(p0).angleMoveTo(angle, 1);
-	        var angle2 = (0, _point2.default)(pn).getAngleTo(pnPrev.x, pnPrev.y);
-	        var mn = (0, _point2.default)(pn).angleMoveTo(angle, 1);
-	        points.unshift({ x: m1.x, y: m1.y });
-	        points.push({ x: mn.x, y: mn.y });
-	        for (var i = 1; i < points.length - 2; i++) {
-	            var p = points[i];
-	            var p0 = points[i - 1];
-	            var p1 = points[i + 1];
-	            var p2 = points[i + 2];
-	            var x = p.x,
-	                y = p.y;
-	            var param = {};
-	            var x1, y1, x2, y2;
-	            x1 = p.x + (p1.x - p0.x) / 4;
-	            y1 = p.y + (p1.y - p0.y) / 4;
-	            x2 = p1.x - (p2.x - p.x) / 4;
-	            y2 = p1.y - (p2.y - p.y) / 4;
-	            param = { x: x, y: y, x1: x1, y1: y1, x2: x2, y2: y2, endx: p1.x, endy: p1.y };
-	            data.push(param);
-	        }
-	        if (isAboslute) {
-	            this.MoveTo(points[1].x, points[1].y);
-	        } else {
-	            this.moveTo(points[1].x, points[1].y);
-	        }
-	        for (var i = 0; i < data.length; i++) {
-	            var d = data[i];
-	            if (isAboslute) {
-	                this.C(d.x1, d.y1, d.x2, d.y2, d.endx, d.endy);
-	            } else {
-	                this.c(d.x1, d.y1, d.x2, d.y2, d.endx, d.endy);
-	            }
-	        }
-	        return this;
+	    curveToAll: function curveToAll(points) {
+	        return __curveToAll.call(this, points, false);
 	    },
-	    curveToAll: function splineTo(points) {
-	        return this.__curveToAll(points, false);
+	    CurveToAll: function CurveToAll(points) {
+	        return __curveToAll.call(this, points, true);
 	    },
-	    CurveToAll: function SplineTo(points) {
-	        return this.__curveToAll(points, true);
+	    lineToAll: function lineToAll(points) {
+	        return __lineToAll.call(this, points, false);
 	    },
-	    __lineToAll: function __lineToAll(points, isAboslute) {
-	        for (var i = 0; i < points.length; i++) {
-	            var p = points[i];
-	            if (isAboslute) {
-	                this.LineTo(p.x, p.y);
-	            } else {
-	                this.lineTo(p.x, p.y);
-	            }
-	        }
-	        return this;
+	    LineToAll: function LineToAll(points) {
+	        return __lineToAll.call(this, points, true);
 	    }
 	});
 
@@ -3285,6 +3336,7 @@
 	            path.LineTo(x1, y1);
 	        }
 	    }
+	    path.closePath();
 	    return path;
 	});
 	_core2.default.defineShape("gear", function (cx, cy, option) {
@@ -3329,7 +3381,7 @@
 	});
 	_core2.default.defineShape("sinCurve", function (cx, cy, option) {
 	    var path = new _core2.default.Path();
-	    option = _core2.default.extend(option, { height: 20, interval: 100, width: 500 });
+	    option = _core2.default.extend({ height: 20, interval: 100, width: 500 }, option);
 	    var path = new _core2.default.Path();
 	    var height = option.height;
 	    var width = option.width;
@@ -3399,6 +3451,10 @@
 
 	var _patterns2 = _interopRequireDefault(_patterns);
 
+	var _marker = __webpack_require__(24);
+
+	var _marker2 = _interopRequireDefault(_marker);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	_core2.default.extend({
@@ -3430,6 +3486,7 @@
 	_core2.default.registDefs(_gradient2.default);
 	_core2.default.registDefs(_filters2.default);
 	_core2.default.registDefs(_patterns2.default);
+	_core2.default.registDefs(_marker2.default);
 
 /***/ },
 /* 21 */
@@ -3638,6 +3695,34 @@
 
 /***/ },
 /* 24 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = {
+	    triangle: function triangle(option) {
+	        option = option || {};
+	        var paper = this;
+	        var $defs = paper.select("defs");
+	        var marker = paper.createSVGElement("marker", {
+	            id: "triangle",
+	            viewBox: "0,0,10,10",
+	            refX: 1,
+	            refY: 5,
+	            markerWidth: 6,
+	            markerHeight: 6,
+	            orient: "auto",
+	            fill: option.fill
+	        });
+	        var path = paper.createSVGElement("path").attr("d", "M 0 0 L 10 5 L 0 10 z");
+	        path.appendTo(marker);
+	        marker.appendTo($defs);
+	        return marker;
+	    }
+	};
+
+/***/ },
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3693,7 +3778,7 @@
 	});
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3795,7 +3880,7 @@
 	});
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3894,7 +3979,7 @@
 	    });
 	    return shapes.add([c1, c2]);
 	});
-	_core2.default.defineSymbol('chrome2', function (symbol) {
+	_core2.default.defineSymbol('chrome', function (symbol) {
 	    var paper = this;
 	    symbol.attr('viewBox', "0 0 100 100");
 	    var r = 50;
@@ -3933,7 +4018,7 @@
 	});
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

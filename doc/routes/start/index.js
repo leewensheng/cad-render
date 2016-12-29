@@ -4,11 +4,8 @@ import Introduction from "../../views/start/introduction.jsx"
 module.exports = {
     path:'start',
     component:Start,
+    indexRoute:{component:Introduction},
     childRoutes:[
-    	{
-    		path:'introduction',
-    		component:Introduction
-    	},
     	{
     		path:'install',
     		component:Install

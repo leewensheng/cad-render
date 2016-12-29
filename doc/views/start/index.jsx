@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router'
+import {Link,IndexLink} from 'react-router'
 import SideMenu from '../../components/side-menu.jsx'
 module.exports = React.createClass({
     render(){
@@ -12,7 +12,7 @@ module.exports = React.createClass({
                     <ul className="nav-list">
                         <li><Link  activeClassName="active" to="/start/install">安装</Link></li>
                         <li>
-                        <Link  activeClassName="active" to="/start/introduction">介绍</Link>
+                        <IndexLink  activeClassName="active" to="/start">介绍</IndexLink>
                             <ul className="nav-list">
                                 <li><Link to="/start">起步</Link></li>
                             </ul>
