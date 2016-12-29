@@ -57,6 +57,7 @@ cad.defineShape("regularPolygon",function(cx,cy,option){
             path.LineTo(x1,y1);
         }
     }
+    path.closePath();
     return path;
 })
 cad.defineShape("gear",function(cx,cy,option){
@@ -103,7 +104,7 @@ cad.defineShape("heart",function(cx,cy,option){
 })
 cad.defineShape("sinCurve",function(cx,cy,option){
     var path = new cad.Path();
-    option = cad.extend(option,{height:20,interval:100,width:500});
+    option = cad.extend({height:20,interval:100,width:500},option);
     var path = new cad.Path();
     var height = option.height;
     var width  = option.width;
