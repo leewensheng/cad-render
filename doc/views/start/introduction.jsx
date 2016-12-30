@@ -17,8 +17,16 @@ module.exports = React.createClass({
 					<br/>强大的path模块和point模块
 				</p>
 				<h2>起步</h2>
-               <p className="tip">假设你已经学习了基础的svg知识，推荐一个网站</p>
+               <p className="tip">假设你已经了解了绘图的基本知识，推荐一个svg知识的网站</p>
                <p>引入jquery和cad.js</p>
+<pre>
+{`
+//引入jquery
+<script src="./jquery.js"></script>
+//引入cad.js
+<script src="cad.js"></script>
+`}
+</pre>
                <h3>创建画布</h3>
                <pre>{'<script>\n  var paper = new cad.Paper({el:"#demo"})\n</script>'}</pre>
                <h3>愉快地玩耍</h3>

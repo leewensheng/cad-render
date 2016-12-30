@@ -55,7 +55,10 @@ li>.nav-list {
 	margin-left: 4px;
 	display: block;
 }
-li.open>.nav-list {
+.nav-list .nav-list {
+	display: none;
+}
+.nav-list .nav-list.open {
 	display: block;
 }
 .nav-list li a.active {

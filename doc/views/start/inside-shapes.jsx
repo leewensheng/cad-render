@@ -16,7 +16,6 @@ module.exports = React.createClass({
 </script>`
 }               </pre>
                 <div ref="polygon" style={{height:500}}></div> 
-                <h2>更多图形</h2>
 			</div>
 		)
 	},
