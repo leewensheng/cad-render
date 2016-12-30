@@ -12,7 +12,7 @@ module.exports = React.createClass({
                         <div className="section-text">
                             <h1 style={{marginTop:0}}>基于svg的绘图引擎</h1>
                             <h2>宣传语还在思考中</h2>
-                            <button className="btn btn-primary">立即体验</button>
+                            <Link to="/start"><button className="btn btn-primary">立即体验</button></Link>
                             <p className="text-muted">支持ie9,firefox,chrome</p>
                         </div>
                     </div>
