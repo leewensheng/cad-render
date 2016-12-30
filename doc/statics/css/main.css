@@ -106,6 +106,7 @@ body {
 }
 @media (max-width: 640px) {
   .doc .doc-nav {
+    width: 200px;
     left: -300px;
     top:50px;
   }

@@ -2,6 +2,7 @@
 自己实现一个轻量的jquery接口
 文档引入redux
 importBlock不要用addLayer，addLayer不应考虑这种情况
+所有引入defs模块应当自己分配id
 研究canvas和ie8的统一抽象
 sincurve bugfix
 Promise式的动画

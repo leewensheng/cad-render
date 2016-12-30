@@ -77,10 +77,10 @@ module.exports = React.createClass({
                      <p className="title">图形操作</p>
                     <ul className="nav-list">
                         <li>
-                            <Link to="/start/install">设置属性</Link>
+                            <Link to="/start/install">属性</Link>
                         </li>
                         <li>
-                            <Link to="/start/install">绑定事件</Link>
+                            <Link to="/start/install">事件</Link>
                         </li>
                         <li>
                             <Link to="/start/install">描边和填充</Link>
@@ -88,7 +88,7 @@ module.exports = React.createClass({
                         <li><Link to="dom">平移</Link></li>
                         <li><Link to="dom">旋转</Link></li>
                         <li><Link to="dom">缩放</Link></li>
-                        <li><Link to="dom">添加链接</Link></li>
+                        <li><Link to="dom">链接</Link></li>
                         <li><Link to="dom">拷贝</Link></li>
                         <li><Link to="dom">绘图次序</Link></li>
                     </ul>

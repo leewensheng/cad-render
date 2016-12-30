@@ -29,7 +29,7 @@ module.exports = {
             },
             {
                 test:/\.demo\.html/,
-                loader:'file-loader?name=demo/[name].[hash].[ext]'
+                loader:'file-loader?name=demo/[name].[ext]\?v=[hash]'
             }
         ]
     },

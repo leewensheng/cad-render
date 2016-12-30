@@ -30,6 +30,8 @@ code {
 }
 .btn:focus{
 	outline: none;
+	-webkit-appearance:none;
+	appearance:none;
 }
 .btn.btn-default {
 }
