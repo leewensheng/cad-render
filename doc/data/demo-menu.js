@@ -1,31 +1,24 @@
 module.exports = {
     menus:[
         {
-            title:'基础',
+            title:'示例',
             links:[
                 {
-                    to:'/start/install',
-                    text:'安装'
+                    to:'/demo',
+                    text:'时钟',
+                    isIndex:true
                 },
                 {
-                    to:'/start',
-                    text:'介绍',
-                    isIndex:true,
-                    anchors:['起步']
+                    to:'/demo/animate',
+                    text:'消失的圆'
                 },
                 {
-                    to:'/start/agreen',
-                    text:'约定',
-                    anchors:['坐标系','角度']
+                    to:'/demo/transform',
+                    text:'transform动画'
                 },
                 {
-                    to:'/start/basic-shapes',
-                    text:'基本图形',
-                    anchors:'直线 矩形 圆 椭圆 多边形 折线 路径 文本 图片'.split(/\s+/gi)
-                },
-                {
-                    to:'/start/inside-shapes',
-                    text:'更多图形'
+                    to:'/demo/pie',
+                    text:'饼图'
                 }
             ]
         }

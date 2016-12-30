@@ -1,6 +1,6 @@
 import React from 'react'
 import SideMenu from '../../components/side-menu.jsx'
-import {menus} from '../../data/start-menu.json'
+import {menus} from '../../data/start-menu.js'
 import $ from 'jquery'
 module.exports = React.createClass({
     render(){
