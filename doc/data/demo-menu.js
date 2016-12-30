@@ -1,0 +1,33 @@
+module.exports = {
+    menus:[
+        {
+            title:'基础',
+            links:[
+                {
+                    to:'/start/install',
+                    text:'安装'
+                },
+                {
+                    to:'/start',
+                    text:'介绍',
+                    isIndex:true,
+                    anchors:['起步']
+                },
+                {
+                    to:'/start/agreen',
+                    text:'约定',
+                    anchors:['坐标系','角度']
+                },
+                {
+                    to:'/start/basic-shapes',
+                    text:'基本图形',
+                    anchors:'直线 矩形 圆 椭圆 多边形 折线 路径 文本 图片'.split(/\s+/gi)
+                },
+                {
+                    to:'/start/inside-shapes',
+                    text:'更多图形'
+                }
+            ]
+        }
+    ]
+}

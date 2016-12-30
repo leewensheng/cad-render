@@ -109,7 +109,7 @@ var Menu = React.createClass({
         var elem = document.querySelectorAll(".content h2")[index];
         var clientRect = elem.getBoundingClientRect();
         var scrollTop = document.body.scrollTop;
-        var to = scrollTop + clientRect.top - 60;
+        var to = scrollTop + clientRect.top - 70;
         this.setState({scrolling:true});
         $("body").animate({scrollTop:to+"px"});
         var that = this;
