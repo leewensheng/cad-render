@@ -1,7 +1,8 @@
 import React from 'react'
 import {Link,IndexLink} from 'react-router'
 import Anchor from './anchor.jsx'
-
+var isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox")!=-1;
+var scrollElem = isFirefox?'documentElement':'body';
 var Menu = React.createClass({
     getInitialState(){
         var height = document.documentElement.clientHeight;
@@ -88,7 +89,7 @@ var Menu = React.createClass({
         this.setState({
             activeAnchor:-1
         });
-        document.body.scrollTop = 0;
+        document[scrollElem].scrollTop = 0;
     },
     handleScroll(){
         if(this.state.scrolling) {
@@ -105,13 +106,16 @@ var Menu = React.createClass({
         }
     },
     handleAnchor(index){
+        if(this.state.activeAnchor === index) {
+            return;
+        }
         this.setState({activeAnchor:index});
         var elem = document.querySelectorAll(".content h2")[index];
         var clientRect = elem.getBoundingClientRect();
-        var scrollTop = document.body.scrollTop;
+        var scrollTop = document[scrollElem].scrollTop;
         var to = scrollTop + clientRect.top - 70;
         this.setState({scrolling:true});
-        $("body").animate({scrollTop:to+"px"});
+        $(document[scrollElem]).animate({scrollTop:to+"px"});
         var that = this;
         setTimeout(function(){
             that.setState({scrolling:false});
