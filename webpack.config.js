@@ -24,8 +24,12 @@ module.exports = {
                 test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css')
             },
             {   
-                test: /\.(png|jpg)$/, 
+                test: /\.(gif|png|jpg)$/, 
                 loader: 'url-loader?limit=8192&name=img/[name].[ext]'
+            },
+            {
+                test: /\.(woff|svg|eot|ttf)\??.*/, 
+                loader: 'url-loader?limit=8192&name=iconfont/[name].[ext]'
             },
             {
                 test:/\.demo\.html/,

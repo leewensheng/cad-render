@@ -1,10 +1,11 @@
 import React from 'react'
 import Header from '../../components/header'
 import MobileHeader from '../../components/mobile-header'
+import cad from '../../../src/index'
 import '../../statics/css/normalize.css'
 import '../../statics/css/main.css'
 import '../../statics/css/ui.css'
-import cad from '../../../src/index'
+import '../../statics/css/iconfont/iconfont.css'
 var Main = React.createClass({
 	render(){
 		var {children} = this.props;

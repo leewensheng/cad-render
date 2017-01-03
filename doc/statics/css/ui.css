@@ -86,3 +86,14 @@ pre {
 .dot-list li {
 	list-style: disc;
 }
+
+.dropdown .dropdown-menu {
+	display: none;
+	position: absolute;
+	top: 100%;
+	right: 0;
+	z-index: 11;
+}
+.dropdown.open .dropdown-menu {
+	display: block;
+}
