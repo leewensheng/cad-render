@@ -33,24 +33,9 @@ module.exports = {
             title:'图形操作',
             links:[
                 {
-                    to:'/start/attr',
-                    text:'属性'
-                },
-                {
-                    to:'/start/fill',
-                    text:'描边'
-                },
-                {
-                    to:'/start/fill',
-                    text:'填充'
-                },
-                {
-                    to:'/start/transform',
-                    text:'transform变换'
-                },
-                {
-                    to:'/start/zindex',
-                    text:'绘图次序'
+                    to:'/start/dom',
+                    text:'DOM API',
+                    anchors:['选择元素','属性','事件','描边和填充','变换']
                 }
             ]
         },

@@ -9,15 +9,16 @@ iframe {
 	border:1px solid #ddd;
 }
 code {
+	display: inline-block;
 	background: #eee;
 	color: #E96900;
 	font-family: monospace;
-	padding: 2px 5px;
+	padding: 0px 5px;
+	line-height: 1.5;
 	margin: 0 5px;
 	border-radius: 2px;
 	vertical-align: middle;
 	position: relative;
-	top: -2px;
 }
 .btn {
 	display: inline-block;

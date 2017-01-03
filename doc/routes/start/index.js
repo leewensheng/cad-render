@@ -21,6 +21,10 @@ module.exports = {
         {
         	path:"inside-shapes",
             component:require("../../views/start/inside-shapes")
+        },
+        {
+            path:"dom",
+            component:require("../../views/start/dom")
         }
     ]
 }
