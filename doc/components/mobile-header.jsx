@@ -8,7 +8,7 @@ module.exports = React.createClass({
 	render(){
 		return (
 			<div className="mobile-nav clearfix">
-				<Link to="/" className="logo-wrap">
+				<Link to="/" className="logo-wrap" onClick={this.hideNav}>
                      <span className="logo"></span>
                  </Link>				
                   <div className={this.state.open?'dropdown open':'dropdown'} style={{float:'right'}}>
@@ -56,5 +56,8 @@ module.exports = React.createClass({
 	toggleNav(){
 		var open = this.state.open;
 		this.setState({open:!open});
+	},
+	hideNav(){
+		this.setState({open:false})
 	}
 })
