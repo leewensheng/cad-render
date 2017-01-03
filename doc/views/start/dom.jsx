@@ -6,7 +6,8 @@ module.exports = React.createClass({
 			<div className="content">
 				<h1>DOM API</h1>
 				<p>cad render采用了jquery来操作svg dom，并针对svg的特性扩展了一些常用的操作</p>
-				<p>jquery的dom API和事件体系在这里可以继续使用</p>
+				<p>绝大部分jquery的DOM API都可以继续使用，但是建议尽量减少不常用的DOM操作</p>
+				<p>依然是你喜欢的链式操作</p>
 				<h2>选择元素</h2>
 				<p>选择当前画布内的元素<code>paper.select("selector")</code></p>
 				<pre>{
@@ -62,20 +63,15 @@ rect.on("click",function(event){
 					}
 				</pre>
 				<div ref="event" style={{height:300}}></div>
-				<p>关于描边的详细介绍见  <a href="http://www.w3cplus.com/svg/svg-fill-stroke.html">svg基础--填充和描边</a></p>
+
+
+
 				<h2>描边和填充</h2>
+				<p>关于描边和填充的详细介绍见  <a target="_blank" href="http://www.w3cplus.com/svg/svg-fill-stroke.html">svg基础--填充和描边</a></p>
+				<p>除了用<code>attr</code>的方式设置描边和填充，这里还提供了专门的dom接口<code>fill</code>和<code>stroke</code></p>
 				<pre>{
 `<script>
-//点击矩形时获取指针相对于画布的坐标
-var rect = paper.rect(20,20,100,100).fill("blue");
-paper.text(40,60,'click here').fill("#fff").css("pointer-events","none")
-var $x = paper.text(200,50,'x').fill("red").css("font-size","50px")
-var $y = paper.text(200,100,'y').fill("red").css("font-size","50px")
-rect.on("click",function(event){
-	var point = paper.mouse(event);
-	$x.text('x:' + point.x);
-	$y.text('y:' + point.y);
-})
+
 </script>
 `
 					}
@@ -88,6 +84,7 @@ rect.on("click",function(event){
 		this.select();
 		this.attr();
 		this.event();
+		this.fill();
 	},
 	select(){
 		var el = this.refs.select;
@@ -116,6 +113,12 @@ rect.on("click",function(event){
 			var point = paper.mouse(event);
 			$x.text('x:' + point.x);
 			$y.text('y:' + point.y);
-		})
+		});
+	},
+	fill(){
+		var el = this.refs.fill;
+		var paper = cad.init({el:el});
+		paper.rect(0,0,paper.width(),paper.height()).fill("#000");
+		paper.circle(150,150,120).fill("blue").stroke("red").attr("stroke-width",10);
 	}
 })

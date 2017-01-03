@@ -106,11 +106,24 @@ body {
     left:0;
     box-shadow: 3px 0 3px #ddd;
 }
+.doc .doc-nav .btn-open {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 50%;
+}
+.doc .doc-nav .btn-open {
+    transition: left linear 200ms;
+    opacity: 0.8;
+}
 @media (max-width: 640px) {
   .doc .doc-nav {
     width: 200px;
     left: -300px;
     top:50px;
+  }
+  .doc .doc-nav .btn-open{
+    display: block;
   }
   .doc .doc-content {
     padding-left: 12px;
@@ -143,7 +156,8 @@ body {
     white-space: normal;
 }
 .mobile-nav .nav-list {
-    background: #000
+    background: #000;
+    min-width: 120px;
 }
 .mobile-nav .nav-list a{
     display: block;
@@ -153,4 +167,8 @@ body {
 }
 .mobile-nav .nav-list path{
     fill: #fff;
+}
+.mobile-nav .nav-list li{
+    padding: 12px;
+    border-bottom: 1px solid #333;
 }

@@ -9,12 +9,18 @@ var Menu = React.createClass({
         return {
             height:height - 60,
             activeAnchor:null,
-            scrolling: false
+            scrolling: false,
+            isOpen:false
         }
     },
     resize(){
          var height = document.documentElement.clientHeight;
-         this.setState({height: height-60});
+         var isOpen = this.state.isOpen;
+         if(window.innerWidth > 640) {
+            isOpen = false;
+        }
+         this.setState({height: height-60,isOpen:isOpen});
+
     },
     render(){
         var {width} = this.props;
@@ -23,8 +29,10 @@ var Menu = React.createClass({
         var menus = this.props.menus;
         var path = this.props.path;
         var that = this;
+        var width = this.props.width;
+        var isOpen = this.state.isOpen;
         return(
-            <div className="doc-nav" style={style}>
+            <div className={this.state.isOpen?'doc-nav open':'doc-nav'} style={style}>
                 <div className="side-nav">
                     {
                         menus.map(function(menu){
@@ -73,6 +81,7 @@ var Menu = React.createClass({
                         })
                     }
                 </div>
+                <button style={{left: isOpen?width:0}} className="btn btn-primary btn-open" onClick={this.toggleSide}><i className="iconfont icon-arrow"></i></button>
             </div>
         )
     },
@@ -120,6 +129,10 @@ var Menu = React.createClass({
         setTimeout(function(){
             that.setState({scrolling:false});
         },400);
+    },
+    toggleSide(){
+        var isOpen = this.state.isOpen;
+        this.setState({isOpen:!isOpen});
     }
 })
 module.exports = Menu;

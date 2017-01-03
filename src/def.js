@@ -1,6 +1,6 @@
 import cad from './core'
 import paper from './paper'
-import fills from './defs/gradient'
+import gradient from './defs/gradient'
 import filters from './defs/filters'
 import patterns from './defs/patterns'
 import marker from './defs/marker'
@@ -30,7 +30,7 @@ paper.fn.importDefs = function(name,option){
 	}
 	return this;
 }
-cad.registDefs(fills);
+cad.registDefs(gradient);
 cad.registDefs(filters);
 cad.registDefs(patterns);
 cad.registDefs(marker);

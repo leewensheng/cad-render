@@ -7,12 +7,12 @@ module.exports = React.createClass({
 	},
 	render(){
 		return (
-			<div className="mobile-nav">
-				<span ref='btnSide' onClick={this.openSide} className="btn btn-primary">
-				按钮
-				</span>
-				<div className={this.state.open?'dropdown open':'dropdown'} style={{float:'right'}}>
-					<span className="btn"><i className="iconfont icon-menu" onClick={this.toggleNav}></i></span>
+			<div className="mobile-nav clearfix">
+				<Link to="/" className="logo-wrap">
+                     <span className="logo"></span>
+                 </Link>				
+                  <div className={this.state.open?'dropdown open':'dropdown'} style={{float:'right'}}>
+					<span className="btn"  onClick={this.toggleNav}><i className="iconfont icon-menu"></i></span>
 					<ul className='dropdown-menu  nav-list' onClick={this.toggleNav}>
                          <li>
                              <Link activeClassName="active" to="start">教程</Link>
@@ -52,9 +52,6 @@ module.exports = React.createClass({
 			$(".doc-nav").removeClass("open");
 			this.setState({open: false});
 		}
-	},
-	openSide(){
-		$(".doc-nav").toggleClass("open");
 	},
 	toggleNav(){
 		var open = this.state.open;

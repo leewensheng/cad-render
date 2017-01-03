@@ -35,7 +35,7 @@ module.exports = {
                 {
                     to:'/start/dom',
                     text:'DOM API',
-                    anchors:['选择元素','属性','事件','描边和填充','变换']
+                    anchors:['选择元素','属性','事件','描边和填充','transform变换','阵列拷贝']
                 }
             ]
         },

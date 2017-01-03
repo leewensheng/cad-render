@@ -1,5 +1,5 @@
 a {
-	color: #666;
+	color: #42B983;
 	font-size: 14px;
 }
 h1 ,h2,h3{
@@ -61,6 +61,9 @@ li>.nav-list {
 }
 .nav-list .nav-list.open {
 	display: block;
+}
+.nav-list li a {
+	color:#666;
 }
 .nav-list li a.active {
 	color: #42B983;
