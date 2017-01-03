@@ -142,3 +142,15 @@ body {
     word-break: break-all;
     white-space: normal;
 }
+.mobile-nav .nav-list {
+    background: #000
+}
+.mobile-nav .nav-list a{
+    display: block;
+}
+.mobile-nav .nav-list a.active{
+    color: #fff;
+}
+.mobile-nav .nav-list path{
+    fill: #fff;
+}
