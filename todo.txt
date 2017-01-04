@@ -1,4 +1,5 @@
 各模块的测试
+去掉对jquery extend的依赖
 init(el,option);
 属性应当支持驼峰式命名
 自己实现一个轻量的jquery接口

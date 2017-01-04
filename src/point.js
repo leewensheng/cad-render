@@ -135,13 +135,11 @@ Point.fn = Point.prototype = {
 }
 Point.fn.init.prototype = Point.prototype;
 Point.extend = Point.fn.extend = $.extend;
-Point.extend({
-	getPointOnCircle:function(cx,cy,r,angle){
+Point.getPointOnCircle = function(cx,cy,r,angle){
 		var dx = r*Math.cos(angle);
 		var dy = r*Math.sin(angle);
 		x = cx + dx;
 		y = cy + dy;
 		return Point(x,y);
-	}
-})
+}
 module.exports = Point;
