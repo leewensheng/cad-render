@@ -25,6 +25,10 @@ module.exports = {
         {
             path:"dom",
             component:require("../../views/start/dom")
+        },
+        {
+            path:"layer",
+            component:require("../../views/start/layer")
         }
     ]
 }

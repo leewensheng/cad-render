@@ -1,4 +1,5 @@
 各模块的测试
+比较svg canvas差异
 scale应该有两个缩放参数scaleX,scaleY
 去掉对jquery extend的依赖
 init(el,option);

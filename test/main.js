@@ -128,7 +128,7 @@ var SVG = React.createClass({
         //正弦曲线
         paper.addShape("sinCurve",300,300).fill("blue");
         //扇形图
-        paper.sector(200,200,-60,60,200).fill("blue");
+        paper.sector(200,200,200,-60,60).fill("blue");
         //图片
         /*  
         paper.image(0,0,250,250,"http://ww1.sinaimg.cn/mw690/6cefc1a7jw1fa0of045e7j20zk0qogzo.jpg")

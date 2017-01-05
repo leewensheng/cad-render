@@ -68,7 +68,7 @@ rect.on("click",function(event){
 
 				<h2>描边和填充</h2>
 				<p>关于描边和填充的详细介绍见  <a target="_blank" href="http://www.w3cplus.com/svg/svg-fill-stroke.html">svg基础--填充和描边</a></p>
-				<p>除了用<code>attr</code>的方式设置描边和填充，这里还提供了专门的dom接口<code>fill</code>和<code>stroke</code></p>
+				<p>除了用<code>attr</code>的方式设置描边和填充，这里还提供了快捷的<code>fill</code>和<code>stroke</code></p>
 				<pre>{
 `<script>
 
@@ -81,6 +81,7 @@ rect.on("click",function(event){
 
 				<h2>transform变换</h2>
 				<p>图形变换包括平移<code>translate</code>、旋转<code>rotate</code>、斜切<code>skew</code>、缩放<code>scale</code></p>
+				<p>cad render提供了几个快捷的变换接口<code>translate(dx,dy)</code>,<code>scale(sx,sy)</code>,<code>rotate(deg,cx,cy)</code></p>
 				<p>延伸阅读：<a target="_blank" href="http://www.w3cplus.com/html5/svg-transformations.html">理解SVG坐标系统和变换</a></p>
 				<div>注意：</div>
 				<ul className="dot-list">

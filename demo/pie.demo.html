@@ -33,7 +33,7 @@
     data.reduce(function(start,end,index){
         var startAngle = start;
         var endAngle = startAngle + end/sum*360;
-        paper.sector(cx,cy,startAngle,endAngle,radius).fill(colors[index]);
+        paper.sector(cx,cy,radius,startAngle,endAngle).fill(colors[index]);
         return endAngle;
     },startAngle)
 </script>

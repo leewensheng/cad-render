@@ -21,11 +21,7 @@ module.exports = {
                 {
                     to:'/start/basic-shapes',
                     text:'基本图形',
-                    anchors:'直线 矩形 圆 椭圆 多边形 折线 路径 文本 图片'.split(/\s+/gi)
-                },
-                {
-                    to:'/start/inside-shapes',
-                    text:'更多图形'
+                    anchors:'直线 矩形 圆 椭圆 多边形 折线 路径 文本 图片 内置图形'.split(/\s+/gi)
                 }
             ]
         },
@@ -34,24 +30,15 @@ module.exports = {
             links:[
                 {
                     to:'/start/dom',
-                    text:'DOM API',
+                    text:'DOM',
                     anchors:['选择元素','属性','事件','描边和填充','transform变换','阵列拷贝']
-                }
-            ]
-        },
-        {
-            title:'图层',
-            links:[
-                {
-                    to:'/start/layer',
-                    text:'工作图层'
                 },
                 {
                     to:'/start/layer',
-                    text:'图层管理'
+                    text:'图层',
+                    anchors:['概念','图层管理']
                 }
             ]
-
         },
         {
             title:'进阶',

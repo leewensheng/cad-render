@@ -50,7 +50,7 @@ var Menu = React.createClass({
                                                         onClick={that.onLink}
                                                         activeClassName="active" 
                                                         to={link.to}>{link.text}</IndexLink> : 
-                                                    <Link activeClassName="active" 
+                                                    <Link   activeClassName="active" 
                                                             onClick={that.onLink} 
                                                             to={link.to}>{link.text}</Link>
                                                 }
@@ -133,6 +133,6 @@ var Menu = React.createClass({
     toggleSide(){
         var isOpen = this.state.isOpen;
         this.setState({isOpen:!isOpen});
-    }
+    },
 })
 module.exports = Menu;

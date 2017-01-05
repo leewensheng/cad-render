@@ -2896,7 +2896,7 @@
 	        var path = new _path3.default().CurveToAll(points);
 	        return this.append("path").attr('d', path.toString());
 	    },
-	    sector: function sector(cx, cy, startAngle, endAngle, radius, innerRadius) {
+	    sector: function sector(cx, cy,radius, startAngle, endAngle, innerRadius) {
 	        return this.addShape("sector", cx, cy, {
 	            startAngle: startAngle,
 	            endAngle: endAngle,

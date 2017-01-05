@@ -132,7 +132,7 @@ paper.fn.extend({
             ry:ry||0
         })
     } ,
-    arc:function(cx,cy,radius,startAngle,endAngle){
+    arc:function(cx,cy,radius,startAngle,endAngle,counterclockwise){
         var p1 = Point(cx,cy).angleMoveTo(startAngle,radius);
         var path = new cad.Path();
         path.M(p1.x,p1.y).angleArcTo(endAngle - startAngle,cx,cy,radius);
@@ -164,7 +164,7 @@ paper.fn.extend({
         var path = new Path().CurveToAll(points);
         return this.append("path").attr('d',path.toString())
     },
-    sector:function(cx,cy,startAngle,endAngle,radius,innerRadius){
+    sector:function(cx,cy,radius,startAngle,endAngle,innerRadius){
         return this.addShape("sector",cx,cy,{
             startAngle:startAngle,
             endAngle:endAngle,
