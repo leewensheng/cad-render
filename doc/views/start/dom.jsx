@@ -77,6 +77,65 @@ rect.on("click",function(event){
 					}
 				</pre>
 				<div ref="fill" style={{height:300}}></div>
+
+
+				<h2>transform变换</h2>
+				<p>图形变换包括平移<code>translate</code>、旋转<code>rotate</code>、斜切<code>skew</code>、缩放<code>scale</code></p>
+				<p>延伸阅读：<a target="_blank" href="http://www.w3cplus.com/html5/svg-transformations.html">理解SVG坐标系统和变换</a></p>
+				<div>注意：</div>
+				<ul className="dot-list">
+					<li>变换是按在属性出现的顺序来的，换个顺序变换的结果可能不一样了</li>
+					<li>IE中指定旋转中心旋转时，常出问题，可围绕原点旋转，再平移到旋转中心</li>
+				</ul>
+				<pre>{
+`<script>
+  //绕原点旋转30度
+  paper.rect(50,20,100,50);
+  paper.rect(50,20,100,50).attr("transform","rotate(30,50,20)").dash(5);
+  //平移(25,25)
+  paper.rect(180,20,100,50);
+  paper.rect(180,20,100,50).attr("transform","translate(25,25)").dash(5);
+  //X方向斜切10度
+  paper.rect(180,200,100,50);
+  paper.rect(180,200,100,50).attr("transform","skewX(10)").dash(5);
+  //缩放0.5倍
+  paper.rect(0,0,100,50).attr("transform","translate(20,200)");
+  paper.rect(0,0,100,50).attr("transform","translate(20,200)scale(0.5)").dash(5);
+</script>
+`
+					}
+				</pre>
+				<div ref="transform" style={{height:300}}></div>
+
+
+				<h2>阵列拷贝</h2>
+				<p>阵列，是指批量复制图形。可以根据拷贝的数量，在回调函数中可以根据索引改变当前拷贝的属性，如位置、颜色、旋转等</p>
+				<pre>{
+`<script>
+  //一维矩形阵列，横向拷贝5个矩形，间距40
+  paper.rect(5,5,30,30).arrayCopy(5,function(index){
+  	$(this).translate(40*index,0);
+  });
+  //一维矩形阵列，纵向拷贝5个矩形，间距40
+  paper.circle(20,80,15).arrayCopy(5,function(index){
+  	$(this).translate(0,40*index)
+  })
+  //二维矩形阵列，正六边形，带颜色变化
+  var count = 0;
+  paper.addShape("regularPolygon",60,80,{size:15,num:6}).arrayCopy(4,4,function(x,y){
+  	var color = cad.hsl(count/16*360,1,0.5);
+  	$(this).translate(x*30,y*30+15*(x%2)).fill(color)
+  	count++;
+  });
+  //一维旋转阵列，在360度的空间里，等角度绘制12条线
+  paper.line(230,150,230,100).arrayCopy(12,function(index){
+  	$(this).rotate(360/12*index,230,150);
+  })
+</script>
+`
+					}
+				</pre>
+				<div ref="array" style={{height:300}}></div>
 			</div>
 		)
 	},
@@ -85,6 +144,8 @@ rect.on("click",function(event){
 		this.attr();
 		this.event();
 		this.fill();
+		this.transform();
+		this.array();
 	},
 	select(){
 		var el = this.refs.select;
@@ -120,5 +181,54 @@ rect.on("click",function(event){
 		var paper = cad.init({el:el});
 		paper.rect(0,0,paper.width(),paper.height()).fill("#000");
 		paper.circle(150,150,120).fill("blue").stroke("red").attr("stroke-width",10);
+	},
+	transform(){
+		var el = this.refs.transform;
+		var paper = cad.init({el:el});
+		paper.configLayer({
+			"fill":'none',
+			stroke:"#fff"
+		})
+		paper.rect(0,0,paper.width(),paper.height()).fill("#000");
+		paper.rect(50,20,100,50);
+		paper.rect(50,20,100,50).attr("transform","rotate(30,50,20)").dash(5);
+		paper.rect(180,20,100,50);
+		paper.rect(180,20,100,50).attr("transform","translate(25,25)").dash(5);
+		paper.rect(180,200,100,50);
+		paper.rect(180,200,100,50).attr("transform","skewX(10)").dash(5);
+		paper.rect(0,0,100,50).attr("transform","translate(20,200)");
+		paper.rect(0,0,100,50).attr("transform","translate(20,200)scale(0.5)").dash(5);
+		paper.text(80,160,'旋转').fill("#fff");
+		paper.text(240,160,'平移').fill("#fff");
+		paper.text(240,270,'斜切').fill("#fff");
+		paper.text(80,270,'缩放').fill("#fff");
+	},
+	array(){
+		var el = this.refs.array;
+		var paper = cad.init({el:el});
+		paper.configLayer({
+			"fill":'none',
+			stroke:"#fff"
+		})
+		paper.rect(0,0,paper.width(),paper.height()).fill("#000");
+		paper.rect(5,5,30,30).arrayCopy(5,function(index){
+			$(this).translate(40*index,0);
+		});
+		paper.circle(20,80,15).arrayCopy(5,function(index){
+			$(this).translate(0,40*index)
+		})
+		var count = 0;
+		paper.addShape("regularPolygon",60,80,{size:15,num:6}).arrayCopy(4,4,function(x,y){
+			var color = cad.hsl(count/16*360,1,0.5);
+			$(this).translate(x*30,y*30+15*(x%2)).fill(color)
+			count++;
+		});
+		paper.line(230,150,230,100).arrayCopy(12,function(index){
+			$(this).rotate(360/12*index,230,150);
+		})
+		paper.text(210,20,'一维横向阵列').fill("#fff")
+		paper.text(23,280,'一维纵向阵列').fill("#fff")
+		paper.text(70,220,'二维阵列').fill("#fff")
+		paper.text(210,230,'旋转阵列').fill("#fff")
 	}
 })
