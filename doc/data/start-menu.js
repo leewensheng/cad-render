@@ -22,15 +22,10 @@ module.exports = {
                     to:'/start/basic-shapes',
                     text:'基本图形',
                     anchors:'直线 矩形 圆 椭圆 多边形 折线 路径 文本 图片 内置图形'.split(/\s+/gi)
-                }
-            ]
-        },
-        {
-            title:'图形操作',
-            links:[
+                },
                 {
                     to:'/start/dom',
-                    text:'DOM',
+                    text:'图形操作',
                     anchors:['选择元素','属性','事件','描边和填充','transform变换','阵列拷贝']
                 },
                 {
