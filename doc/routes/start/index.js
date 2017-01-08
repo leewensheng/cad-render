@@ -25,6 +25,42 @@ module.exports = {
         {
             path:"layer",
             component:require("../../views/start/layer")
+        },
+        {
+            path:"path",
+            component:require("../../views/start/path")
+        },
+        {
+            path:"point",
+            component:require("../../views/start/point")
+        },
+        {
+            path:"color",
+            component:require("../../views/start/color")
+        },
+        {
+            path:"animation",
+            component:require("../../views/start/animation")
+        },
+        {
+            path:"layer",
+            component:require("../../views/start/layer")
+        },
+        {
+            path:"filter",
+            component:require("../../views/start/filter")
+        },
+        {
+            path:"fill",
+            component:require("../../views/start/fill")
+        },
+        {
+            path:"reuse",
+            component:require("../../views/start/reuse")
+        },
+        {
+            path:'line',
+            component:require("../../views/start/line")
         }
     ]
 }
