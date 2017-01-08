@@ -19,10 +19,6 @@ module.exports = {
             component:require("../../views/start/basic-shapes")
         },
         {
-        	path:"inside-shapes",
-            component:require("../../views/start/inside-shapes")
-        },
-        {
             path:"dom",
             component:require("../../views/start/dom")
         },
