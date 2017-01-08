@@ -2,6 +2,9 @@ a {
 	color: #42B983;
 	font-size: 14px;
 }
+p {
+	line-height: 1.5em;
+}
 h1 ,h2,h3{
 	font-family: serif;
 }
@@ -86,6 +89,7 @@ pre {
 }
 .dot-list  {
 	padding-left: 20px;
+	margin-bottom: 20px;
 }
 .dot-list li {
 	list-style: disc;

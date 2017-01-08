@@ -88,7 +88,7 @@ paper.fn.extend({
 		this.svg.find("#"+id).remove();
 		return this.switchToDefaultLayer();
 	},
-	cleanLayer:function(id){
+	clearLayer:function(id){
 		if(typeof id == 'undefined') {
 			return this;
 		} else if(typeof id == 'string') {
