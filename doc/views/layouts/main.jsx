@@ -8,13 +8,12 @@ import '../../statics/css/ui.css'
 import '../../statics/css/iconfont/iconfont.css'
 var Main = React.createClass({
 	render(){
-		var {children} = this.props;
 		return (
 			<div>
 				<Header/>
 				<MobileHeader />
 				<div className="page-main">
-					{children}
+					{this.props.children}
 				</div>
 			</div>
 		)

@@ -31,6 +31,36 @@ module.exports = React.createClass({
 					<li>设置图层属性<code>paper.configLayer</code></li>
 					<li>获取当前图层<code>paper.currentLayer</code></li>
 				</ul>
+				<pre>
+				{
+`<script>
+ //当前图层(绿色)
+  var greenLayer = paper.currentLayer;
+  greenLayer.attr("fill",'blue');
+
+  paper.rect(0,0,paper.width(),paper.height()).fill("#000");
+  greenLayer.attr("fill","blue");
+  paper.circle(50,50,40);
+  paper.rect(100,10,100,80);
+
+  //红色图层
+  var redLayer = paper.addLayer('red').attr("fill","red");
+  paper.switchLayer(redLayer);
+  paper.circle(50,150,40);
+  paper.rect(100,110,100,80);
+
+  //按钮图层和事件
+  paper.addLayer("btn");
+  paper.switchLayer("btn");
+  paper.addBlock("button",200,50,'点击蓝色图层换成绿色').on("click",function(){
+  	 greenLayer.attr("fill",'green');
+  })
+  paper.addBlock("button",200,150,'点击清空红色图层').on("click",function(){
+  	paper.clearLayer(redLayer);
+  })
+</script>`
+				}
+				</pre>
 				<div ref="layer" style={{height:300}}></div>
 			</div>
 		)
@@ -38,14 +68,23 @@ module.exports = React.createClass({
 	componentDidMount(){
 		var el = this.refs.layer;
 		var paper = cad.init({el:el});
+		var greenLayer = paper.currentLayer;
+		paper.configLayer(greenLayer,{fill:"blue"});
 		paper.rect(0,0,paper.width(),paper.height()).fill("#000");
-		paper.currentLayer.attr("fill","blue");
+		greenLayer.attr("fill","blue");
 		paper.circle(50,50,40);
 		paper.rect(100,10,100,80);
-
 		var redLayer = paper.addLayer('red').attr("fill","red");
 		paper.switchLayer(redLayer);
 		paper.circle(50,150,40);
 		paper.rect(100,110,100,80);
+		paper.addLayer("btn");
+		paper.switchLayer("btn");
+		paper.addBlock("button",300,50,'点击蓝色图层换成绿色').on("click",function(){
+			paper.configLayer(greenLayer,{fill:"green"})
+		})
+		paper.addBlock("button",300,150,'点击清空红色图层').on("click",function(){
+			paper.clearLayer(redLayer);
+		})
 	}
 })
