@@ -550,15 +550,13 @@
 	};
 	Point.fn.init.prototype = Point.prototype;
 	Point.extend = Point.fn.extend = _jquery2.default.extend;
-	Point.extend({
-		getPointOnCircle: function getPointOnCircle(cx, cy, r, angle) {
-			var dx = r * Math.cos(angle);
-			var dy = r * Math.sin(angle);
-			x = cx + dx;
-			y = cy + dy;
-			return Point(x, y);
-		}
-	});
+	Point.getPointOnCircle = function (cx, cy, r, angle) {
+		var dx = r * Math.cos(angle);
+		var dy = r * Math.sin(angle);
+		x = cx + dx;
+		y = cy + dy;
+		return Point(x, y);
+	};
 	module.exports = Point;
 
 /***/ },
@@ -2864,7 +2862,7 @@
 	            ry: ry || 0
 	        });
 	    },
-	    arc: function arc(cx, cy, radius, startAngle, endAngle) {
+	    arc: function arc(cx, cy, radius, startAngle, endAngle, counterclockwise) {
 	        var p1 = (0, _point2.default)(cx, cy).angleMoveTo(startAngle, radius);
 	        var path = new cad.Path();
 	        path.M(p1.x, p1.y).angleArcTo(endAngle - startAngle, cx, cy, radius);
@@ -2893,10 +2891,10 @@
 	        return this.append("polyline").attr("points", p.join(" "));
 	    },
 	    spline: function spline(points) {
-	        var path = new _path3.default().CurveToAll(points);
+	        var path = new _path3.default().CurveToAll(points, true);
 	        return this.append("path").attr('d', path.toString());
 	    },
-	    sector: function sector(cx, cy,radius, startAngle, endAngle, innerRadius) {
+	    sector: function sector(cx, cy, radius, startAngle, endAngle, innerRadius) {
 	        return this.addShape("sector", cx, cy, {
 	            startAngle: startAngle,
 	            endAngle: endAngle,
@@ -3052,7 +3050,7 @@
 			this.svg.find("#" + id).remove();
 			return this.switchToDefaultLayer();
 		},
-		cleanLayer: function cleanLayer(id) {
+		clearLayer: function clearLayer(id) {
 			if (typeof id == 'undefined') {
 				return this;
 			} else if (typeof id == 'string') {
@@ -3107,7 +3105,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function __curveToAll(points, isAboslute) {
+	function __curveToAll(points, isAboslute, isClosed) {
 	    var data = [];
 	    var p0 = points[0];
 	    var p1 = points[1];
@@ -3117,8 +3115,13 @@
 	    var m1 = (0, _point2.default)(p0).angleMoveTo(angle, 1);
 	    var angle2 = (0, _point2.default)(pn).getAngleTo(pnPrev.x, pnPrev.y);
 	    var mn = (0, _point2.default)(pn).angleMoveTo(angle, 1);
-	    points.unshift({ x: m1.x, y: m1.y });
-	    points.push({ x: mn.x, y: mn.y });
+	    if (!isClosed) {
+	        points.unshift({ x: m1.x, y: m1.y });
+	        points.push({ x: mn.x, y: mn.y });
+	    } else {
+	        points.unshift(pn);
+	        points.push(p0);
+	    }
 	    for (var i = 1; i < points.length - 2; i++) {
 	        var p = points[i];
 	        var p0 = points[i - 1];
@@ -3253,11 +3256,11 @@
 	    },
 	    clockWiseArcTo: function clockWiseArcTo(cx, cy, endx, endy, r) {},
 	    antiClockArcTo: function antiClockArcTo(cx, cy, endx, endy, r) {},
-	    curveToAll: function curveToAll(points) {
-	        return __curveToAll.call(this, points, false);
+	    curveToAll: function curveToAll(points, isClosed) {
+	        return __curveToAll.call(this, points, false, isClosed);
 	    },
-	    CurveToAll: function CurveToAll(points) {
-	        return __curveToAll.call(this, points, true);
+	    CurveToAll: function CurveToAll(points, isClosed) {
+	        return __curveToAll.call(this, points, true, isClosed);
 	    },
 	    lineToAll: function lineToAll(points) {
 	        return __lineToAll.call(this, points, false);
@@ -4022,6 +4025,15 @@
 	        $(this).fill(colors[index]).rotate(index * 120, cx, cy);
 	    });
 	    return shapes.add([c1, c2]);
+	});
+
+	_core2.default.defineBlock('button', function (x, y, text, option) {
+	    var paper = this;
+	    var $text = paper.text(x + 10, y + 10, text).fill("#333").css("pointer-events", "none");
+	    var len = $text.width();
+	    var $rect = paper.rect(x, y, len + 20, 30).fill("#A9DBF6").stroke("#ddd", 1).css("cursor", "pointer");
+	    $rect.after($text);
+	    return $rect;
 	});
 
 /***/ },

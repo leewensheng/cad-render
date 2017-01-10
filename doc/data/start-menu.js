@@ -71,6 +71,10 @@ module.exports = {
                     to:'/start/reuse',
                     text:'复用',
                     anchors:['shape','symbol','block']
+                },
+                {
+                    to:'/start/interpolate',
+                    text:'插值、采样'
                 }
             ]
         }

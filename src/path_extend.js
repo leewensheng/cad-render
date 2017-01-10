@@ -1,6 +1,6 @@
 import path from './path'
 import Point from './point'
-function __curveToAll(points,isAboslute) {
+function __curveToAll(points,isAboslute,isClosed) {
     var data = [];
     var p0 = points[0];
     var p1 = points[1];
@@ -10,8 +10,14 @@ function __curveToAll(points,isAboslute) {
     var m1 = Point(p0).angleMoveTo(angle,1);
     var angle2 = Point(pn).getAngleTo(pnPrev.x,pnPrev.y);
     var mn = Point(pn).angleMoveTo(angle,1);
-    points.unshift({x:m1.x,y:m1.y});
-    points.push({x:mn.x,y:mn.y});
+    if(!isClosed) {
+        points.unshift({x:m1.x,y:m1.y});
+        points.push({x:mn.x,y:mn.y});
+    } else {
+        points.unshift(pn);
+        points.push(p0);
+        points.push(p1);
+    }
     for(var i = 1; i < points.length -2;i++) {
         var p = points[i];
         var p0 = points[i-1];
@@ -147,11 +153,11 @@ path.fn.extend({
     antiClockArcTo:function(cx,cy,endx,endy,r){
 
     },
-	curveToAll:function(points) {
-        return __curveToAll.call(this,points,false);
+	curveToAll:function(points,isClosed) {
+        return __curveToAll.call(this,points,false,isClosed);
 	},
-	CurveToAll:function(points){
-		return __curveToAll.call(this,points,true);
+	CurveToAll:function(points,isClosed){
+		return __curveToAll.call(this,points,true,isClosed);
 	},
     lineToAll:function(points){
         return __lineToAll.call(this,points,false);

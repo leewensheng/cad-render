@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>clock</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <script src="../lib/jquery.min.js"></script>
+    <script src="../dist/cad.js"></script>
+</head>
+<style>
+    body {
+        margin: 0;
+    }
+</style>
+<body>
+<script>
+    var paper = cad.init({
+        el:"body",
+        width:"100%",
+        height:window.innerHeight-10
+    })
+    paper.configLayer({
+        "stroke":"none"
+    });
+    paper.rect(0,0,paper.width(),paper.height()).fill("#000");
+    var maxX = paper.width(),
+        maxY = paper.height(),
+        radius = 40,
+        shake = 20;
+    var candy = function(width,height,paper){
+        var cx = Math.random()*width;
+        var cy = Math.random()*height;
+        var color = cad.hsl(Math.ceil(Math.random()*360),1,0.5);
+        var points = [];
+        var num = 5;
+        for(var i = 0; i < 5; i++) {
+            var p = cad.Point(cx,cy).angleMoveTo(360/num*i,radius+shake*Math.random());
+            points.push(p);
+        }
+        var el = paper.path(new cad.Path().CurveToAll(points,true)).fill(color);
+        this.el = el;
+        this.points = points;
+        this.init();
+    };
+    candy.prototype = {
+        init:function(){
+        }
+    };
+    setInterval(function(){
+        new candy(maxX,maxY,paper);
+    },500)
+</script>
+</body>
+</html>

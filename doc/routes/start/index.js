@@ -61,6 +61,10 @@ module.exports = {
         {
             path:'line',
             component:require("../../views/start/line")
+        },
+        {
+            path:'interpolate',
+            component:require("../../views/start/interpolate")
         }
     ]
 }

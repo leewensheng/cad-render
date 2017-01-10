@@ -16,6 +16,10 @@ module.exports = {
     	{
     		path:'pie',
     		component:require("../../views/demo/pie")
-    	}
+    	},
+        {
+            path:'candy',
+            component:require("../../views/demo/candy")
+        }
     ]
 }

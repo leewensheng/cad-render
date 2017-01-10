@@ -19,6 +19,10 @@ module.exports = {
                 {
                     to:'/demo/pie',
                     text:'饼图'
+                },
+                {
+                    to:'/demo/candy',
+                    text:'糖果缤纷'
                 }
             ]
         }
