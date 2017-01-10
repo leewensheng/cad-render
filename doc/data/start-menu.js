@@ -52,10 +52,10 @@ module.exports = {
                 },
                 {
                     to:'/start/color',
-                    text:'颜色处理'
+                    text:'颜色'
                 },
                 {
-                    to:'/start/animate',
+                    to:'/start/animation',
                     text:'动画'
                 },
                 {
@@ -64,7 +64,7 @@ module.exports = {
                 },
                 {
                     to:'/start/fill',
-                    text:'填充',
+                    text:'渐变和填充',
                     anchors:['线性渐变','径向渐变','patter']
                 },
                 {
