@@ -28,7 +28,6 @@ module.exports = React.createClass({
 					<li>切换图层<code>paper.switchLayer(layer)</code></li>
 					<li>临时切换图层<code>paper.temporarySwitchLayer(layer,callback)</code></li>
 					<li>清空图层内元素<code>paper.clearLayer(layer)</code></li>
-					<li>设置图层属性<code>paper.configLayer</code></li>
 					<li>获取当前图层<code>paper.currentLayer</code></li>
 				</ul>
 				<pre>
@@ -80,10 +79,10 @@ module.exports = React.createClass({
 		paper.rect(100,110,100,80);
 		paper.addLayer("btn");
 		paper.switchLayer("btn");
-		paper.addBlock("button",300,50,'点击蓝色图层换成绿色').on("click",function(){
+		paper.addBlock("button",220,50,'点击蓝色图层换成绿色').on("click",function(){
 			paper.configLayer(greenLayer,{fill:"green"})
 		})
-		paper.addBlock("button",300,150,'点击清空红色图层').on("click",function(){
+		paper.addBlock("button",220,150,'点击清空红色图层').on("click",function(){
 			paper.clearLayer(redLayer);
 		})
 	}
