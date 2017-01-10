@@ -1,6 +1,7 @@
 各模块的测试
-研究paper.js 支持封闭曲线
+提供jsx组件，带销毁机制<Paper width height onInit></Paper>
 考虑去掉configLayer，或代以getLayer
+onDestroy()钩子
 比较svg canvas差异
 scale应该有两个缩放参数scaleX,scaleY
 去掉对jquery extend的依赖
