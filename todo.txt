@@ -1,4 +1,5 @@
 各模块的测试
+path 与path的交点研究
 提供jsx组件，带销毁机制<Paper width height onInit></Paper>
 考虑去掉configLayer，或代以getLayer
 onDestroy()钩子

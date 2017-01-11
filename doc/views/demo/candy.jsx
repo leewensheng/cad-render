@@ -1,4 +1,5 @@
 import React from 'react'
+import Paper from '../../components/paper'
 module.exports = React.createClass({
     render(){
         var demoURL = require("../../../demo/candy.demo.html");
@@ -6,7 +7,7 @@ module.exports = React.createClass({
         return (
             <div className="content">
                 <h1>糖果缤纷</h1>
-                <div style={{height:300}} ref="candy"></div>
+                <Paper height={300} onInit={this.candy}></Paper>
                 <pre>
                 {
 `
@@ -17,9 +18,8 @@ module.exports = React.createClass({
             </div>
         )
     },
-    componentDidMount(){
-        var el = this.refs.candy;
-        var paper = cad.init({el:el});
+    candy(paper){
+        console.log(paper)
         paper.configLayer({
             "stroke":"none"
         });
@@ -53,9 +53,6 @@ module.exports = React.createClass({
                 })
             }
         };
-        paper.on("click",function(){
-            paper.downloadImage();
-        })
         setInterval(function(){
             new candy(maxX,maxY,paper);
         },100)
