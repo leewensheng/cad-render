@@ -1,5 +1,5 @@
 各模块的测试
-transform的解析是讲究顺序的
+transform的解析是讲究顺序的吗?
 清空画布clear getElementByPoint
 snap raphael的研究
 镜像文档 
