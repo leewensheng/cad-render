@@ -3,7 +3,7 @@ import Point from './point'
 import Path from './path'
 
 paper.fn.extend({
-    viewBox:function(x,y,width,height) {
+    setViewBox:function(x,y,width,height,fit) {
         var a = [x,y,width,height];
         this.svg.attr("viewBox",a.join(" "));
         return this;

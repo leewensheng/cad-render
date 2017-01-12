@@ -3,6 +3,7 @@ import Animation from './animation'
 import namespace from './namespace'
 import Color from './color'
 import utils from './utils'
+import Line from './line'
 window.$ = $;
 $.parseTransform = utils.parseTransform;
 $.getTransform = utils.getTransform;
@@ -334,7 +335,12 @@ $.fn.linkURL = function(url,target){
     })
     return this;
 }
-
+$.fn.mirror = function(x1,y1,x2,y2) {
+    var line = new Line(x1,y1,x2,y2);
+    var matrix = line.getMirrorMatrix();
+    $(this).attr("transform",matrix);
+    return this;
+}
 
 
 

@@ -27,8 +27,20 @@ Line.prototype = {
 		var x1 = this.x1,y1 = this.y1,x2= this.x2,y2=this.y2;
 		var a = y1-y2;
 		var b = x2 - x1;
-		var c = x1*(y2-y1) - y1*(x2-x1);
+		var c = x1*y2 - x2*y1;
 		return {a:a,b:b,c:c};
+	},
+	getMirrorMatrix:function(){
+		var {a,b,c} = this.getEquationParam();
+		var p1,p2,p3,p4,p5,p6;
+		var g = a*a + b*b
+		p1 = (b*b - a*a)/g
+		p2 = -2*a*b/g;
+		p3 = -2*a*b/g;
+		p4 = (a*a - b*b) / g;
+		p5 = -2*a*c/g;
+		p6  = -2*b*c/g;
+		return 'matrix(' +[p1,p2,p3,p4,p5,p6].join(',') + ')';
 	},
 	extendLen:function(index,len){
 		var p1 = Point(x1,y1);

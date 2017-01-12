@@ -1,5 +1,15 @@
 各模块的测试
+transform的解析是讲究顺序的
+清空画布clear getElementByPoint
+snap raphael的研究
+镜像文档 
+http://blog.csdn.net/cuixiping/article/details/11934085
+http://www.zhangxinxu.com/wordpress/2012/06/css3-transform-matrix-%E7%9F%A9%E9%98%B5/
+
+
+研究martrix模块
 path 与path的交点研究
+path提供round(2)功能
 提供jsx组件，带销毁机制<Paper width height onInit></Paper>
 考虑去掉configLayer，或代以getLayer
 onDestroy()钩子
