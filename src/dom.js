@@ -335,10 +335,18 @@ $.fn.linkURL = function(url,target){
     })
     return this;
 }
-$.fn.mirror = function(x1,y1,x2,y2) {
+$.fn.mirror = function(x1,y1,x2,y2,deleteOriginal) {
     var line = new Line(x1,y1,x2,y2);
     var matrix = line.getMirrorMatrix();
-    $(this).attr("transform",matrix);
+    this.each(function(index,dom){
+        if(deleteOriginal) {
+            $(dom).attr("transform",matrix);
+        } else {
+            var cloneNode = $(dom).clone(true);
+            cloneNode.attr("transform",matrix);
+            $(dom).after(cloneNode)
+        }
+    })
     return this;
 }
 

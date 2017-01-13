@@ -47,6 +47,7 @@ var Menu = React.createClass({
                                                 {
                                                     link.isIndex ? 
                                                     <IndexLink 
+                                                        key={link.to}
                                                         onClick={that.onLink}
                                                         activeClassName="active" 
                                                         to={link.to}>{link.text}</IndexLink> : 
@@ -60,7 +61,7 @@ var Menu = React.createClass({
                                                             {
                                                                 link.anchors.map((anchor,index)=>{
                                                                     return (
-                                                                    <li>
+                                                                    <li key={link.anchor}>
                                                                         <Anchor index={index} onClick={that.handleAnchor} isActive={that.state.activeAnchor==index} isopen={path==link.to}>{anchor}</Anchor>
                                                                     </li>
                                                                     )

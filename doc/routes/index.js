@@ -7,6 +7,14 @@ module.exports = {
 	childRoutes:[
         require("./start/index.js"),
         require("./api/index.js"),
-        require("./demo/index.js")
+        require("./demo/index.js"),
+        {
+            path:'download',
+            component:require('../views/download/index'),
+        },
+        {
+            path:'about',
+            component:require('../views/about/index')
+        }
 	]
 }

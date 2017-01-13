@@ -81,7 +81,7 @@ rect.on("click",function(event){
 
 				<h2>transform变换</h2>
 				<p>图形变换包括平移<code>translate</code>、旋转<code>rotate</code>、斜切<code>skew</code>、缩放<code>scale</code></p>、 矩阵<code>matrix</code>
-				<p>cad render提供了几个快捷的变换接口<code>translate(dx,dy)</code>,<code>scale(sx,sy)</code>,<code>rotate(deg,cx,cy)</code></p>
+				<p>cad render提供了几个快捷的变换接口<code>translate</code>,<code>scale</code>,<code>rotate</code>,<code>mirror</code></p>
 				<p>延伸阅读：<a target="_blank" href="http://www.w3cplus.com/html5/svg-transformations.html">理解SVG坐标系统和变换</a> 、<a href="http://www.zhangxinxu.com/wordpress/2012/06/css3-transform-matrix-%E7%9F%A9%E9%98%B5/">理解transform中的矩阵(matrix)</a></p>
 				<div>注意：</div>
 				<ul className="dot-list">
@@ -199,7 +199,7 @@ rect.on("click",function(event){
 		paper.rect(180,200,100,50).attr("transform","skewX(10)").dash(5);
 		paper.rect(0,0,100,50).attr("transform","translate(20,200)");
 		paper.rect(0,0,100,50).attr("transform","translate(20,200)scale(0.5)").dash(5);
-        paper.rect(0,0,100,200).fill("red").mirror(0,0,33,100)
+        paper.rect(100,100,50,100).mirror(33,33,55,55)
 		paper.text(80,160,'旋转').fill("#fff");
 		paper.text(240,160,'平移').fill("#fff");
 		paper.text(240,270,'斜切').fill("#fff");
