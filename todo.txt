@@ -1,4 +1,5 @@
 各模块的测试
+zepto的兼容性测试arraycopy
 align方法  提供二维对齐
 transform的解析是讲究顺序的吗?这个要验证
 清空画布clear getElementByPoint
