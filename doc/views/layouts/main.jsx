@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from '../../components/header'
 import MobileHeader from '../../components/mobile-header'
-import cad from '../../../src/index'
+import '../../../src/index'
 import '../../statics/css/normalize.css'
 import '../../statics/css/main.css'
 import '../../statics/css/ui.css'
