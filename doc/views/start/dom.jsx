@@ -5,8 +5,8 @@ module.exports = React.createClass({
 		return (
 			<div className="content">
 				<h1>DOM API</h1>
-				<p>cad render采用了jquery来操作svg dom，并针对svg的特性扩展了一些常用的操作</p>
-				<p>绝大部分jquery的DOM API都可以继续使用，但是建议尽量减少不常用的DOM操作</p>
+				<p>cad render采用了jquery(或zepto)来操作svg dom，并针对svg的特性扩展了一些常用的操作</p>
+				<p>绝大部分jquery(或zepto)的DOM API都可以继续使用，但是建议尽量减少不常用的DOM操作</p>
 				<p>依然是你喜欢的链式操作</p>
 				<h2>选择元素</h2>
 				<p>选择当前画布内的元素<code>paper.select("selector")</code></p>

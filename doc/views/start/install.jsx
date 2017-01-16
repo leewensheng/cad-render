@@ -11,7 +11,7 @@ module.exports = React.createClass({
 				<button className="btn btn-primary">压缩版本</button><span className="text-muted" style={{marginLeft:5}}>(16kb min+gzip)</span>
 				<h2>引入方式</h2>
 				<h3>使用script标签引入</h3>
-				<p>cad render的dom操作使用了jquery，故先引入jquery，再引入cad.js</p>
+				<p>cad render的dom操作使用了jquery，故先引入<code>jQuery</code>或<code>Zepto</code>，再引入cad.js</p>
 				<pre>
 					{'<script src="./jquery.js"></script>\n<script src="./cad.js"></script>'}
 				</pre>
