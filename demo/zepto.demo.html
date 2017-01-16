@@ -30,7 +30,6 @@
             var color = cad.hsl(x/m*360,1,y/n);
             $(this).translate(x*20,y*20).fill(color).rotate(0,0,0);
         })
-        debugger;
         nodes.on("mouseover",mouseover);
         function mouseover(e){
             this.parentNode.appendChild(this);

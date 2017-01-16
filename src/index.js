@@ -47,11 +47,3 @@ cad.extend({
    Color:Color
 })
 window.cad = cad;
-if(typeof window.define === 'function') {
-  var ref = ['jquery'];
-  window.define(ref,function($){
-    return cad;
-  }) 
-} else if(typeof module !== 'undefined') {
-  module.exports =  window.cad;
-}

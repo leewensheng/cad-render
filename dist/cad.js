@@ -105,43 +105,35 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	_core2.default.extend({
-	  transition: _animation2.default,
-	  Point: _point2.default,
-	  Line: _line2.default,
-	  Path: _path2.default,
-	  Paper: _paper2.default,
-	  namespace: _namespace2.default,
-	  browser: _browser2.default,
-	  init: function init(option) {
-	    return new this.Paper(option);
-	  }
+	     transition: _animation2.default,
+	     Point: _point2.default,
+	     Line: _line2.default,
+	     Path: _path2.default,
+	     Paper: _paper2.default,
+	     namespace: _namespace2.default,
+	     browser: _browser2.default,
+	     init: function init(option) {
+	          return new this.Paper(option);
+	     }
 	});
 	_core2.default.extend({
-	  rgb: function rgb(r, g, b) {
-	    var arr = [r, g, b];
-	    return "rgb(" + arr.join(",") + ")";
-	  },
-	  hsl: function hsl(h, s, l) {
-	    var color = new _color2.default({ h: h, s: s, l: l }).toHex();
-	    return color;
-	  },
-	  darken: function darken(color, ration) {
-	    return new _color2.default(color).darken(ration);
-	  },
-	  brighten: function brighten(color, ration) {
-	    return new _color2.default(color).brighten(ration);
-	  },
-	  Color: _color2.default
+	     rgb: function rgb(r, g, b) {
+	          var arr = [r, g, b];
+	          return "rgb(" + arr.join(",") + ")";
+	     },
+	     hsl: function hsl(h, s, l) {
+	          var color = new _color2.default({ h: h, s: s, l: l }).toHex();
+	          return color;
+	     },
+	     darken: function darken(color, ration) {
+	          return new _color2.default(color).darken(ration);
+	     },
+	     brighten: function brighten(color, ration) {
+	          return new _color2.default(color).brighten(ration);
+	     },
+	     Color: _color2.default
 	});
 	window.cad = _core2.default;
-	if (typeof window.define === 'function') {
-	  var ref = ['jquery'];
-	  window.define(ref, function ($) {
-	    return _core2.default;
-	  });
-	} else if (true) {
-	  module.exports = window.cad;
-	}
 
 /***/ },
 /* 1 */
@@ -1568,7 +1560,10 @@
 	    if (_jquery2.default === window.jQuery) {
 	        return this.pushStack(allNodes);
 	    } else if (_jquery2.default === window.Zepto) {
-	        return this.concat(allNodes);
+	        for (var i = 0; i < allNodes.length; i++) {
+	            this[i] = allNodes[i];
+	        }
+	        this.length = allNodes.length;
 	    }
 	    return this;
 	};

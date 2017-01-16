@@ -146,7 +146,10 @@ $.fn.arrayCopy = function(){
     if($===window.jQuery) {
         return this.pushStack(allNodes);
     } else if($===window.Zepto){
-        return this.concat(allNodes);
+        for(var i = 0; i <allNodes.length;i++) {
+            this[i] = allNodes[i];
+        }
+        this.length = allNodes.length;
     }
     return this;
 }
