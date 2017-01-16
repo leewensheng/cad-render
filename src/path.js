@@ -1,4 +1,6 @@
 import $ from 'jquery'
+//trim 
+import {extend} from './utils'
 module.exports = Path;
 function Path(initialPath){
     if(initialPath instanceof Path) {
@@ -198,7 +200,7 @@ Path.fn = Path.prototype = {
         return ret.join(" ");
     }
 }
-Path.extend = Path.fn.extend = $.extend;
+Path.extend = Path.fn.extend = extend;
 Path.parse = function(str){
     str = $.trim(str);
     var actions = str.match(/[a-zA-Z][^a-zA-Z]*/gi);

@@ -2,7 +2,7 @@ import $ from 'jquery'
 import "./dom"
 import namespace from './namespace'
 import browser from './browser'
-import {dataUrlToBlob} from './utils'
+import {dataUrlToBlob,extend} from './utils'
 var Paper = function(option){
     return this.init(option);
 }
@@ -186,5 +186,5 @@ Paper.prototype = {
     }
 }
 Paper.fn = Paper.prototype;
-Paper.extend = Paper.fn.extend = $.extend;
+Paper.extend = Paper.fn.extend = extend;
 module.exports = Paper;

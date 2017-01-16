@@ -26,10 +26,12 @@
         });
         var m = parseInt(paper.width()/20);
         var n = parseInt(paper.height()/20);
-        paper.rect(0,0,20,20).arrayCopy(m,n,function(x,y){
+        var nodes = paper.rect(0,0,20,20).arrayCopy(m,n,function(x,y){
             var color = cad.hsl(x/m*360,1,y/n);
             $(this).translate(x*20,y*20).fill(color).rotate(0,0,0);
-        }).on("mouseover",mouseover);
+        })
+        debugger;
+        nodes.on("mouseover",mouseover);
         function mouseover(e){
             this.parentNode.appendChild(this);
             $(this).css("pointer-events","none").transition({transform:"translate(250,250)scale(10)rotate(180)"},750,'easeout',function(){

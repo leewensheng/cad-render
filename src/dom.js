@@ -27,7 +27,7 @@ $.fn.transition = function(attr,during,ease,callback){
             for(var key in  attr) {
                var  name = key﻿;
                 if(name === 'transform') {
-                    from[key] = $.parseTransform($(dom).attr(name));
+                    from[key] = $.parseTransform(dom.getAttribute(name));
                     to[key]= $.parseTransform(attr[key]);
                 } else if(name == 'fill' || name == 'stroke') {
                     from[key] = new Color($(dom).attr(name)).toRgbObj();
@@ -143,14 +143,19 @@ $.fn.arrayCopy = function(){
         }
         allNodes = allNodes.concat(nodes)
     })
-   return this.pushStack(allNodes);
+    if($===window.jQuery) {
+        return this.pushStack(allNodes);
+    } else if($===window.Zepto){
+        return this.concat(allNodes);
+    }
+    return this;
 }
 $.fn.scale = function(scale,cx,cy){
     scale = scale || 0;
     cx = cx || 0;
     cy = cy || 0;
     this.each(function(index,dom){
-        var transform = $(dom).attr('transform')||'';
+        var transform = dom.getAttribute('transform')||'';
         var obj = $.parseTransform(transform);
         obj.scale = scale;
         obj.rotateX = cx;
@@ -164,7 +169,7 @@ $.fn.translate = function(dx,dy){
     dx = dx || 0;
     dy = dy || 0;
     this.each(function(index,dom){
-        var transform = $(dom).attr('transform')||'';
+        var transform = dom.getAttribute('transform')||'';
         var obj = $.parseTransform(transform);
         obj.transX = dx;
         obj.transY = dy;
@@ -178,7 +183,7 @@ $.fn.rotate  = function(angle,cx,cy){
     cx = cx || 0;
     cy = cy || 0;
     this.each(function(index,dom){
-        var transform = $(dom).attr('transform')||'';
+        var transform = dom.getAttribute('transform')||'';
         var obj = $.parseTransform(transform);
         obj.rotate = angle;
         obj.rotateX = cx;

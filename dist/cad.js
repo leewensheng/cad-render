@@ -50,35 +50,35 @@
 
 	var _core2 = _interopRequireDefault(_core);
 
-	var _path = __webpack_require__(3);
+	var _path = __webpack_require__(5);
 
 	var _path2 = _interopRequireDefault(_path);
 
-	var _point = __webpack_require__(4);
+	var _point = __webpack_require__(6);
 
 	var _point2 = _interopRequireDefault(_point);
 
-	var _line = __webpack_require__(5);
+	var _line = __webpack_require__(7);
 
 	var _line2 = _interopRequireDefault(_line);
 
-	var _paper = __webpack_require__(6);
+	var _paper = __webpack_require__(8);
 
 	var _paper2 = _interopRequireDefault(_paper);
 
-	var _namespace = __webpack_require__(11);
+	var _namespace = __webpack_require__(13);
 
 	var _namespace2 = _interopRequireDefault(_namespace);
 
-	var _browser = __webpack_require__(15);
+	var _browser = __webpack_require__(4);
 
 	var _browser2 = _interopRequireDefault(_browser);
 
-	var _animation = __webpack_require__(8);
+	var _animation = __webpack_require__(10);
 
 	var _animation2 = _interopRequireDefault(_animation);
 
-	var _color = __webpack_require__(12);
+	var _color = __webpack_require__(14);
 
 	var _color2 = _interopRequireDefault(_color);
 
@@ -92,7 +92,7 @@
 
 	__webpack_require__(20);
 
-	__webpack_require__(12);
+	__webpack_require__(14);
 
 	__webpack_require__(25);
 
@@ -149,37 +149,486 @@
 
 	'use strict';
 
-	var _jquery = __webpack_require__(2);
-
-	var _jquery2 = _interopRequireDefault(_jquery);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _utils = __webpack_require__(2);
 
 	var cad = {
 	    version: 1.0,
-	    extend: _jquery2.default.extend
+	    extend: _utils.extend
 	};
 	module.exports = cad;
 
 /***/ },
 /* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var _jquery = __webpack_require__(3);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _browser = __webpack_require__(4);
+
+	var _browser2 = _interopRequireDefault(_browser);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//$ to trim
+	var utils = {};
+	utils.parseTransform = function (transform) {
+	    transform = transform || '';
+	    var scale = transform.match(/scale\s*\([^\)]*\)/gi);
+	    var translate = transform.match(/translate\s*\([^\)]*\)/gi);
+	    var rotate = transform.match(/rotate\s*\([^\)]*\)/gi);
+	    var skewX = transform.match(/skewX\s*\([^\)]*\)/gi);
+	    var skewY = transform.match(/skewY\s*\([^\)]*\)/gi);
+	    var ret = {
+	        scale: 1,
+	        rotate: 0,
+	        rotateX: 0,
+	        rotateY: 0,
+	        transX: 0,
+	        transY: 0,
+	        skewX: 0,
+	        skewY: 0
+	    };
+	    var args;
+
+	    if (scale) {
+	        args = getArgs(scale[0]);
+	        ret.scale = args[0] || 1;
+	    }
+	    if (translate) {
+	        args = getArgs(translate[0]);
+	        ret.transX = args[0] || 0;
+	        ret.transY = args[1] || 0;
+	    }
+	    if (rotate) {
+	        args = getArgs(rotate[0]);
+	        ret.rotate = args[0] || 0;
+	        ret.rotateX = args[1] || 0;
+	        ret.rotateY = args[2] || 0;
+	    }
+	    if (skewX) {
+	        args = getArgs(skewX[0]);
+	        ret.skewX = args[0];
+	    }
+	    if (skewY) {
+	        args = getArgs(skewY[0]);
+	        ret.skewY = args[0];
+	    }
+	    function getArgs(str) {
+	        var str = str.match(/\([^\)]*\)/gi)[0].replace('(', '').replace(')', '');
+	        str = _jquery2.default.trim(str);
+	        return str.split(/[\s,]+/gi).map(function (val) {
+	            return parseFloat(val);
+	        });
+	    }
+	    return ret;
+	};
+	utils.getTransform = function (obj) {
+	    var transX, transY, scale, scaleX, scaleY, rotate, rotateX, rotateY, skewX, skewY;
+	    transX = obj.transX || 0;
+	    transY = obj.transY || 0;
+	    scale = obj.scale || 1;
+	    rotate = obj.rotate || 0;
+	    rotateX = obj.rotateX || 0;
+	    rotateY = obj.rotateY || 0;
+	    skewX = obj.skewX || 0;
+	    skewY = obj.skewY || 0;
+	    var ret = 'translate(' + [transX, transY].join(',') + ')' + 'scale(' + scale + ')' + 'rotate(' + [rotate, rotateX, rotateY].join(',') + ')' + 'skewX(' + skewX + ')' + 'skewY(' + skewY + ')';
+	    return ret;
+	};
+	utils.isTransform = function (transform) {
+	    if (transform === '') {
+	        return true;
+	    }
+	    var scale = transform.match(/scale\s*\([^\)]*\)/gi);
+	    var translate = transform.match(/translate\s*\([^\)]*\)/gi);
+	    var rotate = transform.match(/rotate\s*\([^\)]*\)/gi);
+	    var skewX = transform.match(/skewX\s*\([^\)]*\)/gi);
+	    var skewY = transform.match(/skewY\s*\([^\)]*\)/gi);
+	    if (scale || translate || rotate || skewX || skewY) {
+	        return true;
+	    }
+	};
+	utils.dataUrlToBlob = function (dataurl) {
+	    var arr = dataurl.split(','),
+	        mime = arr[0].match(/:(.*?);/)[1],
+	        bstr = atob(arr[1]),
+	        n = bstr.length,
+	        u8arr = new Uint8Array(n);
+	    while (n--) {
+	        u8arr[n] = bstr.charCodeAt(n);
+	    }
+	    return new Blob([u8arr], { type: mime });
+	};
+	utils.extend = function () {
+	    var options,
+	        name,
+	        src,
+	        copy,
+	        copyIsArray,
+	        clone,
+	        target = arguments[0] || {},
+	        i = 1,
+	        length = arguments.length,
+	        deep = false;
+
+	    // Handle a deep copy situation
+	    if (typeof target === "boolean") {
+	        deep = target;
+
+	        // Skip the boolean and the target
+	        target = arguments[i] || {};
+	        i++;
+	    }
+
+	    // Handle case when target is a string or something (possible in deep copy)
+	    if ((typeof target === 'undefined' ? 'undefined' : _typeof(target)) !== "object" && !jQuery.isFunction(target)) {
+	        target = {};
+	    }
+
+	    // Extend jQuery itself if only one argument is passed
+	    if (i === length) {
+	        target = this;
+	        i--;
+	    }
+
+	    for (; i < length; i++) {
+	        // Only deal with non-null/undefined values
+	        if ((options = arguments[i]) != null) {
+	            // Extend the base object
+	            for (name in options) {
+	                src = target[name];
+	                copy = options[name];
+
+	                // Prevent never-ending loop
+	                if (target === copy) {
+	                    continue;
+	                }
+
+	                // Recurse if we're merging plain objects or arrays
+	                if (deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy)))) {
+	                    if (copyIsArray) {
+	                        copyIsArray = false;
+	                        clone = src && jQuery.isArray(src) ? src : [];
+	                    } else {
+	                        clone = src && jQuery.isPlainObject(src) ? src : {};
+	                    }
+
+	                    // Never move original objects, clone them
+	                    target[name] = jQuery.extend(deep, clone, copy);
+
+	                    // Don't bring in undefined values
+	                } else if (copy !== undefined) {
+	                    target[name] = copy;
+	                }
+	            }
+	        }
+	    }
+
+	    // Return the modified object
+	    return target;
+	};
+	module.exports = utils;
+
+/***/ },
+/* 3 */
 /***/ function(module, exports) {
 
 	module.exports = window.$;
 
 /***/ },
-/* 3 */
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
+
+	!function (name, definition) {
+	  if (typeof module != 'undefined' && module.exports) module.exports = definition();else if (true) !(__WEBPACK_AMD_DEFINE_FACTORY__ = (definition), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));else this[name] = definition();
+	}('bowser', function () {
+	  /**
+	    * See useragents.js for examples of navigator.userAgent
+	    */
+
+	  var t = true;
+
+	  function detect(ua) {
+
+	    function getFirstMatch(regex) {
+	      var match = ua.match(regex);
+	      return match && match.length > 1 && match[1] || '';
+	    }
+
+	    function getSecondMatch(regex) {
+	      var match = ua.match(regex);
+	      return match && match.length > 1 && match[2] || '';
+	    }
+
+	    var iosdevice = getFirstMatch(/(ipod|iphone|ipad)/i).toLowerCase(),
+	        likeAndroid = /like android/i.test(ua),
+	        android = !likeAndroid && /android/i.test(ua),
+	        chromeos = /CrOS/.test(ua),
+	        silk = /silk/i.test(ua),
+	        sailfish = /sailfish/i.test(ua),
+	        tizen = /tizen/i.test(ua),
+	        webos = /(web|hpw)os/i.test(ua),
+	        windowsphone = /windows phone/i.test(ua),
+	        windows = !windowsphone && /windows/i.test(ua),
+	        mac = !iosdevice && !silk && /macintosh/i.test(ua),
+	        linux = !android && !sailfish && !tizen && !webos && /linux/i.test(ua),
+	        edgeVersion = getFirstMatch(/edge\/(\d+(\.\d+)?)/i),
+	        versionIdentifier = getFirstMatch(/version\/(\d+(\.\d+)?)/i),
+	        tablet = /tablet/i.test(ua),
+	        mobile = !tablet && /[^-]mobi/i.test(ua),
+	        result;
+
+	    if (/opera|opr/i.test(ua)) {
+	      result = {
+	        name: 'Opera',
+	        opera: t,
+	        version: versionIdentifier || getFirstMatch(/(?:opera|opr)[\s\/](\d+(\.\d+)?)/i)
+	      };
+	    } else if (/yabrowser/i.test(ua)) {
+	      result = {
+	        name: 'Yandex Browser',
+	        yandexbrowser: t,
+	        version: versionIdentifier || getFirstMatch(/(?:yabrowser)[\s\/](\d+(\.\d+)?)/i)
+	      };
+	    } else if (windowsphone) {
+	      result = {
+	        name: 'Windows Phone',
+	        windowsphone: t
+	      };
+	      if (edgeVersion) {
+	        result.msedge = t;
+	        result.version = edgeVersion;
+	      } else {
+	        result.msie = t;
+	        result.version = getFirstMatch(/iemobile\/(\d+(\.\d+)?)/i);
+	      }
+	    } else if (/msie|trident/i.test(ua)) {
+	      result = {
+	        name: 'Internet Explorer',
+	        msie: t,
+	        version: getFirstMatch(/(?:msie |rv:)(\d+(\.\d+)?)/i)
+	      };
+	    } else if (chromeos) {
+	      result = {
+	        name: 'Chrome',
+	        chromeos: t,
+	        chromeBook: t,
+	        chrome: t,
+	        version: getFirstMatch(/(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (/chrome.+? edge/i.test(ua)) {
+	      result = {
+	        name: 'Microsoft Edge',
+	        msedge: t,
+	        version: edgeVersion
+	      };
+	    } else if (/chrome|crios|crmo/i.test(ua)) {
+	      result = {
+	        name: 'Chrome',
+	        chrome: t,
+	        version: getFirstMatch(/(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (iosdevice) {
+	      result = {
+	        name: iosdevice == 'iphone' ? 'iPhone' : iosdevice == 'ipad' ? 'iPad' : 'iPod'
+	      };
+	      // WTF: version is not part of user agent in web apps
+	      if (versionIdentifier) {
+	        result.version = versionIdentifier;
+	      }
+	    } else if (sailfish) {
+	      result = {
+	        name: 'Sailfish',
+	        sailfish: t,
+	        version: getFirstMatch(/sailfish\s?browser\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (/seamonkey\//i.test(ua)) {
+	      result = {
+	        name: 'SeaMonkey',
+	        seamonkey: t,
+	        version: getFirstMatch(/seamonkey\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (/firefox|iceweasel/i.test(ua)) {
+	      result = {
+	        name: 'Firefox',
+	        firefox: t,
+	        version: getFirstMatch(/(?:firefox|iceweasel)[ \/](\d+(\.\d+)?)/i)
+	      };
+	      if (/\((mobile|tablet);[^\)]*rv:[\d\.]+\)/i.test(ua)) {
+	        result.firefoxos = t;
+	      }
+	    } else if (silk) {
+	      result = {
+	        name: 'Amazon Silk',
+	        silk: t,
+	        version: getFirstMatch(/silk\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (android) {
+	      result = {
+	        name: 'Android',
+	        version: versionIdentifier
+	      };
+	    } else if (/phantom/i.test(ua)) {
+	      result = {
+	        name: 'PhantomJS',
+	        phantom: t,
+	        version: getFirstMatch(/phantomjs\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (/blackberry|\bbb\d+/i.test(ua) || /rim\stablet/i.test(ua)) {
+	      result = {
+	        name: 'BlackBerry',
+	        blackberry: t,
+	        version: versionIdentifier || getFirstMatch(/blackberry[\d]+\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (webos) {
+	      result = {
+	        name: 'WebOS',
+	        webos: t,
+	        version: versionIdentifier || getFirstMatch(/w(?:eb)?osbrowser\/(\d+(\.\d+)?)/i)
+	      };
+	      /touchpad\//i.test(ua) && (result.touchpad = t);
+	    } else if (/bada/i.test(ua)) {
+	      result = {
+	        name: 'Bada',
+	        bada: t,
+	        version: getFirstMatch(/dolfin\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (tizen) {
+	      result = {
+	        name: 'Tizen',
+	        tizen: t,
+	        version: getFirstMatch(/(?:tizen\s?)?browser\/(\d+(\.\d+)?)/i) || versionIdentifier
+	      };
+	    } else if (/safari/i.test(ua)) {
+	      result = {
+	        name: 'Safari',
+	        safari: t,
+	        version: versionIdentifier
+	      };
+	    } else {
+	      result = {
+	        name: getFirstMatch(/^(.*)\/(.*) /),
+	        version: getSecondMatch(/^(.*)\/(.*) /)
+	      };
+	    }
+
+	    // set webkit or gecko flag for browsers based on these engines
+	    if (!result.msedge && /(apple)?webkit/i.test(ua)) {
+	      result.name = result.name || "Webkit";
+	      result.webkit = t;
+	      if (!result.version && versionIdentifier) {
+	        result.version = versionIdentifier;
+	      }
+	    } else if (!result.opera && /gecko\//i.test(ua)) {
+	      result.name = result.name || "Gecko";
+	      result.gecko = t;
+	      result.version = result.version || getFirstMatch(/gecko\/(\d+(\.\d+)?)/i);
+	    }
+
+	    // set OS flags for platforms that have multiple browsers
+	    if (!result.msedge && (android || result.silk)) {
+	      result.android = t;
+	    } else if (iosdevice) {
+	      result[iosdevice] = t;
+	      result.ios = t;
+	    } else if (windows) {
+	      result.windows = t;
+	    } else if (mac) {
+	      result.mac = t;
+	    } else if (linux) {
+	      result.linux = t;
+	    }
+
+	    // OS version extraction
+	    var osVersion = '';
+	    if (result.windowsphone) {
+	      osVersion = getFirstMatch(/windows phone (?:os)?\s?(\d+(\.\d+)*)/i);
+	    } else if (iosdevice) {
+	      osVersion = getFirstMatch(/os (\d+([_\s]\d+)*) like mac os x/i);
+	      osVersion = osVersion.replace(/[_\s]/g, '.');
+	    } else if (android) {
+	      osVersion = getFirstMatch(/android[ \/-](\d+(\.\d+)*)/i);
+	    } else if (result.webos) {
+	      osVersion = getFirstMatch(/(?:web|hpw)os\/(\d+(\.\d+)*)/i);
+	    } else if (result.blackberry) {
+	      osVersion = getFirstMatch(/rim\stablet\sos\s(\d+(\.\d+)*)/i);
+	    } else if (result.bada) {
+	      osVersion = getFirstMatch(/bada\/(\d+(\.\d+)*)/i);
+	    } else if (result.tizen) {
+	      osVersion = getFirstMatch(/tizen[\/\s](\d+(\.\d+)*)/i);
+	    }
+	    if (osVersion) {
+	      result.osversion = osVersion;
+	    }
+
+	    // device type extraction
+	    var osMajorVersion = osVersion.split('.')[0];
+	    if (tablet || iosdevice == 'ipad' || android && (osMajorVersion == 3 || osMajorVersion == 4 && !mobile) || result.silk) {
+	      result.tablet = t;
+	    } else if (mobile || iosdevice == 'iphone' || iosdevice == 'ipod' || android || result.blackberry || result.webos || result.bada) {
+	      result.mobile = t;
+	    }
+
+	    // Graded Browser Support
+	    // http://developer.yahoo.com/yui/articles/gbs
+	    if (result.msedge || result.msie && result.version >= 10 || result.yandexbrowser && result.version >= 15 || result.chrome && result.version >= 20 || result.firefox && result.version >= 20.0 || result.safari && result.version >= 6 || result.opera && result.version >= 10.0 || result.ios && result.osversion && result.osversion.split(".")[0] >= 6 || result.blackberry && result.version >= 10.1) {
+	      result.a = t;
+	    } else if (result.msie && result.version < 10 || result.chrome && result.version < 20 || result.firefox && result.version < 20.0 || result.safari && result.version < 6 || result.opera && result.version < 10.0 || result.ios && result.osversion && result.osversion.split(".")[0] < 6) {
+	      result.c = t;
+	    } else result.x = t;
+
+	    return result;
+	  }
+
+	  var bowser = detect(typeof navigator !== 'undefined' ? navigator.userAgent : '');
+
+	  bowser.test = function (browserList) {
+	    for (var i = 0; i < browserList.length; ++i) {
+	      var browserItem = browserList[i];
+	      if (typeof browserItem === 'string') {
+	        if (browserItem in bowser) {
+	          return true;
+	        }
+	      }
+	    }
+	    return false;
+	  };
+
+	  /*
+	   * Set our detect method to the main bowser object so we can
+	   * reuse it to test other user agents.
+	   * This is needed to implement future tests.
+	   */
+	  bowser._detect = detect;
+
+	  return bowser;
+	});
+
+/***/ },
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _jquery = __webpack_require__(2);
+	var _jquery = __webpack_require__(3);
 
 	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _utils = __webpack_require__(2);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	module.exports = Path;
+	//trim
+
 	function Path(initialPath) {
 	    if (initialPath instanceof Path) {
 	        this.pathStack = initialPath;
@@ -343,7 +792,7 @@
 	        return ret.join(" ");
 	    }
 	};
-	Path.extend = Path.fn.extend = _jquery2.default.extend;
+	Path.extend = Path.fn.extend = _utils.extend;
 	Path.parse = function (str) {
 	    str = _jquery2.default.trim(str);
 	    var actions = str.match(/[a-zA-Z][^a-zA-Z]*/gi);
@@ -392,18 +841,12 @@
 	}
 
 /***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
+/* 6 */
+/***/ function(module, exports) {
 
 	'use strict';
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	var _jquery = __webpack_require__(2);
-
-	var _jquery2 = _interopRequireDefault(_jquery);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function Point(x, y) {
 		if (arguments.length == 1) {
@@ -549,7 +992,6 @@
 		}
 	};
 	Point.fn.init.prototype = Point.prototype;
-	Point.extend = Point.fn.extend = _jquery2.default.extend;
 	Point.getPointOnCircle = function (cx, cy, r, angle) {
 		var dx = r * Math.cos(angle);
 		var dy = r * Math.sin(angle);
@@ -560,12 +1002,12 @@
 	module.exports = Point;
 
 /***/ },
-/* 5 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _point = __webpack_require__(4);
+	var _point = __webpack_require__(6);
 
 	var _point2 = _interopRequireDefault(_point);
 
@@ -746,28 +1188,28 @@
 	Line.prototype.init.prototype = Line.prototype;
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-	var _jquery = __webpack_require__(2);
+	var _jquery = __webpack_require__(3);
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	__webpack_require__(7);
+	__webpack_require__(9);
 
-	var _namespace = __webpack_require__(11);
+	var _namespace = __webpack_require__(13);
 
 	var _namespace2 = _interopRequireDefault(_namespace);
 
-	var _browser = __webpack_require__(15);
+	var _browser = __webpack_require__(4);
 
 	var _browser2 = _interopRequireDefault(_browser);
 
-	var _utils = __webpack_require__(14);
+	var _utils = __webpack_require__(2);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -953,38 +1395,38 @@
 	    }
 	};
 	Paper.fn = Paper.prototype;
-	Paper.extend = Paper.fn.extend = _jquery2.default.extend;
+	Paper.extend = Paper.fn.extend = _utils.extend;
 	module.exports = Paper;
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-	var _jquery = __webpack_require__(2);
+	var _jquery = __webpack_require__(3);
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	var _animation = __webpack_require__(8);
+	var _animation = __webpack_require__(10);
 
 	var _animation2 = _interopRequireDefault(_animation);
 
-	var _namespace = __webpack_require__(11);
+	var _namespace = __webpack_require__(13);
 
 	var _namespace2 = _interopRequireDefault(_namespace);
 
-	var _color = __webpack_require__(12);
+	var _color = __webpack_require__(14);
 
 	var _color2 = _interopRequireDefault(_color);
 
-	var _utils = __webpack_require__(14);
+	var _utils = __webpack_require__(2);
 
 	var _utils2 = _interopRequireDefault(_utils);
 
-	var _line = __webpack_require__(5);
+	var _line = __webpack_require__(7);
 
 	var _line2 = _interopRequireDefault(_line);
 
@@ -1011,7 +1453,7 @@
 	            for (var key in attr) {
 	                var name = key;
 	                if (name === 'transform') {
-	                    from[key] = _jquery2.default.parseTransform((0, _jquery2.default)(dom).attr(name));
+	                    from[key] = _jquery2.default.parseTransform(dom.getAttribute(name));
 	                    to[key] = _jquery2.default.parseTransform(attr[key]);
 	                } else if (name == 'fill' || name == 'stroke') {
 	                    from[key] = new _color2.default((0, _jquery2.default)(dom).attr(name)).toRgbObj();
@@ -1123,14 +1565,19 @@
 	        }
 	        allNodes = allNodes.concat(nodes);
 	    });
-	    return this.pushStack(allNodes);
+	    if (_jquery2.default === window.jQuery) {
+	        return this.pushStack(allNodes);
+	    } else if (_jquery2.default === window.Zepto) {
+	        return this.concat(allNodes);
+	    }
+	    return this;
 	};
 	_jquery2.default.fn.scale = function (scale, cx, cy) {
 	    scale = scale || 0;
 	    cx = cx || 0;
 	    cy = cy || 0;
 	    this.each(function (index, dom) {
-	        var transform = (0, _jquery2.default)(dom).attr('transform') || '';
+	        var transform = dom.getAttribute('transform') || '';
 	        var obj = _jquery2.default.parseTransform(transform);
 	        obj.scale = scale;
 	        obj.rotateX = cx;
@@ -1144,7 +1591,7 @@
 	    dx = dx || 0;
 	    dy = dy || 0;
 	    this.each(function (index, dom) {
-	        var transform = (0, _jquery2.default)(dom).attr('transform') || '';
+	        var transform = dom.getAttribute('transform') || '';
 	        var obj = _jquery2.default.parseTransform(transform);
 	        obj.transX = dx;
 	        obj.transY = dy;
@@ -1158,7 +1605,7 @@
 	    cx = cx || 0;
 	    cy = cy || 0;
 	    this.each(function (index, dom) {
-	        var transform = (0, _jquery2.default)(dom).attr('transform') || '';
+	        var transform = dom.getAttribute('transform') || '';
 	        var obj = _jquery2.default.parseTransform(transform);
 	        obj.rotate = angle;
 	        obj.rotateX = cx;
@@ -1330,16 +1777,16 @@
 	};
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-	__webpack_require__(9);
+	__webpack_require__(11);
 
-	var _easing = __webpack_require__(10);
+	var _easing = __webpack_require__(12);
 
 	var _easing2 = _interopRequireDefault(_easing);
 
@@ -1558,7 +2005,7 @@
 	module.exports = Animation;
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1592,7 +2039,7 @@
 	})();
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;"use strict";
@@ -1932,7 +2379,7 @@
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1944,14 +2391,14 @@
 	};
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-	var _colorName = __webpack_require__(13);
+	var _colorName = __webpack_require__(15);
 
 	var _colorName2 = _interopRequireDefault(_colorName);
 
@@ -2212,7 +2659,7 @@
 	module.exports = Color;
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2369,385 +2816,6 @@
 	};
 
 /***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _jquery = __webpack_require__(2);
-
-	var _jquery2 = _interopRequireDefault(_jquery);
-
-	var _browser = __webpack_require__(15);
-
-	var _browser2 = _interopRequireDefault(_browser);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	//$ to trim
-	var utils = {};
-	utils.parseTransform = function (transform) {
-	    transform = transform || '';
-	    var scale = transform.match(/scale\s*\([^\)]*\)/gi);
-	    var translate = transform.match(/translate\s*\([^\)]*\)/gi);
-	    var rotate = transform.match(/rotate\s*\([^\)]*\)/gi);
-	    var skewX = transform.match(/skewX\s*\([^\)]*\)/gi);
-	    var skewY = transform.match(/skewY\s*\([^\)]*\)/gi);
-	    var ret = {
-	        scale: 1,
-	        rotate: 0,
-	        rotateX: 0,
-	        rotateY: 0,
-	        transX: 0,
-	        transY: 0,
-	        skewX: 0,
-	        skewY: 0
-	    };
-	    var args;
-
-	    if (scale) {
-	        args = getArgs(scale[0]);
-	        ret.scale = args[0] || 1;
-	    }
-	    if (translate) {
-	        args = getArgs(translate[0]);
-	        ret.transX = args[0] || 0;
-	        ret.transY = args[1] || 0;
-	    }
-	    if (rotate) {
-	        args = getArgs(rotate[0]);
-	        ret.rotate = args[0] || 0;
-	        ret.rotateX = args[1] || 0;
-	        ret.rotateY = args[2] || 0;
-	    }
-	    if (skewX) {
-	        args = getArgs(skewX[0]);
-	        ret.skewX = args[0];
-	    }
-	    if (skewY) {
-	        args = getArgs(skewY[0]);
-	        ret.skewY = args[0];
-	    }
-	    function getArgs(str) {
-	        var str = str.match(/\([^\)]*\)/gi)[0].replace('(', '').replace(')', '');
-	        str = _jquery2.default.trim(str);
-	        return str.split(/[\s,]+/gi).map(function (val) {
-	            return parseFloat(val);
-	        });
-	    }
-	    return ret;
-	};
-	utils.getTransform = function (obj) {
-	    var transX, transY, scale, scaleX, scaleY, rotate, rotateX, rotateY, skewX, skewY;
-	    transX = obj.transX || 0;
-	    transY = obj.transY || 0;
-	    scale = obj.scale || 1;
-	    rotate = obj.rotate || 0;
-	    rotateX = obj.rotateX || 0;
-	    rotateY = obj.rotateY || 0;
-	    skewX = obj.skewX || 0;
-	    skewY = obj.skewY || 0;
-	    var ret = 'translate(' + [transX, transY].join(',') + ')' + 'scale(' + scale + ')' + 'rotate(' + [rotate, rotateX, rotateY].join(',') + ')' + 'skewX(' + skewX + ')' + 'skewY(' + skewY + ')';
-	    return ret;
-	};
-	utils.isTransform = function (transform) {
-	    if (transform === '') {
-	        return true;
-	    }
-	    var scale = transform.match(/scale\s*\([^\)]*\)/gi);
-	    var translate = transform.match(/translate\s*\([^\)]*\)/gi);
-	    var rotate = transform.match(/rotate\s*\([^\)]*\)/gi);
-	    var skewX = transform.match(/skewX\s*\([^\)]*\)/gi);
-	    var skewY = transform.match(/skewY\s*\([^\)]*\)/gi);
-	    if (scale || translate || rotate || skewX || skewY) {
-	        return true;
-	    }
-	};
-	utils.dataUrlToBlob = function (dataurl) {
-	    var arr = dataurl.split(','),
-	        mime = arr[0].match(/:(.*?);/)[1],
-	        bstr = atob(arr[1]),
-	        n = bstr.length,
-	        u8arr = new Uint8Array(n);
-	    while (n--) {
-	        u8arr[n] = bstr.charCodeAt(n);
-	    }
-	    return new Blob([u8arr], { type: mime });
-	};
-	module.exports = utils;
-
-/***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
-
-	!function (name, definition) {
-	  if (typeof module != 'undefined' && module.exports) module.exports = definition();else if (true) !(__WEBPACK_AMD_DEFINE_FACTORY__ = (definition), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));else this[name] = definition();
-	}('bowser', function () {
-	  /**
-	    * See useragents.js for examples of navigator.userAgent
-	    */
-
-	  var t = true;
-
-	  function detect(ua) {
-
-	    function getFirstMatch(regex) {
-	      var match = ua.match(regex);
-	      return match && match.length > 1 && match[1] || '';
-	    }
-
-	    function getSecondMatch(regex) {
-	      var match = ua.match(regex);
-	      return match && match.length > 1 && match[2] || '';
-	    }
-
-	    var iosdevice = getFirstMatch(/(ipod|iphone|ipad)/i).toLowerCase(),
-	        likeAndroid = /like android/i.test(ua),
-	        android = !likeAndroid && /android/i.test(ua),
-	        chromeos = /CrOS/.test(ua),
-	        silk = /silk/i.test(ua),
-	        sailfish = /sailfish/i.test(ua),
-	        tizen = /tizen/i.test(ua),
-	        webos = /(web|hpw)os/i.test(ua),
-	        windowsphone = /windows phone/i.test(ua),
-	        windows = !windowsphone && /windows/i.test(ua),
-	        mac = !iosdevice && !silk && /macintosh/i.test(ua),
-	        linux = !android && !sailfish && !tizen && !webos && /linux/i.test(ua),
-	        edgeVersion = getFirstMatch(/edge\/(\d+(\.\d+)?)/i),
-	        versionIdentifier = getFirstMatch(/version\/(\d+(\.\d+)?)/i),
-	        tablet = /tablet/i.test(ua),
-	        mobile = !tablet && /[^-]mobi/i.test(ua),
-	        result;
-
-	    if (/opera|opr/i.test(ua)) {
-	      result = {
-	        name: 'Opera',
-	        opera: t,
-	        version: versionIdentifier || getFirstMatch(/(?:opera|opr)[\s\/](\d+(\.\d+)?)/i)
-	      };
-	    } else if (/yabrowser/i.test(ua)) {
-	      result = {
-	        name: 'Yandex Browser',
-	        yandexbrowser: t,
-	        version: versionIdentifier || getFirstMatch(/(?:yabrowser)[\s\/](\d+(\.\d+)?)/i)
-	      };
-	    } else if (windowsphone) {
-	      result = {
-	        name: 'Windows Phone',
-	        windowsphone: t
-	      };
-	      if (edgeVersion) {
-	        result.msedge = t;
-	        result.version = edgeVersion;
-	      } else {
-	        result.msie = t;
-	        result.version = getFirstMatch(/iemobile\/(\d+(\.\d+)?)/i);
-	      }
-	    } else if (/msie|trident/i.test(ua)) {
-	      result = {
-	        name: 'Internet Explorer',
-	        msie: t,
-	        version: getFirstMatch(/(?:msie |rv:)(\d+(\.\d+)?)/i)
-	      };
-	    } else if (chromeos) {
-	      result = {
-	        name: 'Chrome',
-	        chromeos: t,
-	        chromeBook: t,
-	        chrome: t,
-	        version: getFirstMatch(/(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i)
-	      };
-	    } else if (/chrome.+? edge/i.test(ua)) {
-	      result = {
-	        name: 'Microsoft Edge',
-	        msedge: t,
-	        version: edgeVersion
-	      };
-	    } else if (/chrome|crios|crmo/i.test(ua)) {
-	      result = {
-	        name: 'Chrome',
-	        chrome: t,
-	        version: getFirstMatch(/(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i)
-	      };
-	    } else if (iosdevice) {
-	      result = {
-	        name: iosdevice == 'iphone' ? 'iPhone' : iosdevice == 'ipad' ? 'iPad' : 'iPod'
-	      };
-	      // WTF: version is not part of user agent in web apps
-	      if (versionIdentifier) {
-	        result.version = versionIdentifier;
-	      }
-	    } else if (sailfish) {
-	      result = {
-	        name: 'Sailfish',
-	        sailfish: t,
-	        version: getFirstMatch(/sailfish\s?browser\/(\d+(\.\d+)?)/i)
-	      };
-	    } else if (/seamonkey\//i.test(ua)) {
-	      result = {
-	        name: 'SeaMonkey',
-	        seamonkey: t,
-	        version: getFirstMatch(/seamonkey\/(\d+(\.\d+)?)/i)
-	      };
-	    } else if (/firefox|iceweasel/i.test(ua)) {
-	      result = {
-	        name: 'Firefox',
-	        firefox: t,
-	        version: getFirstMatch(/(?:firefox|iceweasel)[ \/](\d+(\.\d+)?)/i)
-	      };
-	      if (/\((mobile|tablet);[^\)]*rv:[\d\.]+\)/i.test(ua)) {
-	        result.firefoxos = t;
-	      }
-	    } else if (silk) {
-	      result = {
-	        name: 'Amazon Silk',
-	        silk: t,
-	        version: getFirstMatch(/silk\/(\d+(\.\d+)?)/i)
-	      };
-	    } else if (android) {
-	      result = {
-	        name: 'Android',
-	        version: versionIdentifier
-	      };
-	    } else if (/phantom/i.test(ua)) {
-	      result = {
-	        name: 'PhantomJS',
-	        phantom: t,
-	        version: getFirstMatch(/phantomjs\/(\d+(\.\d+)?)/i)
-	      };
-	    } else if (/blackberry|\bbb\d+/i.test(ua) || /rim\stablet/i.test(ua)) {
-	      result = {
-	        name: 'BlackBerry',
-	        blackberry: t,
-	        version: versionIdentifier || getFirstMatch(/blackberry[\d]+\/(\d+(\.\d+)?)/i)
-	      };
-	    } else if (webos) {
-	      result = {
-	        name: 'WebOS',
-	        webos: t,
-	        version: versionIdentifier || getFirstMatch(/w(?:eb)?osbrowser\/(\d+(\.\d+)?)/i)
-	      };
-	      /touchpad\//i.test(ua) && (result.touchpad = t);
-	    } else if (/bada/i.test(ua)) {
-	      result = {
-	        name: 'Bada',
-	        bada: t,
-	        version: getFirstMatch(/dolfin\/(\d+(\.\d+)?)/i)
-	      };
-	    } else if (tizen) {
-	      result = {
-	        name: 'Tizen',
-	        tizen: t,
-	        version: getFirstMatch(/(?:tizen\s?)?browser\/(\d+(\.\d+)?)/i) || versionIdentifier
-	      };
-	    } else if (/safari/i.test(ua)) {
-	      result = {
-	        name: 'Safari',
-	        safari: t,
-	        version: versionIdentifier
-	      };
-	    } else {
-	      result = {
-	        name: getFirstMatch(/^(.*)\/(.*) /),
-	        version: getSecondMatch(/^(.*)\/(.*) /)
-	      };
-	    }
-
-	    // set webkit or gecko flag for browsers based on these engines
-	    if (!result.msedge && /(apple)?webkit/i.test(ua)) {
-	      result.name = result.name || "Webkit";
-	      result.webkit = t;
-	      if (!result.version && versionIdentifier) {
-	        result.version = versionIdentifier;
-	      }
-	    } else if (!result.opera && /gecko\//i.test(ua)) {
-	      result.name = result.name || "Gecko";
-	      result.gecko = t;
-	      result.version = result.version || getFirstMatch(/gecko\/(\d+(\.\d+)?)/i);
-	    }
-
-	    // set OS flags for platforms that have multiple browsers
-	    if (!result.msedge && (android || result.silk)) {
-	      result.android = t;
-	    } else if (iosdevice) {
-	      result[iosdevice] = t;
-	      result.ios = t;
-	    } else if (windows) {
-	      result.windows = t;
-	    } else if (mac) {
-	      result.mac = t;
-	    } else if (linux) {
-	      result.linux = t;
-	    }
-
-	    // OS version extraction
-	    var osVersion = '';
-	    if (result.windowsphone) {
-	      osVersion = getFirstMatch(/windows phone (?:os)?\s?(\d+(\.\d+)*)/i);
-	    } else if (iosdevice) {
-	      osVersion = getFirstMatch(/os (\d+([_\s]\d+)*) like mac os x/i);
-	      osVersion = osVersion.replace(/[_\s]/g, '.');
-	    } else if (android) {
-	      osVersion = getFirstMatch(/android[ \/-](\d+(\.\d+)*)/i);
-	    } else if (result.webos) {
-	      osVersion = getFirstMatch(/(?:web|hpw)os\/(\d+(\.\d+)*)/i);
-	    } else if (result.blackberry) {
-	      osVersion = getFirstMatch(/rim\stablet\sos\s(\d+(\.\d+)*)/i);
-	    } else if (result.bada) {
-	      osVersion = getFirstMatch(/bada\/(\d+(\.\d+)*)/i);
-	    } else if (result.tizen) {
-	      osVersion = getFirstMatch(/tizen[\/\s](\d+(\.\d+)*)/i);
-	    }
-	    if (osVersion) {
-	      result.osversion = osVersion;
-	    }
-
-	    // device type extraction
-	    var osMajorVersion = osVersion.split('.')[0];
-	    if (tablet || iosdevice == 'ipad' || android && (osMajorVersion == 3 || osMajorVersion == 4 && !mobile) || result.silk) {
-	      result.tablet = t;
-	    } else if (mobile || iosdevice == 'iphone' || iosdevice == 'ipod' || android || result.blackberry || result.webos || result.bada) {
-	      result.mobile = t;
-	    }
-
-	    // Graded Browser Support
-	    // http://developer.yahoo.com/yui/articles/gbs
-	    if (result.msedge || result.msie && result.version >= 10 || result.yandexbrowser && result.version >= 15 || result.chrome && result.version >= 20 || result.firefox && result.version >= 20.0 || result.safari && result.version >= 6 || result.opera && result.version >= 10.0 || result.ios && result.osversion && result.osversion.split(".")[0] >= 6 || result.blackberry && result.version >= 10.1) {
-	      result.a = t;
-	    } else if (result.msie && result.version < 10 || result.chrome && result.version < 20 || result.firefox && result.version < 20.0 || result.safari && result.version < 6 || result.opera && result.version < 10.0 || result.ios && result.osversion && result.osversion.split(".")[0] < 6) {
-	      result.c = t;
-	    } else result.x = t;
-
-	    return result;
-	  }
-
-	  var bowser = detect(typeof navigator !== 'undefined' ? navigator.userAgent : '');
-
-	  bowser.test = function (browserList) {
-	    for (var i = 0; i < browserList.length; ++i) {
-	      var browserItem = browserList[i];
-	      if (typeof browserItem === 'string') {
-	        if (browserItem in bowser) {
-	          return true;
-	        }
-	      }
-	    }
-	    return false;
-	  };
-
-	  /*
-	   * Set our detect method to the main bowser object so we can
-	   * reuse it to test other user agents.
-	   * This is needed to implement future tests.
-	   */
-	  bowser._detect = detect;
-
-	  return bowser;
-	});
-
-/***/ },
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -2755,15 +2823,15 @@
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-	var _paper = __webpack_require__(6);
+	var _paper = __webpack_require__(8);
 
 	var _paper2 = _interopRequireDefault(_paper);
 
-	var _point = __webpack_require__(4);
+	var _point = __webpack_require__(6);
 
 	var _point2 = _interopRequireDefault(_point);
 
-	var _path2 = __webpack_require__(3);
+	var _path2 = __webpack_require__(5);
 
 	var _path3 = _interopRequireDefault(_path2);
 
@@ -2988,11 +3056,11 @@
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-	var _paper = __webpack_require__(6);
+	var _paper = __webpack_require__(8);
 
 	var _paper2 = _interopRequireDefault(_paper);
 
-	var _jquery = __webpack_require__(2);
+	var _jquery = __webpack_require__(3);
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -3130,11 +3198,11 @@
 
 	'use strict';
 
-	var _path = __webpack_require__(3);
+	var _path = __webpack_require__(5);
 
 	var _path2 = _interopRequireDefault(_path);
 
-	var _point = __webpack_require__(4);
+	var _point = __webpack_require__(6);
 
 	var _point2 = _interopRequireDefault(_point);
 
@@ -3316,11 +3384,11 @@
 
 	var _core2 = _interopRequireDefault(_core);
 
-	var _paper = __webpack_require__(6);
+	var _paper = __webpack_require__(8);
 
 	var _paper2 = _interopRequireDefault(_paper);
 
-	var _point = __webpack_require__(4);
+	var _point = __webpack_require__(6);
 
 	var _point2 = _interopRequireDefault(_point);
 
@@ -3481,7 +3549,7 @@
 
 	var _core2 = _interopRequireDefault(_core);
 
-	var _paper = __webpack_require__(6);
+	var _paper = __webpack_require__(8);
 
 	var _paper2 = _interopRequireDefault(_paper);
 
@@ -3835,11 +3903,11 @@
 
 	var _core2 = _interopRequireDefault(_core);
 
-	var _color = __webpack_require__(12);
+	var _color = __webpack_require__(14);
 
 	var _color2 = _interopRequireDefault(_color);
 
-	var _utils = __webpack_require__(14);
+	var _utils = __webpack_require__(2);
 
 	var _utils2 = _interopRequireDefault(_utils);
 
@@ -3935,7 +4003,7 @@
 
 	var _core2 = _interopRequireDefault(_core);
 
-	var _paper = __webpack_require__(6);
+	var _paper = __webpack_require__(8);
 
 	var _paper2 = _interopRequireDefault(_paper);
 

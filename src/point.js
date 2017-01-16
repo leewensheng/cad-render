@@ -1,4 +1,3 @@
-import $ from 'jquery'
 function Point(x,y) {
 	if(arguments.length==1) {
 		return new Point.prototype.init(arguments[0]);
@@ -134,7 +133,6 @@ Point.fn = Point.prototype = {
 	}
 }
 Point.fn.init.prototype = Point.prototype;
-Point.extend = Point.fn.extend = $.extend;
 Point.getPointOnCircle = function(cx,cy,r,angle){
 		var dx = r*Math.cos(angle);
 		var dy = r*Math.sin(angle);
