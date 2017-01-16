@@ -603,8 +603,25 @@
 			    y2 = this.y2;
 			var a = y1 - y2;
 			var b = x2 - x1;
-			var c = x1 * (y2 - y1) - y1 * (x2 - x1);
+			var c = x1 * y2 - x2 * y1;
 			return { a: a, b: b, c: c };
+		},
+		getMirrorMatrix: function getMirrorMatrix() {
+			var _getEquationParam = this.getEquationParam();
+
+			var a = _getEquationParam.a;
+			var b = _getEquationParam.b;
+			var c = _getEquationParam.c;
+
+			var p1, p2, p3, p4, p5, p6;
+			var g = a * a + b * b;
+			p1 = (b * b - a * a) / g;
+			p2 = -2 * a * b / g;
+			p3 = -2 * a * b / g;
+			p4 = (a * a - b * b) / g;
+			p5 = -2 * a * c / g;
+			p6 = -2 * b * c / g;
+			return 'matrix(' + [p1, p2, p3, p4, p5, p6].join(',') + ')';
 		},
 		extendLen: function extendLen(index, len) {
 			var p1 = (0, _point2.default)(x1, y1);
@@ -967,6 +984,10 @@
 
 	var _utils2 = _interopRequireDefault(_utils);
 
+	var _line = __webpack_require__(5);
+
+	var _line2 = _interopRequireDefault(_line);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	window.$ = _jquery2.default;
@@ -1290,6 +1311,20 @@
 	            (0, _jquery2.default)(el).attr("target", target);
 	        }
 	        (0, _jquery2.default)(dom).wrap(el);
+	    });
+	    return this;
+	};
+	_jquery2.default.fn.mirror = function (x1, y1, x2, y2, deleteOriginal) {
+	    var line = new _line2.default(x1, y1, x2, y2);
+	    var matrix = line.getMirrorMatrix();
+	    this.each(function (index, dom) {
+	        if (deleteOriginal) {
+	            (0, _jquery2.default)(dom).attr("transform", matrix);
+	        } else {
+	            var cloneNode = (0, _jquery2.default)(dom).clone(true);
+	            cloneNode.attr("transform", matrix);
+	            (0, _jquery2.default)(dom).after(cloneNode);
+	        }
 	    });
 	    return this;
 	};
@@ -2735,7 +2770,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	_paper2.default.fn.extend({
-	    viewBox: function viewBox(x, y, width, height) {
+	    setViewBox: function setViewBox(x, y, width, height, fit) {
 	        var a = [x, y, width, height];
 	        this.svg.attr("viewBox", a.join(" "));
 	        return this;
@@ -3121,6 +3156,7 @@
 	    } else {
 	        points.unshift(pn);
 	        points.push(p0);
+	        points.push(p1);
 	    }
 	    for (var i = 1; i < points.length - 2; i++) {
 	        var p = points[i];
