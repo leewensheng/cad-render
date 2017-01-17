@@ -35,8 +35,12 @@ paper.fn.extend({
         var blocks = cad.$$blocks;
         if(!blocks[id]) {
             return false;
-        }    
-        return blocks[id].apply(this,args);
+        }
+        var g = this.g();
+        this.temporarySwitchLayer(g,function(){
+            blocks[id].apply(this,args);
+        });
+        return g;
     },
     importSymbol:function(id) {
         var symbols = cad.$$symbols;

@@ -119,7 +119,7 @@ path.fn.extend({
 		var dy = len*Math.sin(angle*Math.PI/180);
 		return this.moveTo(dx,dy);
 	},
-	angleArcTo:function(angle,cx,cy,r){
+	angleArcTo:function(angle,cx,cy){
         if(angle==0) {
             return this;
         }
@@ -135,11 +135,12 @@ path.fn.extend({
 		var point = this.getCurPoint();
 		var x = point.x;
 		var y = point.y;
+        var r = Point(x,y).getLenTo(cx,cy);
         var endPoint = Point(x,y).rotate(angle,cx,cy);
 		var flagClock = isClockWise ? 1:0;
 		var isLargeArc = Math.abs(angle)>= 180 ? 1 : 0;
         if(angle >= 360) {
-            this.angleArcTo(359.9,cx,cy,r).closePath().MoveTo(x,y);
+            this.angleArcTo(359.9,cx,cy,r).LineTo(x,y).MoveTo(x,y);
             endPoint = Point(x,y).rotate(angle1,cx,cy);
             this.ArcTo(r,r,0,Math.abs(angle1)>=180?1:0,flagClock,endPoint.x,endPoint.y);
             return this;

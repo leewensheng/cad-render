@@ -102,6 +102,8 @@ rect.on("click",function(event){
   //缩放0.5倍
   paper.rect(0,0,100,50).attr("transform","translate(20,200)");
   paper.rect(0,0,100,50).attr("transform","translate(20,200)scale(0.5)").dash(5);
+  //直角三角形镜像
+  paper.path('M150,100 L150,150 h-50 z').mirror(160,100,160,150);
 </script>
 `
 					}
@@ -199,11 +201,13 @@ rect.on("click",function(event){
 		paper.rect(180,200,100,50).attr("transform","skewX(10)").dash(5);
 		paper.rect(0,0,100,50).attr("transform","translate(20,200)");
 		paper.rect(0,0,100,50).attr("transform","translate(20,200)scale(0.5)").dash(5);
-        paper.rect(100,100,50,100).mirror(33,33,55,55)
-		paper.text(80,160,'旋转').fill("#fff");
-		paper.text(240,160,'平移').fill("#fff");
+        paper.path('M150,100 L150,150 h-50 z').mirror(160,100,160,150);
+        paper.line(160,100,160,160).dash(5);
+		paper.text(80,120,'旋转').fill("#fff");
+		paper.text(240,120,'平移').fill("#fff");
 		paper.text(240,270,'斜切').fill("#fff");
 		paper.text(80,270,'缩放').fill("#fff");
+		paper.text(150,170,'镜像').fill("#fff");
 	},
 	array(){
 		var el = this.refs.array;

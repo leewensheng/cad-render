@@ -40,7 +40,8 @@ module.exports = {
             links:[
                 {
                     to:'/start/path',
-                    text:'路径'
+                    text:'路径',
+                    anchors:['标准指令','扩展指令','用法']
                 },
                 {
                     to:'/start/point',
