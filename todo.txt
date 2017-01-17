@@ -1,4 +1,7 @@
 各模块的测试
+path增加
+1.arc context.arc(x,y,r,sAngle,eAngle,counterclockwise);
+2.toAbsolute
 构建的脚本化
 不应当暴露currentLayer给外部(安全性)
 align方法  提供二维对齐
