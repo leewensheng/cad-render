@@ -119,3 +119,6 @@ pre {
 .table.table-default  thead{
 	background: #ddd;
 }
+.scroll {
+	overflow: auto;
+}

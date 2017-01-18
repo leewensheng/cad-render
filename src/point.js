@@ -79,7 +79,7 @@ Point.fn = Point.prototype = {
 			y1 = mirrorPoint.y;
 		var vx = (x+x1)/2;
 		var vy = (y+y1)/2;
-		return new Point.prototype.init(vx,vy);
+		return this.constructor(vx,vy);
 	},
 	mirror:function(x1,y1,x2,y2) {
 		var a = y1-y2;
@@ -90,7 +90,7 @@ Point.fn = Point.prototype = {
 		var x0,y0;
 		x0 = x - 2*a*(a*x+b*y+c)/(a*a+b*b);
 		y0 = y - 2*b*(a*x+b*y+c)/(a*a+b*b);
-		return new Point.prototype.init(x0,y0);
+		return this.constructor(x0,y0);
 	},
 	moveBy:function(dx,dy){
 		var x = this.x+dx;

@@ -42,7 +42,11 @@ Line.prototype = {
 		p6  = -2*b*c/g;
 		return 'matrix(' +[p1,p2,p3,p4,p5,p6].join(',') + ')';
 	},
-	extendLen:function(index,len){
+	extendLen:function(len,index){
+		if(typeof index === "undefined") {
+			index = 1;
+		}
+		var x1 = this.x1,y1 = this.y1,x2= this.x2,y2=this.y2;
 		var p1 = Point(x1,y1);
 		var p2 = Point(x2,y2);
 		var angle;

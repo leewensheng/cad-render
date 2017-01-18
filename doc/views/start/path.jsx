@@ -8,6 +8,7 @@ module.exports = React.createClass({
 				<h2>标准指令</h2>
 				<p>注：大写为绝对坐标，小写为相对坐标</p>
 				<p>曲线部分参见 <a href="http://www.zhangxinxu.com/wordpress/2014/06/deep-understand-svg-path-bezier-curves-command/">深度掌握SVG路径path的贝塞尔曲线指令</a></p>
+				<div style={{overflow:'auto'}}>
 				<table className="table table-default">
 					<thead>
 						<tr>
@@ -80,8 +81,10 @@ module.exports = React.createClass({
 						</tr>
 					</tbody>
 				</table>
+				</div>
 				<h2>扩展指令</h2>
 				<p><code>points</code>为坐标数组，如<code>{'[{x:1,y:1},{x:2,y:2}]'}</code></p>
+				<div style={{overflow:'auto'}}>
 				<table className="table table-default">
 					<thead>
 						<tr>
@@ -115,8 +118,19 @@ module.exports = React.createClass({
 							<td>points , flagClosed</td>
 							<td>穿过一系列点的光滑三次贝塞尔曲线</td>
 						</tr>
+						<tr>
+							<td>getCurPoint</td>
+							<td>无</td>
+							<td>获取当前点的坐标</td>
+						</tr>
+						<tr>
+							<td>connectPath</td>
+							<td>path object | path string</td>
+							<td>连接另一路径</td>
+						</tr>
 					</tbody>				
 				</table>
+				</div>
 				<h2>用法</h2>
 				<p><code>path</code>模块为了方便绘图，减少计算，采用了链式操作，扩展了标准指令</p>
 				<pre>
