@@ -1,4 +1,6 @@
 各模块的测试
+touches兑现
+参考d3 api https://github.com/d3/d3-path/blob/master/README.md#path_moveTo
 path增加
 connectToPath改名connectPath
 不需要getAngleToOring
