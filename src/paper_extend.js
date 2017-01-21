@@ -133,9 +133,8 @@ paper.fn.extend({
         })
     } ,
     arc:function(cx,cy,radius,startAngle,endAngle,counterclockwise){
-        var p1 = Point(cx,cy).angleMoveTo(startAngle,radius);
         var path = new cad.Path();
-        path.M(p1.x,p1.y).angleArcTo(endAngle - startAngle,cx,cy,radius);
+        path.arc(cx,cy,radius,startAngle,endAngle,counterclockwise);
         return this.path(path.toString());
     },
     path:function(path){

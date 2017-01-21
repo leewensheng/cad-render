@@ -97,6 +97,17 @@ path.fn.extend({
         }
         return points;
     },
+    arc:function(cx,cy,r,startAngle,endAngle,counterClockWise) {
+        var pCenter =  Point(cx,cy);
+        var pStart = pCenter.clone().angleMoveTo(startAngle,r);
+        var pEnd = pCenter.clone().angleMoveTo(endAngle,r);
+        var counterLargeArc = (pEnd - pStart) > 180 ? 1: 0;
+        if(counterClockWise) {
+            //逆时针,canvas和svg相反
+            counterLargeArc = false;
+        }
+        return  this.M(pStart.x,pStart.y).A(r,r,0,counterLargeArc,counterClockWise?0:1,pEnd.x,pEnd.y);
+    },
     getCurPoint:function(){
         var actions  = this.pathStack;
         var x = 0,y =0 ;

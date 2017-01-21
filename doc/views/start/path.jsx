@@ -95,6 +95,11 @@ module.exports = React.createClass({
 					</thead>
 					<tbody>
 						<tr>
+							<td>arc</td>
+							<td>cx,cy,radius,startAngle,endAngle,counterclockwise</td>
+							<td>绘制一段弧线</td>
+						</tr>
+						<tr>
 							<td>angleMoveTo</td>
 							<td>angle,length</td>
 							<td>沿某一方向移动一定距离</td>
