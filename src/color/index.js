@@ -1,5 +1,4 @@
 import colorName from './color-name'
-import cad from '../core'
 function Color(color){
 	return this.init(color);
 }

@@ -57,7 +57,8 @@ module.exports = {
                 },
                 {
                     to:'/start/animation',
-                    text:'动画'
+                    text:'动画',
+                    anchors:['svg动画','js动画']
                 },
                 {
                     to:'/start/filter',

@@ -133,9 +133,14 @@ paper.fn.extend({
         })
     } ,
     arc:function(cx,cy,radius,startAngle,endAngle,counterclockwise){
-        var path = new cad.Path();
-        path.arc(cx,cy,radius,startAngle,endAngle,counterclockwise);
-        return this.path(path.toString());
+        var angle = endAngle - startAngle;
+        if(angle < 360) {
+            var path = new cad.Path();
+            path.arc(cx,cy,radius,startAngle,endAngle,counterclockwise);
+            return this.path(path.toString());
+        } else {
+           return this.circle(cx,cy,radius); 
+        }
     },
     path:function(path){
         if(typeof path == 'object') {
