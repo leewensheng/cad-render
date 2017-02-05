@@ -145,7 +145,7 @@ module.exports = React.createClass({
       .LineTo(30,30)
       .v(30).h(40)
       .angleLineTo(45,40)
-      .angleArcTo(180,150,120,50);
+      .angleArcTo(180,150,120);
   paper.path(path)
 `}
 				</pre>
@@ -162,7 +162,7 @@ module.exports = React.createClass({
 	  		.LineTo(30,30)
 	  		.v(30).h(40)
 	  		.angleLineTo(45,40)
-	  		.angleArcTo(180,150,120,50);
+	  		.angleArcTo(180,150,120);
 	  		paper.circle(150,120,3).fill("#fff")
 	  	paper.path(path.toString()).stroke("#fff");
 	}

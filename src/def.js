@@ -30,6 +30,12 @@ paper.fn.importDefs = function(name,option){
 	}
 	return this;
 }
+paper.fn.createLinearGradient = function(){
+	
+}
+paper.fn.createRadialGradient = function(){
+
+}
 cad.registDefs(gradient);
 cad.registDefs(filters);
 cad.registDefs(patterns);

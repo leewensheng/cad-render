@@ -20,12 +20,15 @@ cad.hsl(100,0.5,0.5); //return '#6abf40'
                 <pre>
 {
 `//鼠标hover时变暗50%
-paper.circle(100,100,80).fill("#ff33aa").on("mouseover",function(){
-    var hoverColor = cad.darken("#ff33aa",0.5);
-    $(this).fill(hoverColor);
-}).on("mouseout",function(){
-    $(this).fill("#ff33aa");
-})
+paper.circle(100,100,80)
+     .fill("#ff33aa")
+     .on("mouseover",function(){
+         var hoverColor = cad.darken("#ff33aa",0.5);
+         $(this).fill(hoverColor);
+     })
+     .on("mouseout",function(){
+         $(this).fill("#ff33aa");
+     })
 `}
                 </pre>
                 <Paper onInit={this.init} height="300" />
