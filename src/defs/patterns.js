@@ -48,11 +48,12 @@ module.exports = {
 		var patternUnits = ['objextBoundingBox','userSpaceOnUse'];
 		width = size*2,height = size;
 		var $pattern = paper.createSVGElement("pattern",{
+			id:"block",
 			width:width,
 			height:height,
 			patternUnits:patternUnits[1],
 			patternContentUnits:patternUnits[1],
-			stroke:"yellow"
+			stroke:"red"
 		});
 		$defs.append($pattern);
 		paper.temporarySwitchLayer($pattern,function(){

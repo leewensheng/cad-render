@@ -12,10 +12,9 @@ module.exports = React.createClass({
 `
   paper.importDefs("blur",10);
   paper.importDefs("gray");
-  paper.importDefs("shadow")
   paper.rect(0,0,"100%","100%").fill("#000");
   paper.circle(100,100,50).fill("red").attr("filter","url(#blur)");
-  paper.circle(100,200,50).fill("red").attr("filter","url(#gray)");
+  paper.image(100,200,100,100,'https://www.baidu.com/img/bd_logo1.png').attr("filter","url(#gray)");
 `}</pre>
 	            <Paper onInit={this.onInit} height="300" />
            </div>
@@ -26,6 +25,6 @@ module.exports = React.createClass({
 		paper.importDefs("gray");
 		paper.rect(0,0,"100%","100%").fill("#000");
 		paper.circle(100,100,50).fill("red").attr("filter","url(#blur)");
-		paper.circle(100,200,50).fill("red").attr("filter","url(#gray)");
+		paper.image(50,150,100,100,'https://www.baidu.com/img/bd_logo1.png').attr("filter","url(#gray)");
 	}
 })

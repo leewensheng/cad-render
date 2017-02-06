@@ -30,7 +30,7 @@ paper.fn.extend({
 			config.id = id;
 			this.layers[id] = config;
 		}
-		var g = this.createSVGElement(tag,config).addClass("cad-layer")
+		var g = this.createSVGElement(tag,config);
 		if(type=='block') {
 			this.svg.find("defs").append(g);
 		} else  {

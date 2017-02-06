@@ -1,7 +1,9 @@
 各模块的测试
+pattern bugfix
 touches兑现
 参考d3 api https://github.com/d3/d3-path/blob/master/README.md#path_moveTo
 path增加
+rect
 connectToPath改名connectPath
 不需要getAngleToOring
 1.arc context.arc(x,y,r,sAngle,eAngle,counterclockwise);
@@ -33,6 +35,7 @@ importBlock不要用addLayer，addLayer不应考虑这种情况
 所有引入defs模块应当自己分配id
 研究canvas和ie8的统一抽象
 sincurve bugfix
+动画名称统一ease前缀,easeInSine,easeOutSine
 Promise式的动画
 
 cx cy d dx dy fill fillOpacity fontFamily fontSize fx fy gradientTransform
@@ -68,7 +71,7 @@ dom镜像操作
 7其他如二维码支持
 8.高级功能，布局，物理引擎、cad参数化支持
 点击下载功能  下载SVG PNG 在各浏览器下的优化研究
-更多滤镜支持 灰度，RGB通道 研究martix
+更多滤镜支持 灰度，RGB通道 研究colorMartix
 阴影支持指定颜色
 将SVG图像嵌入到HTML文件有多种方法：
 使用<iframe>元素来嵌入SVG图像

@@ -67,12 +67,12 @@ module.exports = {
                 {
                     to:'/start/fill',
                     text:'渐变和填充',
-                    anchors:['线性渐变','径向渐变','patter']
+                    anchors:['线性渐变','径向渐变','pattern']
                 },
                 {
                     to:'/start/reuse',
                     text:'复用',
-                    anchors:['shape','symbol','block']
+                    anchors:['shape','block','symbol']
                 },
                 {
                     to:'/start/interpolate',
