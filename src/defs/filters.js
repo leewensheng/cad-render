@@ -1,3 +1,4 @@
+import {extend} from '../utils'
 module.exports = {
     blur:function(option){
 	    var paper = this;
@@ -18,7 +19,7 @@ module.exports = {
 	shadow:function(option){
 		var paper = this;
 		var $defs = paper.select("defs");
-		option = cad.extend(true,
+		option = extend(
 				{
 					id:"shadow",
 					offsetX:20,
@@ -31,11 +32,11 @@ module.exports = {
 		var blur = option.blur;
 		var filter = paper.createSVGElement("filter").attr("id",option.id);
 		var elemOffset = paper.createSVGElement("feOffset").attr("result","offOut").attr("in","SourceGraphic").attr("dx",offsetX).attr("dy",offsetY);
-		var elemColorMartix = paper.createSVGElement("feColorMartrix").attr("result","martrixOut").attr("in","offOut").attr("type","martrix").attr("values","0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0");
-		var elemGaussianBlur = paper.createSVGElement("feGaussianBlur").attr("result","blurOut").attr("in","martrixOut").attr("stdDeviation",blur);
+		//var elemColorMartix = paper.createSVGElement("feColorMartrix").attr("result","martrixOut").attr("in","offOut").attr("type","martrix").attr("values","0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0");
+		var elemGaussianBlur = paper.createSVGElement("feGaussianBlur").attr("result","blurOut").attr("in","offOut").attr("stdDeviation",blur);
 		var elemBlend = paper.createSVGElement("feBlend").attr("in","SourceGraphic").attr("in2","blurOut").attr("mode","normal");
 		filter.append(elemOffset);
-		filter.append(elemColorMartix);
+		//filter.append(elemColorMartix);
 		filter.append(elemGaussianBlur);
 		filter.append(elemBlend);
 		$defs.append(filter)
