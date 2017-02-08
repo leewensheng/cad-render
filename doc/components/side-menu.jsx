@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link,IndexLink} from 'react-router'
 import Anchor from './anchor.jsx'
+import $ from 'jquery'
 var isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox")!=-1;
 var scrollElem = isFirefox?'documentElement':'body';
 var Menu = React.createClass({

@@ -1,9 +1,38 @@
 import $ from 'jquery'
-import browser from './browser.js'
 //$ to trim
 var utils = {
 
 };
+function isPlainObject(obj) {
+    // Must be an Object.
+    // Because of IE, we also have to check the presence of the constructor property.
+    // Make sure that DOM nodes and window objects don't pass through, as well
+
+    var class2type = {};
+
+    var hasOwn = class2type.hasOwnProperty;
+
+    if (!obj || typeof obj !== 'object' || obj.nodeType || (obj!=null&&obj == obj.window)) {
+        return false;
+    }
+
+    try {
+        // Not own constructor property must be Object
+        if (obj.constructor && !hasOwn.call(obj, "constructor") && !hasOwn.call(obj.constructor.prototype, "isPrototypeOf")) {
+            return false;
+        }
+    } catch(e) {
+        // IE8,9 Will throw exceptions on certain host objects #9897
+        return false;
+    }
+
+    // Own properties are enumerated firstly, so to speed up,
+    // if last one is own, then all properties are own.
+    var key;
+    for (key in obj) {}
+
+    return key === undefined || hasOwn.call(obj, key);
+}
 utils.parseTransform = function(transform){
     transform = transform || '';
     var scale = transform.match(/scale\s*\([^\)]*\)/gi);
@@ -94,6 +123,7 @@ utils.dataUrlToBlob = function (dataurl) {
     return new Blob([u8arr], {type:mime});
 };
 utils.extend = function(){
+    var isArray = Array.isArray;
     var options, name, src, copy, copyIsArray, clone,
         target = arguments[0] || {},
         i = 1,
@@ -110,11 +140,10 @@ utils.extend = function(){
     }
 
     // Handle case when target is a string or something (possible in deep copy)
-    if ( typeof target !== "object" && !jQuery.isFunction(target) ) {
+    if ( typeof target !== "object" && typeof target!== 'function') {
         target = {};
     }
 
-    // Extend jQuery itself if only one argument is passed
     if ( i === length ) {
         target = this;
         i--;
@@ -134,17 +163,17 @@ utils.extend = function(){
                 }
 
                 // Recurse if we're merging plain objects or arrays
-                if ( deep && copy && ( jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy)) ) ) {
+                if ( deep && copy && ( isPlainObject(copy) || (copyIsArray = isArray(copy)) ) ) {
                     if ( copyIsArray ) {
                         copyIsArray = false;
-                        clone = src && jQuery.isArray(src) ? src : [];
+                        clone = src && isArray(src) ? src : [];
 
                     } else {
-                        clone = src && jQuery.isPlainObject(src) ? src : {};
+                        clone = src && isPlainObject(src) ? src : {};
                     }
 
                     // Never move original objects, clone them
-                    target[ name ] = jQuery.extend( deep, clone, copy );
+                    target[ name ] = this.extend( deep, clone, copy );
 
                 // Don't bring in undefined values
                 } else if ( copy !== undefined ) {

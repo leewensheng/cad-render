@@ -18,14 +18,29 @@ module.exports = React.createClass({
 	},
     linearGradient(paper){
         paper.rect(0,0,"100%","100%").fill("#000");
-        paper.rect(0,0,300,300).fill("red");
+        paper.importDefs("linearGradient",{stops:[{
+            offset:0,
+            color:'red'
+        },{
+            offset:"100%",
+            color:"green"
+        }]})
+        paper.rect(0,0,300,300).fill("url(#linearGradient)");
     },
     radialGradient(paper){
         paper.rect(0,0,"100%","100%").fill("#000");
-        paper.circle(150,150,100).fill("red");
+        paper.importDefs("radialGradient",{stops:[{
+            offset:0,
+            color:'red'
+        },{
+            offset:"100%",
+            color:"green"
+        }]})
+        paper.circle(150,150,100).fill("url(#radialGradient)");
     },
     pattern(paper){
         paper.importDefs("block",50);
+
         paper.rect(0,0,"100%","100%").fill("url(#block)");
     }
 })

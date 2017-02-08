@@ -4,7 +4,6 @@ import namespace from './namespace'
 import Color from './color'
 import utils from './utils'
 import Line from './line'
-window.$ = $;
 $.parseTransform = utils.parseTransform;
 $.getTransform = utils.getTransform;
 $.fn.transition = function(attr,during,ease,callback){

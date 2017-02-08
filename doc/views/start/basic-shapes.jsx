@@ -320,7 +320,7 @@ paper.diagonalellipse(30,30,230,320);
         paper.addShape("sector",260,250,{startAngle:-45,endAngle:45,radius:100});
         paper.addShape("sector",260,400,{startAngle:-45,endAngle:45,radius:100,innerRadius:50});
         //箭头
-        paper.addShape("markLine",20,400,200,400)
+        paper.addShape("markLine",20,400,200,400);
 
         paper.text(280,320,'扇形').fill("#fff");
         paper.text(100,320,'正弦曲线').fill("#fff");
