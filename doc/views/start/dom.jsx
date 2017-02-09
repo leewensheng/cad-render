@@ -6,7 +6,7 @@ module.exports = React.createClass({
 			<div className="content">
 				<h1>图形操作</h1>
 				<p>cad render采用了jquery(或zepto)来操作dom和事件，并针对svg的特性扩展了一些常用的操作</p>
-				<p>绝大部分jquery(或zepto)的DOM API如remove()、attr()、css()、text()、after()、append()等都可以继续使用，但是html(),append()这类解析和生成元素的操作不支持</p>
+				<p>绝大部分jquery(或zepto)的DOM API如remove()、attr()、css()、text()、hide()、wrap()、after()、append()等都可以继续使用，但是html(),append()这类解析和生成元素的操作不支持</p>
 				<p>依然是你熟悉的链式操作</p>
 				<h2>选择元素</h2>
 				<p>选择当前画布内的元素<code>paper.select("selector")</code></p>
@@ -22,7 +22,7 @@ module.exports = React.createClass({
 					}
 				</pre>
 				<div ref="select" style={{height:300}}></div>
-
+                
 				<h2>属性</h2>
 				<p>设置或获取属性<code>$elem.attr</code></p>
 				<p>注意：对于xlink:href属性，需要指定xlink命名空间，jquery目前尚不支持，需要自己用原生的
