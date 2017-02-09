@@ -88,6 +88,7 @@ Paper.prototype = {
         var width = option.width||$(el).width();
         var height = option.height||$(el).height();
         var svg = this.createSVGElement('svg',{width:width,height:height,xmlns:"http://www.w3.org/2000/svg"});
+        svg.attr("xmlns:xlink",namespace.xlink);
         var defs = this.createSVGElement("defs");
         $(el).append(svg);
         $(svg).append(defs);
@@ -158,10 +159,24 @@ Paper.prototype = {
             a.href = base64;  //将画布内的信息导出为png图片数据
             a.download = name || (document.title); //设定下载名称
             a.target="_blank";
-            if(browser.chrome) {
-                a.click();
-            } else {
-                window.open(a.href);
+            // Chrome and Firefox 
+            // 来自echarts
+            if (typeof MouseEvent === 'function' && !(browser.msedge||browser.msie)) {
+                var evt = new MouseEvent('click', {
+                    view: window,
+                    bubbles: true,
+                    cancelable: false
+                });
+                a.dispatchEvent(evt);
+            } 
+            // IE
+            else {
+                var html = ''
+                    + '<body style="margin:0;">'
+                    + '<img src="' + base64 + '" style="max-width:100%;" title="' + ('test') + '" />'
+                    + '</body>';
+                var tab = window.open();
+                tab.document.write(html);
             }
         });
         return this;

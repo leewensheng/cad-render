@@ -122,6 +122,11 @@ utils.dataUrlToBlob = function (dataurl) {
     }
     return new Blob([u8arr], {type:mime});
 };
+utils.blobToDataURL = function(blob,callback){
+    var a = new FileReader();
+    a.onload = function (e) { callback(e.target.result); }
+    a.readAsDataURL(blob); 
+};
 utils.extend = function(){
     var isArray = Array.isArray;
     var options, name, src, copy, copyIsArray, clone,
