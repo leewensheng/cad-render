@@ -4,10 +4,10 @@ module.exports = React.createClass({
 	render(){
 		return (
 			<div className="content">
-				<h1>DOM API</h1>
-				<p>cad render采用了jquery(或zepto)来操作svg dom，并针对svg的特性扩展了一些常用的操作</p>
-				<p>绝大部分jquery(或zepto)的DOM API都可以继续使用，但是建议尽量减少不常用的DOM操作</p>
-				<p>依然是你喜欢的链式操作</p>
+				<h1>图形操作</h1>
+				<p>cad render采用了jquery(或zepto)来操作dom和事件，并针对svg的特性扩展了一些常用的操作</p>
+				<p>绝大部分jquery(或zepto)的DOM API如remove()、attr()、css()、text()、after()、append()等都可以继续使用，但是html(),append()这类解析和生成元素的操作不支持</p>
+				<p>依然是你熟悉的链式操作</p>
 				<h2>选择元素</h2>
 				<p>选择当前画布内的元素<code>paper.select("selector")</code></p>
 				<pre>{

@@ -1,4 +1,7 @@
 各模块的测试
+sample接口优化
+区间采样应该用间隔更合适
+规范interpolate和transition的动画名称
 paper stopTransition
 减少extend依赖，修复utils extend
 pattern bugfix
