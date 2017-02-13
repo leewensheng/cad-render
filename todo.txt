@@ -1,20 +1,17 @@
 各模块的测试
 sample接口优化
 区间采样应该用间隔更合适
+对象和数组插值完善
 规范interpolate和transition的动画名称
 pattern bugfix
-touches兑现
 参考d3 api https://github.com/d3/d3-path/blob/master/README.md#path_moveTo
 path增加
 rectTo
 rect
-connectToPath改名connectPath
-不需要getAngleToOring
 1.arc context.arc(x,y,r,sAngle,eAngle,counterclockwise);
-2.toAbsolute
+2.toAbsolute toRelative
 构建的脚本化
 不应当暴露currentLayer给外部(安全性)
-align方法  提供二维对齐
 transform的解析是讲究顺序的吗?这个要验证
 清空画布clear getElementByPoint
 snap raphael的研究
@@ -26,41 +23,25 @@ http://www.zhangxinxu.com/wordpress/2012/06/css3-transform-matrix-%E7%9F%A9%E9%9
 研究martrix模块
 path 与path的交点研究
 path提供round(2)功能，以减少文件大小
-考虑去掉configLayer，或代以getLayer
+考虑去掉configLayer，或代以setLayer
 onDestroy()钩子
 比较svg canvas差异
-scale应该有两个缩放参数scaleX,scaleY
 去掉对jquery extend的依赖
-属性应当支持驼峰式命名
 自己实现一个轻量的jquery接口
 文档引入redux
-importBlock不要用addLayer，addLayer不应考虑这种情况
 所有引入defs模块应当自己分配id
 研究canvas和ie8的统一抽象
 sincurve bugfix
 动画名称统一ease前缀,easeInSine,easeOutSine
-Promise式的动画
 
-cx cy d dx dy fill fillOpacity fontFamily fontSize fx fy gradientTransform
-gradientUnits markerEnd markerMid markerStart offset opacity
-patternContentUnits patternUnits points preserveAspectRatio r rx ry
-spreadMethod stopColor stopOpacity stroke strokeDasharray strokeLinecap
-strokeOpacity strokeWidth textAnchor transform version viewBox x1 x2 x y1 y2 y
-
-
-addBlock统统添加到g里面
 text模块改造，禁止改变原始x,y，改用dx,dy实现
 一套标注系统(坐标，半径直径，角度，距离（水平，垂直，对齐）)
 批量引入defs
-dowloadImge方法,createObjectUrl
 marker的研究(path line polyline polygon支持marker)
 paper destroy()完善
-阴影，模糊的引入方式抽象,createLinearGradient,
-ie下的旋转只对原点比较精确，
-故ie旋转动画需要先translate到旋转点（绘图时相对于原点绘制)
-动画模块的改造,transition(option)
+
+阴影，模糊的引入方式抽象,createLinearGradient
 transition模块优化
-paper addStyle是否需要
 uppperzindex改成置顶API用this.parentNode.appendChild(this)
 3.文档，教程,demo
 4chart规划
@@ -68,14 +49,15 @@ uppperzindex改成置顶API用this.parentNode.appendChild(this)
 小点
 三点得圆半径
 line模块补缺各种等分点,POINT支持获取圆上的切点
-１.timer支持，动画支持 stroke-dash，point完善(中点，切点，最近点，等分点)
 ２.标准图形库丰富（多角星，扇饼环、心形、水滴，螺旋，齿轮，雪花
-dom镜像操作
-7其他如二维码支持
 8.高级功能，布局，物理引擎、cad参数化支持
-点击下载功能  下载SVG PNG 在各浏览器下的优化研究
 更多滤镜支持 灰度，RGB通道 研究colorMartix
 阴影支持指定颜色
+
+
+
+
+
 将SVG图像嵌入到HTML文件有多种方法：
 使用<iframe>元素来嵌入SVG图像
 使用<img>元素来嵌入SVG图像

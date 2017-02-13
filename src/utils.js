@@ -41,7 +41,8 @@ utils.parseTransform = function(transform){
     var skewX = transform.match(/skewX\s*\([^\)]*\)/gi);
     var skewY = transform.match(/skewY\s*\([^\)]*\)/gi);
     var ret = {
-        scale:1,
+        scaleX:1,
+        scaleY:1,
         rotate:0,
         rotateX:0,
         rotateY:0,
@@ -54,7 +55,14 @@ utils.parseTransform = function(transform){
 
     if(scale) {
         args = getArgs(scale[0]);
-        ret.scale = args[0]||1;
+        if(args.length<=1) {
+            ret.scaleX = args[0] || 1;
+            ret.scaleY = args[0] || 1;
+        }
+        if(args.length==2) {
+            ret.scaleX = args[0];
+            ret.scaleY = args[1];
+        }
     } 
     if(translate) {
         args = getArgs(translate[0]);
@@ -88,12 +96,17 @@ utils.getTransform = function(obj){
     var transX,transY,scale,scaleX,scaleY,rotate,rotateX,rotateY,skewX,skewY;
     transX = obj.transX || 0;
     transY = obj.transY || 0;
-    scale = obj.scale || 1;
+    scaleX = obj.scaleX || 1;
+    scaleY = obj.scaleY || 1;
     rotate = obj.rotate||0;
     rotateX  = obj.rotateX || 0;
     rotateY = obj.rotateY || 0;
     skewX = obj.skewX ||0;
     skewY = obj.skewY || 0;
+    var scale = scaleX;
+    if(scaleX!=scaleY) {
+        scale  = scaleX + ',' + scaleY;
+    }
     var ret = 'translate(' + [transX,transY].join(',') +')'
                 + 'scale(' + scale +')'
                 + 'rotate(' +[rotate,rotateX,rotateY].join(',') + ')'
