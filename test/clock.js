@@ -8,8 +8,7 @@ var Clock = React.createClass({
     },
     componentDidMount:function(){
         var el = ReactDOM.findDOMNode(this);
-        var paper = cad.init({
-            el:el,
+        var paper = cad.init(el,{
             width:this.props.width||window.innerWidth,
             height:this.props.height||window.innerHeight
         });

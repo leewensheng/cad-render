@@ -25,8 +25,8 @@ cad.extend({
     Paper:Paper,
     namespace:namespace,
     browser:browser,
-    init:function(option){
-        return new this.Paper(option);
+    init:function(el,option){
+        return new this.Paper(el,option);
     }
 })
 cad.extend({

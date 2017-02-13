@@ -8,8 +8,7 @@ var Disappear = React.createClass({
     },
     componentDidMount:function() {
         var el = ReactDOM.findDOMNode(this);
-        var paper = cad.init({
-                el:el,
+        var paper = cad.init(el,{
                 width:"100%",
                 height:window.innerHeight-3
         });

@@ -15,6 +15,25 @@ module.exports = React.createClass({
                 <h2>shape</h2>
                 <p>使用<code>defineShape</code>自定义形状，将定义好的形状绘制到画布上时用<code>addShape</code></p>
                 <p>通常shape定义和绘制时都要指明参考点坐标和其他需要的参数</p>
+                <pre>{`
+  //自定义图形
+  cad.defineShape("cross",function(cx,cy,length){
+      var path = new cad.Path();
+      path.M(cx,cy);
+      path.m(0,-1*length/2);
+      path.lineTo(0,length);
+      path.m(-1*length/2,-1*length/2);
+      path.lineTo(length,0);
+      return path;
+  });
+  paper.addShape("cross",100,100,50);
+  //点击时随机插入不大尺寸的十字
+  paper.on("click",function(event){
+      var point = paper.mouse(event);
+      var length = 30 + Math.random()*50;
+      paper.addShape("cross",point.x,point.y,length);
+  })
+                    `}</pre>
                 <Paper onInit={this.drawShape} height="300" />
                 <h2>block</h2>
                 <Paper onInit={this.drawBlock} height="300" />

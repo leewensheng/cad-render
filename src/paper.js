@@ -3,8 +3,8 @@ import "./dom"
 import namespace from './namespace'
 import browser from './browser'
 import {dataUrlToBlob,extend} from './utils'
-var Paper = function(option){
-    return this.init(option);
+var Paper = function(el,option){
+    return this.init(el,option);
 }
 Paper.prototype = {
     mouse:function(e,mutiple){
@@ -62,10 +62,22 @@ Paper.prototype = {
         }
         return $(el);
     },
-    init:function(option){
-            this.option = option;
-            this.initPaper();
-            return this;
+    init:function(el,option){
+        var el,width,height;
+        if(typeof option == 'undefined') {
+            option = {};
+        }
+        el = $(el).first();
+        var width = option.width||$(el).width()||600;
+        var height = option.height||$(el).height()||400;
+        var svg = this.createSVGElement('svg',{width:width,height:height,xmlns:"http://www.w3.org/2000/svg"});
+        svg.attr("xmlns:xlink",namespace.xlink);
+        var defs = this.createSVGElement("defs");
+        $(el).append(svg);
+        $(svg).append(defs);
+        this.svg = svg;
+        this.initDefaultLayer();
+        return this;
     },
     width:function(){
         var args = Array.prototype.slice.call(arguments,0);
@@ -81,20 +93,6 @@ Paper.prototype = {
         var width = this.width();
         var height = this.height();
         return {x:width/2,y:height/2};
-    },
-    initPaper:function(){
-        var option = this.option;
-        var el = option.el;
-        var width = option.width||$(el).width();
-        var height = option.height||$(el).height();
-        var svg = this.createSVGElement('svg',{width:width,height:height,xmlns:"http://www.w3.org/2000/svg"});
-        svg.attr("xmlns:xlink",namespace.xlink);
-        var defs = this.createSVGElement("defs");
-        $(el).append(svg);
-        $(svg).append(defs);
-        this.svg = svg;
-        this.initDefaultLayer();
-        return this;
     },
     append:function(tagName,attributes){
         var currentLayer = this.currentLayer;

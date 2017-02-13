@@ -19,7 +19,7 @@ module.exports = React.createClass({
 	componentDidMount(){
 		//坐标系绘图
 		var el = this.refs.axis;
-		var paper = new cad.Paper({el:el});
+		var paper = new cad.Paper(el);
 		paper.configLayer({
 			stroke:"#fff",
 			fill:"#fff"
@@ -45,7 +45,7 @@ module.exports = React.createClass({
 		paper.text(240,200,"相对坐标");
 		//画角度
 		var angle = this.refs.angle;
-		var paper = new cad.Paper({el:angle});
+		var paper = new cad.Paper(angle);
 		paper.configLayer({
 			stroke:"#fff",
 			fill:"#fff"

@@ -66,7 +66,7 @@ module.exports = React.createClass({
 	},
 	componentDidMount(){
 		var el = this.refs.layer;
-		var paper = cad.init({el:el});
+		var paper = cad.init(el);
 		var greenLayer = paper.currentLayer;
 		paper.configLayer(greenLayer,{fill:"blue"});
 		paper.rect(0,0,paper.width(),paper.height()).fill("#000");

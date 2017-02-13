@@ -11,7 +11,7 @@ module.exports = React.createClass({
     },
     componentDidMount(){
         var el = ReactDOM.findDOMNode(this);
-        var paper = cad.init({el:el});
+        var paper = cad.init(el);
         if(typeof this.props.onInit=='function') {
             this.props.onInit.call(null,paper);
         }

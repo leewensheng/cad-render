@@ -8,8 +8,7 @@ var SVG = React.createClass({
     },
     componentDidMount(){
         var el = ReactDOM.findDOMNode(this);
-        var paper = cad.init({
-                el:el,
+        var paper = cad.init(el,{
                 width:"100%",
                 height:window.innerHeight
             });

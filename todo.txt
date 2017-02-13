@@ -1,4 +1,5 @@
 各模块的测试
+统一block和symbol
 sample接口优化
 区间采样应该用间隔更合适
 规范interpolate和transition的动画名称
@@ -33,7 +34,6 @@ onDestroy()钩子
 比较svg canvas差异
 scale应该有两个缩放参数scaleX,scaleY
 去掉对jquery extend的依赖
-init(el,option);
 属性应当支持驼峰式命名
 自己实现一个轻量的jquery接口
 文档引入redux

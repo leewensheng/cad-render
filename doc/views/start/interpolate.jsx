@@ -13,7 +13,7 @@ module.exports = React.createClass({
                 <pre>
 {`
   //在两个颜色之间直线插补
-  var ease = cad.interpolate("red","blue");
+  var ease = cad.interpolate("red","blue","linear");
   paper.rect(0,0,20,20).arrayCopy(15,15,function(x,y){
       $(this).fill(ease(y/15)).translate(x*20,y*20)
   })

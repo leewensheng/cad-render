@@ -28,7 +28,7 @@ module.exports = React.createClass({
 `}
 </pre>
                <h3>创建画布</h3>
-               <pre>{'<script>\n  var paper = new cad.Paper({el:"#demo"})\n</script>'}</pre>
+               <pre>{'<script>\n  var paper = new cad.Paper(document.getElementById("demo"))\n</script>'}</pre>
                <h3>愉快地玩耍</h3>
                <pre>{'//画一条从点(0,0)到点(100,100)的直线\n paper.line(0,0,100,100);'}</pre>
 			   <div ref="demo" style={{height:300}}></div>
@@ -37,7 +37,7 @@ module.exports = React.createClass({
 	},
 	componentDidMount(){
 		var ref = this.refs.demo;
-		var paper = new cad.Paper({el:ref});
+		var paper = new cad.Paper(ref);
 		paper.rect(0,0,paper.width(),paper.height()).fill("#000");
 		paper.configLayer({"fill":"#fff"})
 		paper.line(0,0,100,100).stroke("#fff");

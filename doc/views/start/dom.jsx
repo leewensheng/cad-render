@@ -6,7 +6,7 @@ module.exports = React.createClass({
 			<div className="content">
 				<h1>图形操作</h1>
 				<p>cad render采用了jquery(或zepto)来操作dom和事件，并针对svg的特性扩展了一些常用的操作</p>
-				<p>绝大部分jquery(或zepto)的DOM API如remove()、attr()、css()、text()、hide()、wrap()、after()、append()等都可以继续使用，但是html(),append()这类解析和生成元素的操作不支持</p>
+				<p>绝大部分jquery(或zepto)的DOM API如remove()、attr()、css()、text()、hide()、wrap()、after()、append()等都可以继续使用，但是html(),append({"\"<circle/>\""})这类解析生成元素的操作不支持</p>
 				<p>依然是你熟悉的链式操作</p>
 				<h2>选择元素</h2>
 				<p>选择当前画布内的元素<code>paper.select("selector")</code></p>
@@ -152,7 +152,7 @@ rect.on("click",function(event){
 	},
 	select(){
 		var el = this.refs.select;
-		var paper = cad.init({el:el});
+		var paper = cad.init(el);
 		paper.rect(0,0,paper.width(),paper.height()).fill("#000");
 		paper.circle(80,80,70);
 		paper.circle(250,100,70);
@@ -161,13 +161,13 @@ rect.on("click",function(event){
 	},
 	attr(){
 		var el = this.refs.attr;
-		var paper = cad.init({el:el});
+		var paper = cad.init(el);
 		paper.rect(0,0,paper.width(),paper.height()).fill("#000");
 		paper.rect(20,20,200,200).attr("fill","red").attr("stroke","blue").attr("stroke-width",5);
 	},
 	event(){
 		var el = this.refs.event;
-		var paper = cad.init({el:el});
+		var paper = cad.init(el);
 		paper.rect(0,0,paper.width(),paper.height()).fill("#000");
 		var rect = paper.rect(20,20,100,100).fill("blue");
 		paper.text(40,60,'click here').fill("#fff").css("pointer-events","none")
@@ -181,13 +181,13 @@ rect.on("click",function(event){
 	},
 	fill(){
 		var el = this.refs.fill;
-		var paper = cad.init({el:el});
+		var paper = cad.init(el);
 		paper.rect(0,0,paper.width(),paper.height()).fill("#000");
 		paper.circle(150,150,120).fill("blue").stroke("red").attr("stroke-width",10);
 	},
 	transform(){
 		var el = this.refs.transform;
-		var paper = cad.init({el:el});
+		var paper = cad.init(el);
 		paper.configLayer({
 			"fill":'none',
 			stroke:"#fff"
@@ -211,7 +211,7 @@ rect.on("click",function(event){
 	},
 	array(){
 		var el = this.refs.array;
-		var paper = cad.init({el:el});
+		var paper = cad.init(el);
 		paper.configLayer({
 			"fill":'none',
 			stroke:"#fff"

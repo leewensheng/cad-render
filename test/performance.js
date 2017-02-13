@@ -10,8 +10,7 @@ var Performance = React.createClass({
         var el = ReactDOM.findDOMNode(this);
         var width = window.innerWidth;
         var height = window.innerHeight;
-        var paper = cad.init({
-                el:el,
+        var paper = cad.init(el,{
                 width:"100%",
                 height:window.innerHeight-10
             });

@@ -178,7 +178,7 @@ paper.diagonalellipse(30,30,230,320);
     },
     line(){
         var el = this.refs.line;
-        var paper = new cad.Paper({el:el});
+        var paper = new cad.Paper(el);
         paper.rect(0,0,paper.width(),paper.height()).fill("#000");
         paper.configLayer({
             fill:"#fff",
@@ -196,7 +196,7 @@ paper.diagonalellipse(30,30,230,320);
     },
     rect(){
         var el = this.refs.rect;
-        var paper = new cad.Paper({el:el});
+        var paper = new cad.Paper(el);
         paper.rect(0,0,paper.width(),paper.height()).fill("#000");
         paper.configLayer({
             fill:"#fff",
@@ -215,14 +215,14 @@ paper.diagonalellipse(30,30,230,320);
     },
     circle(){
         var el = this.refs.circle;
-        var paper = new cad.Paper({el:el});
+        var paper = new cad.Paper(el);
         paper.rect(0,0,paper.width(),paper.height()).fill("#000");
         paper.circle(100,100,80).stroke("#fff");
         paper.circle(100,100,3).fill("#fff");
     },
     ellipse(){
         var el = this.refs.ellipse;
-        var paper = new cad.Paper({el:el});
+        var paper = new cad.Paper(el);
         paper.configLayer({
         stroke:"#fff"
         })
@@ -241,7 +241,7 @@ paper.diagonalellipse(30,30,230,320);
     },
     polygon(){
         var el = this.refs.polygon;
-        var paper = new cad.Paper({el:el});
+        var paper = new cad.Paper(el);
         paper.rect(0,0,paper.width(),paper.height()).fill("#000");
         var points = [];
         points.push({x:100,y:100});
@@ -254,7 +254,7 @@ paper.diagonalellipse(30,30,230,320);
     },
     polyline(){
         var el = this.refs.polyline;
-        var paper = new cad.Paper({el:el});
+        var paper = new cad.Paper(el);
         paper.configLayer({
         stroke:"#fff"
         })
@@ -271,7 +271,7 @@ paper.diagonalellipse(30,30,230,320);
     },
     path(){
         var el = this.refs.path;
-        var paper = new cad.Paper({el:el});
+        var paper = new cad.Paper(el);
         paper.configLayer({
         stroke:"#fff"
         })
@@ -280,7 +280,7 @@ paper.diagonalellipse(30,30,230,320);
     },
     text(){
         var el = this.refs.text;
-        var paper = new cad.Paper({el:el});
+        var paper = new cad.Paper(el);
         paper.configLayer({fill:"#fff"})
         paper.rect(0,0,paper.width(),paper.height()).fill("#000");
         paper.line(0,100,300,100).stroke("#fff");
@@ -300,13 +300,13 @@ paper.diagonalellipse(30,30,230,320);
     },
     image(){
         var el = this.refs.image;
-        var paper = new cad.Paper({el:el});
+        var paper = new cad.Paper(el);
         paper.rect(0,0,paper.width(),paper.height()).fill("#000");
         paper.image(10,10,270,129.5,"https://www.baidu.com/img/bd_logo1.png");
     },
     shape(){
         var el = this.refs.shape;
-        var paper = new cad.Paper({el:el});
+        var paper = new cad.Paper(el);
         paper.configLayer({stroke:"#fff"});
         paper.rect(0,0,paper.width(),paper.height()).fill("#000");
         //外接圆半径为50的正多边形
