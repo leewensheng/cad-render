@@ -50,35 +50,35 @@
 
 	var _core2 = _interopRequireDefault(_core);
 
-	var _path = __webpack_require__(5);
+	var _path = __webpack_require__(4);
 
 	var _path2 = _interopRequireDefault(_path);
 
-	var _point = __webpack_require__(6);
+	var _point = __webpack_require__(5);
 
 	var _point2 = _interopRequireDefault(_point);
 
-	var _line = __webpack_require__(7);
+	var _line = __webpack_require__(6);
 
 	var _line2 = _interopRequireDefault(_line);
 
-	var _paper = __webpack_require__(8);
+	var _paper = __webpack_require__(7);
 
 	var _paper2 = _interopRequireDefault(_paper);
 
-	var _namespace = __webpack_require__(13);
+	var _namespace = __webpack_require__(12);
 
 	var _namespace2 = _interopRequireDefault(_namespace);
 
-	var _browser = __webpack_require__(4);
+	var _browser = __webpack_require__(15);
 
 	var _browser2 = _interopRequireDefault(_browser);
 
-	var _animation = __webpack_require__(10);
+	var _animation = __webpack_require__(9);
 
 	var _animation2 = _interopRequireDefault(_animation);
 
-	var _color = __webpack_require__(14);
+	var _color = __webpack_require__(13);
 
 	var _color2 = _interopRequireDefault(_color);
 
@@ -92,7 +92,7 @@
 
 	__webpack_require__(20);
 
-	__webpack_require__(14);
+	__webpack_require__(13);
 
 	__webpack_require__(25);
 
@@ -112,8 +112,8 @@
 	     Paper: _paper2.default,
 	     namespace: _namespace2.default,
 	     browser: _browser2.default,
-	     init: function init(option) {
-	          return new this.Paper(option);
+	     init: function init(el, option) {
+	          return new this.Paper(el, option);
 	     }
 	});
 	_core2.default.extend({
@@ -161,14 +161,40 @@
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	var _browser = __webpack_require__(4);
-
-	var _browser2 = _interopRequireDefault(_browser);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	//$ to trim
 	var utils = {};
+	function isPlainObject(obj) {
+	    // Must be an Object.
+	    // Because of IE, we also have to check the presence of the constructor property.
+	    // Make sure that DOM nodes and window objects don't pass through, as well
+
+	    var class2type = {};
+
+	    var hasOwn = class2type.hasOwnProperty;
+
+	    if (!obj || (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) !== 'object' || obj.nodeType || obj != null && obj == obj.window) {
+	        return false;
+	    }
+
+	    try {
+	        // Not own constructor property must be Object
+	        if (obj.constructor && !hasOwn.call(obj, "constructor") && !hasOwn.call(obj.constructor.prototype, "isPrototypeOf")) {
+	            return false;
+	        }
+	    } catch (e) {
+	        // IE8,9 Will throw exceptions on certain host objects #9897
+	        return false;
+	    }
+
+	    // Own properties are enumerated firstly, so to speed up,
+	    // if last one is own, then all properties are own.
+	    var key;
+	    for (key in obj) {}
+
+	    return key === undefined || hasOwn.call(obj, key);
+	}
 	utils.parseTransform = function (transform) {
 	    transform = transform || '';
 	    var scale = transform.match(/scale\s*\([^\)]*\)/gi);
@@ -177,7 +203,8 @@
 	    var skewX = transform.match(/skewX\s*\([^\)]*\)/gi);
 	    var skewY = transform.match(/skewY\s*\([^\)]*\)/gi);
 	    var ret = {
-	        scale: 1,
+	        scaleX: 1,
+	        scaleY: 1,
 	        rotate: 0,
 	        rotateX: 0,
 	        rotateY: 0,
@@ -190,7 +217,14 @@
 
 	    if (scale) {
 	        args = getArgs(scale[0]);
-	        ret.scale = args[0] || 1;
+	        if (args.length <= 1) {
+	            ret.scaleX = args[0] || 1;
+	            ret.scaleY = args[0] || 1;
+	        }
+	        if (args.length == 2) {
+	            ret.scaleX = args[0];
+	            ret.scaleY = args[1];
+	        }
 	    }
 	    if (translate) {
 	        args = getArgs(translate[0]);
@@ -224,12 +258,17 @@
 	    var transX, transY, scale, scaleX, scaleY, rotate, rotateX, rotateY, skewX, skewY;
 	    transX = obj.transX || 0;
 	    transY = obj.transY || 0;
-	    scale = obj.scale || 1;
+	    scaleX = obj.scaleX || 1;
+	    scaleY = obj.scaleY || 1;
 	    rotate = obj.rotate || 0;
 	    rotateX = obj.rotateX || 0;
 	    rotateY = obj.rotateY || 0;
 	    skewX = obj.skewX || 0;
 	    skewY = obj.skewY || 0;
+	    var scale = scaleX;
+	    if (scaleX != scaleY) {
+	        scale = scaleX + ',' + scaleY;
+	    }
 	    var ret = 'translate(' + [transX, transY].join(',') + ')' + 'scale(' + scale + ')' + 'rotate(' + [rotate, rotateX, rotateY].join(',') + ')' + 'skewX(' + skewX + ')' + 'skewY(' + skewY + ')';
 	    return ret;
 	};
@@ -257,7 +296,15 @@
 	    }
 	    return new Blob([u8arr], { type: mime });
 	};
+	utils.blobToDataURL = function (blob, callback) {
+	    var a = new FileReader();
+	    a.onload = function (e) {
+	        callback(e.target.result);
+	    };
+	    a.readAsDataURL(blob);
+	};
 	utils.extend = function () {
+	    var isArray = Array.isArray;
 	    var options,
 	        name,
 	        src,
@@ -279,11 +326,10 @@
 	    }
 
 	    // Handle case when target is a string or something (possible in deep copy)
-	    if ((typeof target === 'undefined' ? 'undefined' : _typeof(target)) !== "object" && !jQuery.isFunction(target)) {
+	    if ((typeof target === 'undefined' ? 'undefined' : _typeof(target)) !== "object" && typeof target !== 'function') {
 	        target = {};
 	    }
 
-	    // Extend jQuery itself if only one argument is passed
 	    if (i === length) {
 	        target = this;
 	        i--;
@@ -303,16 +349,16 @@
 	                }
 
 	                // Recurse if we're merging plain objects or arrays
-	                if (deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy)))) {
+	                if (deep && copy && (isPlainObject(copy) || (copyIsArray = isArray(copy)))) {
 	                    if (copyIsArray) {
 	                        copyIsArray = false;
-	                        clone = src && jQuery.isArray(src) ? src : [];
+	                        clone = src && isArray(src) ? src : [];
 	                    } else {
-	                        clone = src && jQuery.isPlainObject(src) ? src : {};
+	                        clone = src && isPlainObject(src) ? src : {};
 	                    }
 
 	                    // Never move original objects, clone them
-	                    target[name] = jQuery.extend(deep, clone, copy);
+	                    target[name] = this.extend(deep, clone, copy);
 
 	                    // Don't bring in undefined values
 	                } else if (copy !== undefined) {
@@ -335,277 +381,6 @@
 
 /***/ },
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
-
-	!function (name, definition) {
-	  if (typeof module != 'undefined' && module.exports) module.exports = definition();else if (true) !(__WEBPACK_AMD_DEFINE_FACTORY__ = (definition), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));else this[name] = definition();
-	}('bowser', function () {
-	  /**
-	    * See useragents.js for examples of navigator.userAgent
-	    */
-
-	  var t = true;
-
-	  function detect(ua) {
-
-	    function getFirstMatch(regex) {
-	      var match = ua.match(regex);
-	      return match && match.length > 1 && match[1] || '';
-	    }
-
-	    function getSecondMatch(regex) {
-	      var match = ua.match(regex);
-	      return match && match.length > 1 && match[2] || '';
-	    }
-
-	    var iosdevice = getFirstMatch(/(ipod|iphone|ipad)/i).toLowerCase(),
-	        likeAndroid = /like android/i.test(ua),
-	        android = !likeAndroid && /android/i.test(ua),
-	        chromeos = /CrOS/.test(ua),
-	        silk = /silk/i.test(ua),
-	        sailfish = /sailfish/i.test(ua),
-	        tizen = /tizen/i.test(ua),
-	        webos = /(web|hpw)os/i.test(ua),
-	        windowsphone = /windows phone/i.test(ua),
-	        windows = !windowsphone && /windows/i.test(ua),
-	        mac = !iosdevice && !silk && /macintosh/i.test(ua),
-	        linux = !android && !sailfish && !tizen && !webos && /linux/i.test(ua),
-	        edgeVersion = getFirstMatch(/edge\/(\d+(\.\d+)?)/i),
-	        versionIdentifier = getFirstMatch(/version\/(\d+(\.\d+)?)/i),
-	        tablet = /tablet/i.test(ua),
-	        mobile = !tablet && /[^-]mobi/i.test(ua),
-	        result;
-
-	    if (/opera|opr/i.test(ua)) {
-	      result = {
-	        name: 'Opera',
-	        opera: t,
-	        version: versionIdentifier || getFirstMatch(/(?:opera|opr)[\s\/](\d+(\.\d+)?)/i)
-	      };
-	    } else if (/yabrowser/i.test(ua)) {
-	      result = {
-	        name: 'Yandex Browser',
-	        yandexbrowser: t,
-	        version: versionIdentifier || getFirstMatch(/(?:yabrowser)[\s\/](\d+(\.\d+)?)/i)
-	      };
-	    } else if (windowsphone) {
-	      result = {
-	        name: 'Windows Phone',
-	        windowsphone: t
-	      };
-	      if (edgeVersion) {
-	        result.msedge = t;
-	        result.version = edgeVersion;
-	      } else {
-	        result.msie = t;
-	        result.version = getFirstMatch(/iemobile\/(\d+(\.\d+)?)/i);
-	      }
-	    } else if (/msie|trident/i.test(ua)) {
-	      result = {
-	        name: 'Internet Explorer',
-	        msie: t,
-	        version: getFirstMatch(/(?:msie |rv:)(\d+(\.\d+)?)/i)
-	      };
-	    } else if (chromeos) {
-	      result = {
-	        name: 'Chrome',
-	        chromeos: t,
-	        chromeBook: t,
-	        chrome: t,
-	        version: getFirstMatch(/(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i)
-	      };
-	    } else if (/chrome.+? edge/i.test(ua)) {
-	      result = {
-	        name: 'Microsoft Edge',
-	        msedge: t,
-	        version: edgeVersion
-	      };
-	    } else if (/chrome|crios|crmo/i.test(ua)) {
-	      result = {
-	        name: 'Chrome',
-	        chrome: t,
-	        version: getFirstMatch(/(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i)
-	      };
-	    } else if (iosdevice) {
-	      result = {
-	        name: iosdevice == 'iphone' ? 'iPhone' : iosdevice == 'ipad' ? 'iPad' : 'iPod'
-	      };
-	      // WTF: version is not part of user agent in web apps
-	      if (versionIdentifier) {
-	        result.version = versionIdentifier;
-	      }
-	    } else if (sailfish) {
-	      result = {
-	        name: 'Sailfish',
-	        sailfish: t,
-	        version: getFirstMatch(/sailfish\s?browser\/(\d+(\.\d+)?)/i)
-	      };
-	    } else if (/seamonkey\//i.test(ua)) {
-	      result = {
-	        name: 'SeaMonkey',
-	        seamonkey: t,
-	        version: getFirstMatch(/seamonkey\/(\d+(\.\d+)?)/i)
-	      };
-	    } else if (/firefox|iceweasel/i.test(ua)) {
-	      result = {
-	        name: 'Firefox',
-	        firefox: t,
-	        version: getFirstMatch(/(?:firefox|iceweasel)[ \/](\d+(\.\d+)?)/i)
-	      };
-	      if (/\((mobile|tablet);[^\)]*rv:[\d\.]+\)/i.test(ua)) {
-	        result.firefoxos = t;
-	      }
-	    } else if (silk) {
-	      result = {
-	        name: 'Amazon Silk',
-	        silk: t,
-	        version: getFirstMatch(/silk\/(\d+(\.\d+)?)/i)
-	      };
-	    } else if (android) {
-	      result = {
-	        name: 'Android',
-	        version: versionIdentifier
-	      };
-	    } else if (/phantom/i.test(ua)) {
-	      result = {
-	        name: 'PhantomJS',
-	        phantom: t,
-	        version: getFirstMatch(/phantomjs\/(\d+(\.\d+)?)/i)
-	      };
-	    } else if (/blackberry|\bbb\d+/i.test(ua) || /rim\stablet/i.test(ua)) {
-	      result = {
-	        name: 'BlackBerry',
-	        blackberry: t,
-	        version: versionIdentifier || getFirstMatch(/blackberry[\d]+\/(\d+(\.\d+)?)/i)
-	      };
-	    } else if (webos) {
-	      result = {
-	        name: 'WebOS',
-	        webos: t,
-	        version: versionIdentifier || getFirstMatch(/w(?:eb)?osbrowser\/(\d+(\.\d+)?)/i)
-	      };
-	      /touchpad\//i.test(ua) && (result.touchpad = t);
-	    } else if (/bada/i.test(ua)) {
-	      result = {
-	        name: 'Bada',
-	        bada: t,
-	        version: getFirstMatch(/dolfin\/(\d+(\.\d+)?)/i)
-	      };
-	    } else if (tizen) {
-	      result = {
-	        name: 'Tizen',
-	        tizen: t,
-	        version: getFirstMatch(/(?:tizen\s?)?browser\/(\d+(\.\d+)?)/i) || versionIdentifier
-	      };
-	    } else if (/safari/i.test(ua)) {
-	      result = {
-	        name: 'Safari',
-	        safari: t,
-	        version: versionIdentifier
-	      };
-	    } else {
-	      result = {
-	        name: getFirstMatch(/^(.*)\/(.*) /),
-	        version: getSecondMatch(/^(.*)\/(.*) /)
-	      };
-	    }
-
-	    // set webkit or gecko flag for browsers based on these engines
-	    if (!result.msedge && /(apple)?webkit/i.test(ua)) {
-	      result.name = result.name || "Webkit";
-	      result.webkit = t;
-	      if (!result.version && versionIdentifier) {
-	        result.version = versionIdentifier;
-	      }
-	    } else if (!result.opera && /gecko\//i.test(ua)) {
-	      result.name = result.name || "Gecko";
-	      result.gecko = t;
-	      result.version = result.version || getFirstMatch(/gecko\/(\d+(\.\d+)?)/i);
-	    }
-
-	    // set OS flags for platforms that have multiple browsers
-	    if (!result.msedge && (android || result.silk)) {
-	      result.android = t;
-	    } else if (iosdevice) {
-	      result[iosdevice] = t;
-	      result.ios = t;
-	    } else if (windows) {
-	      result.windows = t;
-	    } else if (mac) {
-	      result.mac = t;
-	    } else if (linux) {
-	      result.linux = t;
-	    }
-
-	    // OS version extraction
-	    var osVersion = '';
-	    if (result.windowsphone) {
-	      osVersion = getFirstMatch(/windows phone (?:os)?\s?(\d+(\.\d+)*)/i);
-	    } else if (iosdevice) {
-	      osVersion = getFirstMatch(/os (\d+([_\s]\d+)*) like mac os x/i);
-	      osVersion = osVersion.replace(/[_\s]/g, '.');
-	    } else if (android) {
-	      osVersion = getFirstMatch(/android[ \/-](\d+(\.\d+)*)/i);
-	    } else if (result.webos) {
-	      osVersion = getFirstMatch(/(?:web|hpw)os\/(\d+(\.\d+)*)/i);
-	    } else if (result.blackberry) {
-	      osVersion = getFirstMatch(/rim\stablet\sos\s(\d+(\.\d+)*)/i);
-	    } else if (result.bada) {
-	      osVersion = getFirstMatch(/bada\/(\d+(\.\d+)*)/i);
-	    } else if (result.tizen) {
-	      osVersion = getFirstMatch(/tizen[\/\s](\d+(\.\d+)*)/i);
-	    }
-	    if (osVersion) {
-	      result.osversion = osVersion;
-	    }
-
-	    // device type extraction
-	    var osMajorVersion = osVersion.split('.')[0];
-	    if (tablet || iosdevice == 'ipad' || android && (osMajorVersion == 3 || osMajorVersion == 4 && !mobile) || result.silk) {
-	      result.tablet = t;
-	    } else if (mobile || iosdevice == 'iphone' || iosdevice == 'ipod' || android || result.blackberry || result.webos || result.bada) {
-	      result.mobile = t;
-	    }
-
-	    // Graded Browser Support
-	    // http://developer.yahoo.com/yui/articles/gbs
-	    if (result.msedge || result.msie && result.version >= 10 || result.yandexbrowser && result.version >= 15 || result.chrome && result.version >= 20 || result.firefox && result.version >= 20.0 || result.safari && result.version >= 6 || result.opera && result.version >= 10.0 || result.ios && result.osversion && result.osversion.split(".")[0] >= 6 || result.blackberry && result.version >= 10.1) {
-	      result.a = t;
-	    } else if (result.msie && result.version < 10 || result.chrome && result.version < 20 || result.firefox && result.version < 20.0 || result.safari && result.version < 6 || result.opera && result.version < 10.0 || result.ios && result.osversion && result.osversion.split(".")[0] < 6) {
-	      result.c = t;
-	    } else result.x = t;
-
-	    return result;
-	  }
-
-	  var bowser = detect(typeof navigator !== 'undefined' ? navigator.userAgent : '');
-
-	  bowser.test = function (browserList) {
-	    for (var i = 0; i < browserList.length; ++i) {
-	      var browserItem = browserList[i];
-	      if (typeof browserItem === 'string') {
-	        if (browserItem in bowser) {
-	          return true;
-	        }
-	      }
-	    }
-	    return false;
-	  };
-
-	  /*
-	   * Set our detect method to the main bowser object so we can
-	   * reuse it to test other user agents.
-	   * This is needed to implement future tests.
-	   */
-	  bowser._detect = detect;
-
-	  return bowser;
-	});
-
-/***/ },
-/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -759,7 +534,7 @@
 	        var str = this.toString();
 	        return new this.constructor(str);
 	    },
-	    connectPath: function connectToPath(path) {
+	    connectPath: function connectPath(path) {
 	        if (typeof path === 'string') {
 	            var ret = Path.parse(path);
 	            if (ret) {
@@ -833,7 +608,7 @@
 	}
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -881,7 +656,7 @@
 		getAngleFrom: function getAngleFrom(x0, y0) {
 			return this.getAngleFromOrigin(this.x - x0, this.y - y0);
 		},
-		getAngleFromOrigin: function getAngleToOrigin(dx, dy) {
+		getAngleFromOrigin: function getAngleFromOrigin(dx, dy) {
 			if (dx == dy && dx == 0) {
 				return 0;
 			} else if (dx == 0) {
@@ -920,7 +695,7 @@
 			    y1 = mirrorPoint.y;
 			var vx = (x + x1) / 2;
 			var vy = (y + y1) / 2;
-			return new Point.prototype.init(vx, vy);
+			return this.constructor(vx, vy);
 		},
 		mirror: function mirror(x1, y1, x2, y2) {
 			var a = y1 - y2;
@@ -931,7 +706,7 @@
 			var x0, y0;
 			x0 = x - 2 * a * (a * x + b * y + c) / (a * a + b * b);
 			y0 = y - 2 * b * (a * x + b * y + c) / (a * a + b * b);
-			return new Point.prototype.init(x0, y0);
+			return this.constructor(x0, y0);
 		},
 		moveBy: function moveBy(dx, dy) {
 			var x = this.x + dx;
@@ -994,12 +769,12 @@
 	module.exports = Point;
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _point = __webpack_require__(6);
+	var _point = __webpack_require__(5);
 
 	var _point2 = _interopRequireDefault(_point);
 
@@ -1057,7 +832,14 @@
 			p6 = -2 * b * c / g;
 			return 'matrix(' + [p1, p2, p3, p4, p5, p6].join(',') + ')';
 		},
-		extendLen: function extendLen(index, len) {
+		extendLen: function extendLen(len, index) {
+			if (typeof index === "undefined") {
+				index = 1;
+			}
+			var x1 = this.x1,
+			    y1 = this.y1,
+			    x2 = this.x2,
+			    y2 = this.y2;
 			var p1 = (0, _point2.default)(x1, y1);
 			var p2 = (0, _point2.default)(x2, y2);
 			var angle;
@@ -1180,7 +962,7 @@
 	Line.prototype.init.prototype = Line.prototype;
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1191,13 +973,13 @@
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	__webpack_require__(9);
+	__webpack_require__(8);
 
-	var _namespace = __webpack_require__(13);
+	var _namespace = __webpack_require__(12);
 
 	var _namespace2 = _interopRequireDefault(_namespace);
 
-	var _browser = __webpack_require__(4);
+	var _browser = __webpack_require__(15);
 
 	var _browser2 = _interopRequireDefault(_browser);
 
@@ -1205,10 +987,31 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Paper = function Paper(option) {
-	    return this.init(option);
+	var Paper = function Paper(el, option) {
+	    return this.init(el, option);
 	};
 	Paper.prototype = {
+	    touches: function touches(e) {
+	        var svg = this.svg.get(0);
+	        var clientRect = svg.getBoundingClientRect();
+	        var ret = [];
+	        if (/touch/gi.test(e.type) && e.originalEvent) {
+	            for (var i = 0; i < e.originalEvent.touches.length; i++) {
+	                ret.push({
+	                    x: e.originalEvent.touches[i].clientX - clientRect.left,
+	                    y: e.originalEvent.touches[i].clientY - clientRect.top
+	                });
+	            }
+	        } else {
+	            for (var i = 0; i < e.touches.length; i++) {
+	                ret.push({
+	                    x: e.touches[i].clientX - clientRect.left,
+	                    y: e.touches[i].clientY - clientRect.top
+	                });
+	            }
+	        }
+	        return ret;
+	    },
 	    mouse: function mouse(e, mutiple) {
 	        var svg = this.svg.get(0);
 	        var clientRect = svg.getBoundingClientRect();
@@ -1227,22 +1030,6 @@
 	            }
 	        } else {
 	            var ret = [];
-	            if (/touch/gi.test(e.type) && e.originalEvent) {
-	                for (var i = 0; i < e.originalEvent.touches.length; i++) {
-	                    ret.push({
-	                        x: e.originalEvent.touches[i].clientX - clientRect.left,
-	                        y: e.originalEvent.touches[i].clientY - clientRect.top
-	                    });
-	                }
-	            } else {
-	                for (var i = 0; i < e.touches.length; i++) {
-	                    ret.push({
-	                        x: e.touches[i].clientX - clientRect.left,
-	                        y: e.touches[i].clientY - clientRect.top
-	                    });
-	                }
-	            }
-	            return ret;
 	        }
 	    },
 	    createSVGElement: function createSVGElement(tagName, attributes) {
@@ -1263,9 +1050,21 @@
 	        }
 	        return (0, _jquery2.default)(el);
 	    },
-	    init: function init(option) {
-	        this.option = option;
-	        this.initPaper();
+	    init: function init(el, option) {
+	        var el, width, height;
+	        if (typeof option == 'undefined') {
+	            option = {};
+	        }
+	        el = (0, _jquery2.default)(el).first();
+	        var width = option.width || (0, _jquery2.default)(el).width() || 600;
+	        var height = option.height || (0, _jquery2.default)(el).height() || 400;
+	        var svg = this.createSVGElement('svg', { width: width, height: height, xmlns: "http://www.w3.org/2000/svg" });
+	        svg.attr("xmlns:xlink", _namespace2.default.xlink);
+	        var defs = this.createSVGElement("defs");
+	        (0, _jquery2.default)(el).append(svg);
+	        (0, _jquery2.default)(svg).append(defs);
+	        this.svg = svg;
+	        this.initDefaultLayer();
 	        return this;
 	    },
 	    width: function width() {
@@ -1282,19 +1081,6 @@
 	        var width = this.width();
 	        var height = this.height();
 	        return { x: width / 2, y: height / 2 };
-	    },
-	    initPaper: function initPaper() {
-	        var option = this.option;
-	        var el = option.el;
-	        var width = option.width || (0, _jquery2.default)(el).width();
-	        var height = option.height || (0, _jquery2.default)(el).height();
-	        var svg = this.createSVGElement('svg', { width: width, height: height, xmlns: "http://www.w3.org/2000/svg" });
-	        var defs = this.createSVGElement("defs");
-	        (0, _jquery2.default)(el).append(svg);
-	        (0, _jquery2.default)(svg).append(defs);
-	        this.svg = svg;
-	        this.initDefaultLayer();
-	        return this;
 	    },
 	    append: function append(tagName, attributes) {
 	        var currentLayer = this.currentLayer;
@@ -1359,11 +1145,22 @@
 	            a.href = base64; //将画布内的信息导出为png图片数据
 	            a.download = name || document.title; //设定下载名称
 	            a.target = "_blank";
-	            if (_browser2.default.chrome) {
-	                a.click();
-	            } else {
-	                window.open(a.href);
+	            // Chrome and Firefox
+	            // 来自echarts
+	            if (typeof MouseEvent === 'function' && !(_browser2.default.msedge || _browser2.default.msie)) {
+	                var evt = new MouseEvent('click', {
+	                    view: window,
+	                    bubbles: true,
+	                    cancelable: false
+	                });
+	                a.dispatchEvent(evt);
 	            }
+	            // IE
+	            else {
+	                    var html = '' + '<body style="margin:0;">' + '<img src="' + base64 + '" style="max-width:100%;" title="' + 'test' + '" />' + '</body>';
+	                    var tab = window.open();
+	                    tab.document.write(html);
+	                }
 	        });
 	        return this;
 	    },
@@ -1391,7 +1188,7 @@
 	module.exports = Paper;
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1402,15 +1199,15 @@
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	var _animation = __webpack_require__(10);
+	var _animation = __webpack_require__(9);
 
 	var _animation2 = _interopRequireDefault(_animation);
 
-	var _namespace = __webpack_require__(13);
+	var _namespace = __webpack_require__(12);
 
 	var _namespace2 = _interopRequireDefault(_namespace);
 
-	var _color = __webpack_require__(14);
+	var _color = __webpack_require__(13);
 
 	var _color2 = _interopRequireDefault(_color);
 
@@ -1418,13 +1215,12 @@
 
 	var _utils2 = _interopRequireDefault(_utils);
 
-	var _line = __webpack_require__(7);
+	var _line = __webpack_require__(6);
 
 	var _line2 = _interopRequireDefault(_line);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	window.$ = _jquery2.default;
 	_jquery2.default.parseTransform = _utils2.default.parseTransform;
 	_jquery2.default.getTransform = _utils2.default.getTransform;
 	_jquery2.default.fn.transition = function (attr, during, ease, callback) {
@@ -1557,14 +1353,10 @@
 	        }
 	        allNodes = allNodes.concat(nodes);
 	    });
-	    if (_jquery2.default === window.jQuery) {
-	        return this.pushStack(allNodes);
-	    } else if (_jquery2.default === window.Zepto) {
-	        for (var i = 0; i < allNodes.length; i++) {
-	            this[i] = allNodes[i];
-	        }
-	        this.length = allNodes.length;
+	    for (var i = 0; i < allNodes.length; i++) {
+	        this[i] = allNodes[i];
 	    }
+	    this.length = allNodes.length;
 	    return this;
 	};
 	_jquery2.default.fn.scale = function (scale, cx, cy) {
@@ -1772,16 +1564,16 @@
 	};
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-	__webpack_require__(11);
+	__webpack_require__(10);
 
-	var _easing = __webpack_require__(12);
+	var _easing = __webpack_require__(11);
 
 	var _easing2 = _interopRequireDefault(_easing);
 
@@ -2000,7 +1792,7 @@
 	module.exports = Animation;
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2034,7 +1826,7 @@
 	})();
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;"use strict";
@@ -2374,7 +2166,7 @@
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2386,20 +2178,16 @@
 	};
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-	var _colorName = __webpack_require__(15);
+	var _colorName = __webpack_require__(14);
 
 	var _colorName2 = _interopRequireDefault(_colorName);
-
-	var _core = __webpack_require__(1);
-
-	var _core2 = _interopRequireDefault(_core);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2590,7 +2378,7 @@
 			    g,
 			    b,
 			    a = 1;
-			if ((typeof color === 'undefined' ? 'undefined' : _typeof(color)) == undefined) {
+			if ((typeof color === "undefined" ? "undefined" : _typeof(color)) == undefined) {
 				r = g = b = 0;
 			} else if (typeof color == 'string') {
 				var rgba = this.constructor.getColorByStr(color);
@@ -2598,7 +2386,7 @@
 				g = rgba.g || 0;
 				b = rgba.b || 0;
 				a = rgba.a || 1;
-			} else if ((typeof color === 'undefined' ? 'undefined' : _typeof(color)) == 'object') {
+			} else if ((typeof color === "undefined" ? "undefined" : _typeof(color)) == 'object') {
 				if (color instanceof Array) {
 					var r = color[0] || 0;
 					var g = color[1] || 0;
@@ -2654,7 +2442,7 @@
 	module.exports = Color;
 
 /***/ },
-/* 15 */
+/* 14 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2811,6 +2599,277 @@
 	};
 
 /***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
+
+	!function (name, definition) {
+	  if (typeof module != 'undefined' && module.exports) module.exports = definition();else if (true) !(__WEBPACK_AMD_DEFINE_FACTORY__ = (definition), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));else this[name] = definition();
+	}('bowser', function () {
+	  /**
+	    * See useragents.js for examples of navigator.userAgent
+	    */
+
+	  var t = true;
+
+	  function detect(ua) {
+
+	    function getFirstMatch(regex) {
+	      var match = ua.match(regex);
+	      return match && match.length > 1 && match[1] || '';
+	    }
+
+	    function getSecondMatch(regex) {
+	      var match = ua.match(regex);
+	      return match && match.length > 1 && match[2] || '';
+	    }
+
+	    var iosdevice = getFirstMatch(/(ipod|iphone|ipad)/i).toLowerCase(),
+	        likeAndroid = /like android/i.test(ua),
+	        android = !likeAndroid && /android/i.test(ua),
+	        chromeos = /CrOS/.test(ua),
+	        silk = /silk/i.test(ua),
+	        sailfish = /sailfish/i.test(ua),
+	        tizen = /tizen/i.test(ua),
+	        webos = /(web|hpw)os/i.test(ua),
+	        windowsphone = /windows phone/i.test(ua),
+	        windows = !windowsphone && /windows/i.test(ua),
+	        mac = !iosdevice && !silk && /macintosh/i.test(ua),
+	        linux = !android && !sailfish && !tizen && !webos && /linux/i.test(ua),
+	        edgeVersion = getFirstMatch(/edge\/(\d+(\.\d+)?)/i),
+	        versionIdentifier = getFirstMatch(/version\/(\d+(\.\d+)?)/i),
+	        tablet = /tablet/i.test(ua),
+	        mobile = !tablet && /[^-]mobi/i.test(ua),
+	        result;
+
+	    if (/opera|opr/i.test(ua)) {
+	      result = {
+	        name: 'Opera',
+	        opera: t,
+	        version: versionIdentifier || getFirstMatch(/(?:opera|opr)[\s\/](\d+(\.\d+)?)/i)
+	      };
+	    } else if (/yabrowser/i.test(ua)) {
+	      result = {
+	        name: 'Yandex Browser',
+	        yandexbrowser: t,
+	        version: versionIdentifier || getFirstMatch(/(?:yabrowser)[\s\/](\d+(\.\d+)?)/i)
+	      };
+	    } else if (windowsphone) {
+	      result = {
+	        name: 'Windows Phone',
+	        windowsphone: t
+	      };
+	      if (edgeVersion) {
+	        result.msedge = t;
+	        result.version = edgeVersion;
+	      } else {
+	        result.msie = t;
+	        result.version = getFirstMatch(/iemobile\/(\d+(\.\d+)?)/i);
+	      }
+	    } else if (/msie|trident/i.test(ua)) {
+	      result = {
+	        name: 'Internet Explorer',
+	        msie: t,
+	        version: getFirstMatch(/(?:msie |rv:)(\d+(\.\d+)?)/i)
+	      };
+	    } else if (chromeos) {
+	      result = {
+	        name: 'Chrome',
+	        chromeos: t,
+	        chromeBook: t,
+	        chrome: t,
+	        version: getFirstMatch(/(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (/chrome.+? edge/i.test(ua)) {
+	      result = {
+	        name: 'Microsoft Edge',
+	        msedge: t,
+	        version: edgeVersion
+	      };
+	    } else if (/chrome|crios|crmo/i.test(ua)) {
+	      result = {
+	        name: 'Chrome',
+	        chrome: t,
+	        version: getFirstMatch(/(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (iosdevice) {
+	      result = {
+	        name: iosdevice == 'iphone' ? 'iPhone' : iosdevice == 'ipad' ? 'iPad' : 'iPod'
+	      };
+	      // WTF: version is not part of user agent in web apps
+	      if (versionIdentifier) {
+	        result.version = versionIdentifier;
+	      }
+	    } else if (sailfish) {
+	      result = {
+	        name: 'Sailfish',
+	        sailfish: t,
+	        version: getFirstMatch(/sailfish\s?browser\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (/seamonkey\//i.test(ua)) {
+	      result = {
+	        name: 'SeaMonkey',
+	        seamonkey: t,
+	        version: getFirstMatch(/seamonkey\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (/firefox|iceweasel/i.test(ua)) {
+	      result = {
+	        name: 'Firefox',
+	        firefox: t,
+	        version: getFirstMatch(/(?:firefox|iceweasel)[ \/](\d+(\.\d+)?)/i)
+	      };
+	      if (/\((mobile|tablet);[^\)]*rv:[\d\.]+\)/i.test(ua)) {
+	        result.firefoxos = t;
+	      }
+	    } else if (silk) {
+	      result = {
+	        name: 'Amazon Silk',
+	        silk: t,
+	        version: getFirstMatch(/silk\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (android) {
+	      result = {
+	        name: 'Android',
+	        version: versionIdentifier
+	      };
+	    } else if (/phantom/i.test(ua)) {
+	      result = {
+	        name: 'PhantomJS',
+	        phantom: t,
+	        version: getFirstMatch(/phantomjs\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (/blackberry|\bbb\d+/i.test(ua) || /rim\stablet/i.test(ua)) {
+	      result = {
+	        name: 'BlackBerry',
+	        blackberry: t,
+	        version: versionIdentifier || getFirstMatch(/blackberry[\d]+\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (webos) {
+	      result = {
+	        name: 'WebOS',
+	        webos: t,
+	        version: versionIdentifier || getFirstMatch(/w(?:eb)?osbrowser\/(\d+(\.\d+)?)/i)
+	      };
+	      /touchpad\//i.test(ua) && (result.touchpad = t);
+	    } else if (/bada/i.test(ua)) {
+	      result = {
+	        name: 'Bada',
+	        bada: t,
+	        version: getFirstMatch(/dolfin\/(\d+(\.\d+)?)/i)
+	      };
+	    } else if (tizen) {
+	      result = {
+	        name: 'Tizen',
+	        tizen: t,
+	        version: getFirstMatch(/(?:tizen\s?)?browser\/(\d+(\.\d+)?)/i) || versionIdentifier
+	      };
+	    } else if (/safari/i.test(ua)) {
+	      result = {
+	        name: 'Safari',
+	        safari: t,
+	        version: versionIdentifier
+	      };
+	    } else {
+	      result = {
+	        name: getFirstMatch(/^(.*)\/(.*) /),
+	        version: getSecondMatch(/^(.*)\/(.*) /)
+	      };
+	    }
+
+	    // set webkit or gecko flag for browsers based on these engines
+	    if (!result.msedge && /(apple)?webkit/i.test(ua)) {
+	      result.name = result.name || "Webkit";
+	      result.webkit = t;
+	      if (!result.version && versionIdentifier) {
+	        result.version = versionIdentifier;
+	      }
+	    } else if (!result.opera && /gecko\//i.test(ua)) {
+	      result.name = result.name || "Gecko";
+	      result.gecko = t;
+	      result.version = result.version || getFirstMatch(/gecko\/(\d+(\.\d+)?)/i);
+	    }
+
+	    // set OS flags for platforms that have multiple browsers
+	    if (!result.msedge && (android || result.silk)) {
+	      result.android = t;
+	    } else if (iosdevice) {
+	      result[iosdevice] = t;
+	      result.ios = t;
+	    } else if (windows) {
+	      result.windows = t;
+	    } else if (mac) {
+	      result.mac = t;
+	    } else if (linux) {
+	      result.linux = t;
+	    }
+
+	    // OS version extraction
+	    var osVersion = '';
+	    if (result.windowsphone) {
+	      osVersion = getFirstMatch(/windows phone (?:os)?\s?(\d+(\.\d+)*)/i);
+	    } else if (iosdevice) {
+	      osVersion = getFirstMatch(/os (\d+([_\s]\d+)*) like mac os x/i);
+	      osVersion = osVersion.replace(/[_\s]/g, '.');
+	    } else if (android) {
+	      osVersion = getFirstMatch(/android[ \/-](\d+(\.\d+)*)/i);
+	    } else if (result.webos) {
+	      osVersion = getFirstMatch(/(?:web|hpw)os\/(\d+(\.\d+)*)/i);
+	    } else if (result.blackberry) {
+	      osVersion = getFirstMatch(/rim\stablet\sos\s(\d+(\.\d+)*)/i);
+	    } else if (result.bada) {
+	      osVersion = getFirstMatch(/bada\/(\d+(\.\d+)*)/i);
+	    } else if (result.tizen) {
+	      osVersion = getFirstMatch(/tizen[\/\s](\d+(\.\d+)*)/i);
+	    }
+	    if (osVersion) {
+	      result.osversion = osVersion;
+	    }
+
+	    // device type extraction
+	    var osMajorVersion = osVersion.split('.')[0];
+	    if (tablet || iosdevice == 'ipad' || android && (osMajorVersion == 3 || osMajorVersion == 4 && !mobile) || result.silk) {
+	      result.tablet = t;
+	    } else if (mobile || iosdevice == 'iphone' || iosdevice == 'ipod' || android || result.blackberry || result.webos || result.bada) {
+	      result.mobile = t;
+	    }
+
+	    // Graded Browser Support
+	    // http://developer.yahoo.com/yui/articles/gbs
+	    if (result.msedge || result.msie && result.version >= 10 || result.yandexbrowser && result.version >= 15 || result.chrome && result.version >= 20 || result.firefox && result.version >= 20.0 || result.safari && result.version >= 6 || result.opera && result.version >= 10.0 || result.ios && result.osversion && result.osversion.split(".")[0] >= 6 || result.blackberry && result.version >= 10.1) {
+	      result.a = t;
+	    } else if (result.msie && result.version < 10 || result.chrome && result.version < 20 || result.firefox && result.version < 20.0 || result.safari && result.version < 6 || result.opera && result.version < 10.0 || result.ios && result.osversion && result.osversion.split(".")[0] < 6) {
+	      result.c = t;
+	    } else result.x = t;
+
+	    return result;
+	  }
+
+	  var bowser = detect(typeof navigator !== 'undefined' ? navigator.userAgent : '');
+
+	  bowser.test = function (browserList) {
+	    for (var i = 0; i < browserList.length; ++i) {
+	      var browserItem = browserList[i];
+	      if (typeof browserItem === 'string') {
+	        if (browserItem in bowser) {
+	          return true;
+	        }
+	      }
+	    }
+	    return false;
+	  };
+
+	  /*
+	   * Set our detect method to the main bowser object so we can
+	   * reuse it to test other user agents.
+	   * This is needed to implement future tests.
+	   */
+	  bowser._detect = detect;
+
+	  return bowser;
+	});
+
+/***/ },
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -2818,15 +2877,15 @@
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-	var _paper = __webpack_require__(8);
+	var _paper = __webpack_require__(7);
 
 	var _paper2 = _interopRequireDefault(_paper);
 
-	var _point = __webpack_require__(6);
+	var _point = __webpack_require__(5);
 
 	var _point2 = _interopRequireDefault(_point);
 
-	var _path2 = __webpack_require__(5);
+	var _path2 = __webpack_require__(4);
 
 	var _path3 = _interopRequireDefault(_path2);
 
@@ -2961,10 +3020,14 @@
 	        });
 	    },
 	    arc: function arc(cx, cy, radius, startAngle, endAngle, counterclockwise) {
-	        var p1 = (0, _point2.default)(cx, cy).angleMoveTo(startAngle, radius);
-	        var path = new cad.Path();
-	        path.M(p1.x, p1.y).angleArcTo(endAngle - startAngle, cx, cy, radius);
-	        return this.path(path.toString());
+	        var angle = endAngle - startAngle;
+	        if (angle < 360) {
+	            var path = new cad.Path();
+	            path.arc(cx, cy, radius, startAngle, endAngle, counterclockwise);
+	            return this.path(path.toString());
+	        } else {
+	            return this.circle(cx, cy, radius);
+	        }
 	    },
 	    path: function path(_path) {
 	        if ((typeof _path === 'undefined' ? 'undefined' : _typeof(_path)) == 'object') {
@@ -3051,7 +3114,7 @@
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-	var _paper = __webpack_require__(8);
+	var _paper = __webpack_require__(7);
 
 	var _paper2 = _interopRequireDefault(_paper);
 
@@ -3091,7 +3154,7 @@
 				config.id = id;
 				this.layers[id] = config;
 			}
-			var g = this.createSVGElement(tag, config).addClass("cad-layer");
+			var g = this.createSVGElement(tag, config);
 			if (type == 'block') {
 				this.svg.find("defs").append(g);
 			} else {
@@ -3193,11 +3256,11 @@
 
 	'use strict';
 
-	var _path = __webpack_require__(5);
+	var _path = __webpack_require__(4);
 
 	var _path2 = _interopRequireDefault(_path);
 
-	var _point = __webpack_require__(6);
+	var _point = __webpack_require__(5);
 
 	var _point2 = _interopRequireDefault(_point);
 
@@ -3302,6 +3365,17 @@
 	        }
 	        return points;
 	    },
+	    arc: function arc(cx, cy, r, startAngle, endAngle, counterClockWise) {
+	        var pCenter = (0, _point2.default)(cx, cy);
+	        var pStart = pCenter.clone().angleMoveTo(startAngle, r);
+	        var pEnd = pCenter.clone().angleMoveTo(endAngle, r);
+	        var counterLargeArc = pEnd - pStart > 180 ? 1 : 0;
+	        if (counterClockWise) {
+	            //逆时针,canvas和svg相反
+	            counterLargeArc = false;
+	        }
+	        return this.M(pStart.x, pStart.y).A(r, r, 0, counterLargeArc, counterClockWise ? 0 : 1, pEnd.x, pEnd.y);
+	    },
 	    getCurPoint: function getCurPoint() {
 	        var actions = this.pathStack;
 	        var x = 0,
@@ -3325,7 +3399,7 @@
 	        var dy = len * Math.sin(angle * Math.PI / 180);
 	        return this.moveTo(dx, dy);
 	    },
-	    angleArcTo: function angleArcTo(angle, cx, cy, r) {
+	    angleArcTo: function angleArcTo(angle, cx, cy) {
 	        if (angle == 0) {
 	            return this;
 	        }
@@ -3341,11 +3415,12 @@
 	        var point = this.getCurPoint();
 	        var x = point.x;
 	        var y = point.y;
+	        var r = (0, _point2.default)(x, y).getLenTo(cx, cy);
 	        var endPoint = (0, _point2.default)(x, y).rotate(angle, cx, cy);
 	        var flagClock = isClockWise ? 1 : 0;
 	        var isLargeArc = Math.abs(angle) >= 180 ? 1 : 0;
 	        if (angle >= 360) {
-	            this.angleArcTo(359.9, cx, cy, r).closePath().MoveTo(x, y);
+	            this.angleArcTo(359.9, cx, cy, r).LineTo(x, y).MoveTo(x, y);
 	            endPoint = (0, _point2.default)(x, y).rotate(angle1, cx, cy);
 	            this.ArcTo(r, r, 0, Math.abs(angle1) >= 180 ? 1 : 0, flagClock, endPoint.x, endPoint.y);
 	            return this;
@@ -3379,11 +3454,11 @@
 
 	var _core2 = _interopRequireDefault(_core);
 
-	var _paper = __webpack_require__(8);
+	var _paper = __webpack_require__(7);
 
 	var _paper2 = _interopRequireDefault(_paper);
 
-	var _point = __webpack_require__(6);
+	var _point = __webpack_require__(5);
 
 	var _point2 = _interopRequireDefault(_point);
 
@@ -3544,7 +3619,7 @@
 
 	var _core2 = _interopRequireDefault(_core);
 
-	var _paper = __webpack_require__(8);
+	var _paper = __webpack_require__(7);
 
 	var _paper2 = _interopRequireDefault(_paper);
 
@@ -3592,6 +3667,8 @@
 		}
 		return this;
 	};
+	_paper2.default.fn.createLinearGradient = function () {};
+	_paper2.default.fn.createRadialGradient = function () {};
 	_core2.default.registDefs(_gradient2.default);
 	_core2.default.registDefs(_filters2.default);
 	_core2.default.registDefs(_patterns2.default);
@@ -3674,9 +3751,11 @@
 
 /***/ },
 /* 22 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+
+	var _utils = __webpack_require__(2);
 
 	module.exports = {
 		blur: function blur(option) {
@@ -3696,7 +3775,7 @@
 		shadow: function shadow(option) {
 			var paper = this;
 			var $defs = paper.select("defs");
-			option = cad.extend(true, {
+			option = (0, _utils.extend)({
 				id: "shadow",
 				offsetX: 20,
 				offsetY: 20,
@@ -3708,11 +3787,11 @@
 			var blur = option.blur;
 			var filter = paper.createSVGElement("filter").attr("id", option.id);
 			var elemOffset = paper.createSVGElement("feOffset").attr("result", "offOut").attr("in", "SourceGraphic").attr("dx", offsetX).attr("dy", offsetY);
-			var elemColorMartix = paper.createSVGElement("feColorMartrix").attr("result", "martrixOut").attr("in", "offOut").attr("type", "martrix").attr("values", "0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0");
-			var elemGaussianBlur = paper.createSVGElement("feGaussianBlur").attr("result", "blurOut").attr("in", "martrixOut").attr("stdDeviation", blur);
+			//var elemColorMartix = paper.createSVGElement("feColorMartrix").attr("result","martrixOut").attr("in","offOut").attr("type","martrix").attr("values","0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0");
+			var elemGaussianBlur = paper.createSVGElement("feGaussianBlur").attr("result", "blurOut").attr("in", "offOut").attr("stdDeviation", blur);
 			var elemBlend = paper.createSVGElement("feBlend").attr("in", "SourceGraphic").attr("in2", "blurOut").attr("mode", "normal");
 			filter.append(elemOffset);
-			filter.append(elemColorMartix);
+			//filter.append(elemColorMartix);
 			filter.append(elemGaussianBlur);
 			filter.append(elemBlend);
 			$defs.append(filter);
@@ -3782,11 +3861,12 @@
 			var patternUnits = ['objextBoundingBox', 'userSpaceOnUse'];
 			width = size * 2, height = size;
 			var $pattern = paper.createSVGElement("pattern", {
+				id: "block",
 				width: width,
 				height: height,
 				patternUnits: patternUnits[1],
 				patternContentUnits: patternUnits[1],
-				stroke: "yellow"
+				stroke: "red"
 			});
 			$defs.append($pattern);
 			paper.temporarySwitchLayer($pattern, function () {
@@ -3898,7 +3978,7 @@
 
 	var _core2 = _interopRequireDefault(_core);
 
-	var _color = __webpack_require__(14);
+	var _color = __webpack_require__(13);
 
 	var _color2 = _interopRequireDefault(_color);
 
@@ -3998,7 +4078,7 @@
 
 	var _core2 = _interopRequireDefault(_core);
 
-	var _paper = __webpack_require__(8);
+	var _paper = __webpack_require__(7);
 
 	var _paper2 = _interopRequireDefault(_paper);
 
@@ -4039,16 +4119,22 @@
 	        if (!blocks[id]) {
 	            return false;
 	        }
-	        return blocks[id].apply(this, args);
+	        var g = this.g();
+	        this.temporarySwitchLayer(g, function () {
+	            blocks[id].apply(this, args);
+	        });
+	        return g;
 	    },
 	    importSymbol: function importSymbol(id) {
+	        var id = arguments[0];
+	        var args = Array.prototype.slice.call(arguments, 1);
 	        var symbols = _core2.default.$$symbols;
 	        if (!symbols[id]) {
 	            return false;
 	        }
 	        var symbol = this.addLayer(id, {}, 'symbol');
 	        this.temporarySwitchLayer(id, function () {
-	            symbols[id].call(this, symbol);
+	            symbols[id].apply(this, args);
 	        });
 	        return this;
 	    }
@@ -4088,8 +4174,9 @@
 	    });
 	    return shapes.add([c1, c2]);
 	});
-	_core2.default.defineSymbol('chrome', function (symbol) {
+	_core2.default.defineSymbol('chrome', function () {
 	    var paper = this;
+	    var symbol = this.currentLayer;
 	    symbol.attr('viewBox', "0 0 100 100");
 	    var r = 50;
 	    var Point = _core2.default.Point;
