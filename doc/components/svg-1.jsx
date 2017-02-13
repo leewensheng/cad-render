@@ -14,9 +14,7 @@ module.exports = React.createClass({
 		)
 	},
 	componentDidMount(){
-		var paper = cad.init({
-			el:ReactDOM.findDOMNode(this)
-		});
+		var paper = cad.init(ReactDOM.findDOMNode(this));
 		this.setState({
 			paper:paper
 		})
