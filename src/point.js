@@ -33,12 +33,12 @@ Point.fn = Point.prototype = {
 		return this.moveTo((x1+this.x)/2,(y1+this.y)/2);
 	},
 	getAngleTo:function(x1,y1){
-		return this.getAngleToOrigin(x1-this.x,y1-this.y);
+		return this.getAngleFromOrigin(x1-this.x,y1-this.y);
 	},
 	getAngleFrom:function(x0,y0){
-		return this.getAngleToOrigin(this.x - x0,this.y - y0);
+		return this.getAngleFromOrigin(this.x - x0,this.y - y0);
 	},
-	getAngleToOrigin:function(dx,dy){
+	getAngleFromOrigin:function(dx,dy){
 		if(dx == dy && dx == 0) {
 			return 0;
 		}

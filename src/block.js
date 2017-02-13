@@ -43,13 +43,15 @@ paper.fn.extend({
         return g;
     },
     importSymbol:function(id) {
+        var id = arguments[0];
+        var args = Array.prototype.slice.call(arguments,1);
         var symbols = cad.$$symbols;
         if(!symbols[id]) {
             return false;
         }
         var symbol = this.addLayer(id,{},'symbol');
         this.temporarySwitchLayer(id,function(){
-            symbols[id].call(this,symbol);
+            symbols[id].apply(this,args);
         })
         return this;
     }
@@ -88,8 +90,9 @@ cad.defineBlock('chrome',function(r){
     })
     return shapes.add([c1,c2]);
  })
-cad.defineSymbol('chrome',function(symbol){
+cad.defineSymbol('chrome',function(){
     var paper = this;
+    var symbol = this.currentLayer;
     symbol.attr('viewBox',"0 0 100 100");
     var r = 50;
     var Point = cad.Point;

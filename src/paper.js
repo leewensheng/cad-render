@@ -7,6 +7,27 @@ var Paper = function(el,option){
     return this.init(el,option);
 }
 Paper.prototype = {
+    touches:function(e){
+        var svg = this.svg.get(0);
+        var clientRect  = svg.getBoundingClientRect();
+        var ret = [];
+        if(/touch/gi.test(e.type)&&e.originalEvent) {
+            for(var i = 0; i < e.originalEvent.touches.length;i++) {
+                ret.push({
+                    x:e.originalEvent.touches[i].clientX - clientRect.left,
+                    y:e.originalEvent.touches[i].clientY - clientRect.top
+                })
+            }
+        } else {
+            for(var i = 0; i < e.touches.length;i++) {
+                ret.push({
+                    x:e.touches[i].clientX - clientRect.left,
+                    y:e.touches[i].clientY - clientRect.top
+                })
+            }
+        }
+        return ret;
+    },
     mouse:function(e,mutiple){
         var svg = this.svg.get(0);
         var clientRect  = svg.getBoundingClientRect();
@@ -26,22 +47,7 @@ Paper.prototype = {
             }
         } else {
             var ret = [];
-            if(/touch/gi.test(e.type)&&e.originalEvent) {
-                for(var i = 0; i < e.originalEvent.touches.length;i++) {
-                    ret.push({
-                        x:e.originalEvent.touches[i].clientX - clientRect.left,
-                        y:e.originalEvent.touches[i].clientY - clientRect.top
-                    })
-                }
-            } else {
-                for(var i = 0; i < e.touches.length;i++) {
-                    ret.push({
-                        x:e.touches[i].clientX - clientRect.left,
-                        y:e.touches[i].clientY - clientRect.top
-                    })
-                }
-            }
-            return ret;
+            
         }
     },
     createSVGElement:function(tagName,attributes) {

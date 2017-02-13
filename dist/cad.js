@@ -759,7 +759,7 @@
 	        var str = this.toString();
 	        return new this.constructor(str);
 	    },
-	    connectToPath: function connectToPath(path) {
+	    connectPath: function connectToPath(path) {
 	        if (typeof path === 'string') {
 	            var ret = Path.parse(path);
 	            if (ret) {
@@ -876,12 +876,12 @@
 			return this.moveTo((x1 + this.x) / 2, (y1 + this.y) / 2);
 		},
 		getAngleTo: function getAngleTo(x1, y1) {
-			return this.getAngleToOrigin(x1 - this.x, y1 - this.y);
+			return this.getAngleFromOrigin(x1 - this.x, y1 - this.y);
 		},
 		getAngleFrom: function getAngleFrom(x0, y0) {
-			return this.getAngleToOrigin(this.x - x0, this.y - y0);
+			return this.getAngleFromOrigin(this.x - x0, this.y - y0);
 		},
-		getAngleToOrigin: function getAngleToOrigin(dx, dy) {
+		getAngleFromOrigin: function getAngleToOrigin(dx, dy) {
 			if (dx == dy && dx == 0) {
 				return 0;
 			} else if (dx == 0) {

@@ -1,10 +1,7 @@
 各模块的测试
-统一block和symbol
 sample接口优化
 区间采样应该用间隔更合适
 规范interpolate和transition的动画名称
-paper stopTransition
-减少extend依赖，修复utils extend
 pattern bugfix
 touches兑现
 参考d3 api https://github.com/d3/d3-path/blob/master/README.md#path_moveTo

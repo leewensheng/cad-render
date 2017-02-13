@@ -175,7 +175,7 @@ Path.fn = Path.prototype = {
         var str = this.toString();
         return new this.constructor(str);
     },
-    connectToPath:function(path){
+    connectPath:function(path){
         if(typeof path === 'string') {
             var ret = Path.parse(path);
             if(ret) {
