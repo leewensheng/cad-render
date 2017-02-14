@@ -135,9 +135,6 @@ path.fn.extend({
             return this;
         }
         var angle1 = angle % 360;
-        if(arguments.length<4) {
-            console.log("path error: more arguments needed!")
-        }
         //todo 根据angle判断isClockWise
         var isClockWise = 0;
 		if(angle > 0) {
