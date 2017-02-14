@@ -1,0 +1,3 @@
+[submodule "chart"]
+	path = chart
+	url = git@github.com:leewensheng/mycharts.git
