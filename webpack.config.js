@@ -1,10 +1,29 @@
+// new webpack.optimize.CommonsChunkPlugin('common.js');
+/*
+var uglifyJSPlugin = new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        //supresses warnings, usually from module minification
+        warnings: false
+      }
+    }),
+*/
+//    new webpack.NoErrorsPlugin()
+/*
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+https://www.npmjs.com/package/html-webpack-plugin
+
+
+new webpack.HotModuleReplacementPlugin()
+http://gaearon.github.io/react-hot-loader/getstarted/
+*/
+
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var path = require("path");
 module.exports = {
     entry:{
-        index:"./doc/index"
+        index:"./chart/test/index"
     },
     output:{
         path:"./build/",
@@ -17,24 +36,18 @@ module.exports = {
                 exclude: /(node_modules|bower_components)/,
                 loader: 'babel', 
                 query:{
-                    presets:['es2015','react']
+                    presets:['es2015']
                 }
             },
             {
                 test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css')
-            },
-            {   
-                test: /\.(gif|png|jpg)$/, 
-                loader: 'url-loader?limit=8192&name=img/[name].[ext]'
-            },
-            {
-                test: /\.(woff|svg|eot|ttf)\??.*/, 
-                loader: 'url-loader?limit=8192&name=iconfont/[name].[ext]'
-            },
-            {
-                test:/\.demo\.html/,
-                loader:'file-loader?name=demo/[name].[ext]\?v=[hash]'
             }
+        ],
+        postLoaders: [
+          {
+            test: /\.jsx?$/,
+            loaders: ['es3ify-loader']
+          }
         ]
     },
     plugins:[
@@ -53,9 +66,12 @@ module.exports = {
         extensions:['','.js','.jsx','.json'],
         root: path.join(__dirname),
         alias:{
-            'react':'react/dist/react.js',
-            'react-dom':'react-dom/dist/react-dom.js',
             'jquery':'jquery/dist/jquery.js'
         }
-    }
+    }/*,
+    externals:{
+        'react':'React',
+        'react-dom':'ReactDOM',
+        "jquery":"jQuery"
+    }*/
 }

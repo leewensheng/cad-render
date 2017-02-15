@@ -7,6 +7,7 @@ cad.extend({
         this.$$shapes[name] =  func;
     },
     getShapePath:function(){
+        var name = arguments[0];
         var args = Array.prototype.slice.call(arguments,1);
         var shape = cad.$$shapes[name];
         if(!shape) {
