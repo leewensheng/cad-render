@@ -63,6 +63,9 @@ paper.fn.extend({
         return elem;
     },
     text:function(x,y,content,option){
+        if(arguments.length==0) {
+            return this.append("text");
+        }
         option = paper.extend({
             fontSize:14,
             align:"left",
@@ -216,5 +219,12 @@ paper.fn.extend({
     },
     g:function(){
         return this.append("g");
+    },
+    clipPath:function(callback){
+        var $defs = this.select("defs");
+        var clipPath = this.createSVGElement("clipPath");
+        $defs.append(clipPath);
+        this.temporarySwitchLayer(clipPath,callback);
+        return clipPath;
     }
 })

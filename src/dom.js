@@ -57,8 +57,8 @@ $.fn.transition = function(attr,during,ease,callback){
             Animation.init(option);
         })
     } else {
+        var option  = arguments[0];
         $(this).each(function(index,dom){
-            var option  = arguments[0];
             if(typeof option == 'string') {
                 if(option === 'stop') {
                     Animation.stopAnimation(dom);
@@ -70,7 +70,7 @@ $.fn.transition = function(attr,during,ease,callback){
                 //支持暂停，取消动画，或出栈
             } else if(typeof option == 'object') {
                 option.target = dom;
-                Animation.init(dom,option);
+                Animation.init(option);
             }
         })
     }
