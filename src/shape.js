@@ -145,7 +145,7 @@ cad.defineShape("sector",function(cx,cy,option){
         console.log("warning:outerRadius should be larger than innerRadius");
     }
     if(endAngle - startAngle>=360) {
-        endAngle = startAngle+359.99999;
+        endAngle = startAngle+359.999;
     }
     path.MoveTo(cx,cy)
         .angleMoveTo(startAngle,innerRadius)

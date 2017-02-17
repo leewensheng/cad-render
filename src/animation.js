@@ -175,6 +175,7 @@ Animation = {
         if(typeof option.callback !=='function') {
             option.callback = function(){};
         }
+        option.during = option.during || 400;
         var index = -1;
         var target = option.target||"default_animation";
         var isInside = animations.some(function(val,key){

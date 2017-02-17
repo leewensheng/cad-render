@@ -6,6 +6,12 @@ import utils from './utils'
 import Line from './line'
 $.parseTransform = utils.parseTransform;
 $.getTransform = utils.getTransform;
+$.fn.stopTransition = function(goEnd){
+    $(this).each(function(index,dom){
+        Animation.stopAnimation(dom,goEnd);
+    })
+    return this;
+}
 $.fn.transition = function(attr,during,ease,callback){
     //注意fill,stroke,transform的支持;
     if(arguments.length > 1) {
@@ -17,10 +23,10 @@ $.fn.transition = function(attr,during,ease,callback){
                 "stroke-opacity":1,
                 "fill-opacity":1
             }
-            var is_busy = Animation.isAnimating(dom);
+            /*var is_busy = Animation.isAnimating(dom);
             if(is_busy) {
                 Animation.stopAnimation(dom);
-            }
+            }*/
             var from = {};
             var to = attr;
             for(var key in  attr) {
