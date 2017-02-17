@@ -1,4 +1,4 @@
-各模块的测试
+﻿各模块的测试
 开发环境 条件编译
 sample接口优化
 区间采样应该用间隔更合适
@@ -17,6 +17,7 @@ transform的解析是讲究顺序的吗?这个要验证
 清空画布clear getElementByPoint
 snap raphael的研究
 镜像文档 
+test
 http://blog.csdn.net/cuixiping/article/details/11934085
 http://www.zhangxinxu.com/wordpress/2012/06/css3-transform-matrix-%E7%9F%A9%E9%98%B5/
 
