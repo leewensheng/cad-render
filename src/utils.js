@@ -140,6 +140,10 @@ utils.blobToDataURL = function(blob,callback){
     a.onload = function (e) { callback(e.target.result); }
     a.readAsDataURL(blob); 
 };
+utils.trim = function(str) {
+    var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+    return str&&str.replace( rtrim, "" );
+}
 utils.extend = function(){
     var isArray = Array.isArray;
     var options, name, src, copy, copyIsArray, clone,

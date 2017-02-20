@@ -1,4 +1,5 @@
 import colorName from './color-name'
+import {trim} from '../utils'
 function Color(color){
 	return this.init(color);
 }
@@ -47,8 +48,7 @@ Color.rgbToHsl = function(r, g, b){
     return [h*360, s, l];
 }
 Color.getColorByStr = function(str){
-		var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
-		str = str.replace( rtrim, "" );
+		str = trim(str);
 		var r,g,b,a=1,color;
 		var regHex = /\#([0-9a-f]{3})|([0-9a-f]{6})$/gi;
 		var regRgb = /rgba?\(.*\)$/gi;
@@ -93,7 +93,7 @@ Color.getColorByStr = function(str){
 		}
 		function getArgs(str){
 			var str = str.match(/\([^\)]*\)/gi)[0].replace('(','').replace(')','');
-	        str = $.trim(str);
+	        str = trim(str);
 	        return str.split(/[\s,]+/gi).map(function(val){
 	        	if(/%/gi.test(val)) {
 	        		return parseFloat(val)/100;
