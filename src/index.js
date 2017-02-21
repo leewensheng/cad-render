@@ -46,4 +46,5 @@ cad.extend({
    },
    Color:Color
 })
+module.exports = cad;
 window.cad = cad;
