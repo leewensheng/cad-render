@@ -3,6 +3,8 @@ import "./dom"
 import namespace from './namespace'
 import browser from './browser'
 import {dataUrlToBlob,extend} from './utils'
+import Element from './virtual-dom/element'
+
 var Paper = function(el,option){
     return this.init(el,option);
 }
@@ -49,6 +51,9 @@ Paper.prototype = {
             var ret = [];
             
         }
+    },
+    createVirtualDOM(tagName,props,children){
+        return new Element(tagName,props,children);
     },
     createSVGElement:function(tagName,attributes) {
         tagName = $.trim(tagName);
@@ -102,8 +107,14 @@ Paper.prototype = {
     },
     append:function(tagName,attributes){
         var currentLayer = this.currentLayer;
-        var el = this.createSVGElement(tagName,attributes);
-        $(currentLayer).append(el);
+        var el;
+        if(! (currentLayer instanceof Element)) {
+            el = this.createSVGElement(tagName,attributes);
+            $(currentLayer).append(el);
+        } else {
+            el = this.createVirtualDOM(tagName,attributes);
+            currentLayer.append(el);
+        }
         return el;
     },
     prepend:function(){
