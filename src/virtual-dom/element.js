@@ -89,7 +89,11 @@ Element.prototype = {
 	    var propValue = props[propName]
 	    if(typeof propValue !== 'undefined') {
 		    if(!xlink.test(propName)) {
-		    	el.setAttribute(propName, propValue)
+		    	if(propName!=='className') {
+		    	 	el.setAttribute(propName, propValue)
+		    	} else {
+		    		el.setAttribute("class",propName);
+		    	}
 		    } else {
 	            el.setAttributeNS(namespace.xlink,propName,propValue);
 	        }	    
