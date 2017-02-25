@@ -5,9 +5,16 @@ function Element(tagName,props,children) {
 	this.tagName = tagName;
 	this.children = children||[];
 	this.props = props||{};
+	this.refs = {};
+	this.isMounted = false;
 }
 Element.prototype = {
 	constructor:Element,
+	on(type,callback){
+		var name = 'on'+type;
+		this.props[name] = callback;
+		return this;
+	},
 	attr(key,value){
 		if(arguments.length === 1) {
 			if(typeof key === 'string') {
@@ -21,6 +28,10 @@ Element.prototype = {
 		if(arguments.length === 2) {
 			this.props[key] = value;
 		}
+		return this;
+	},
+	text(text){
+		this.children = [String(text)];
 		return this;
 	},
 	hide(){
@@ -81,29 +92,45 @@ Element.prototype = {
 		var el = this.render();
 		container.appendChild(el);
 	},
-	render(){
+	render(root,parent_id){
+	  if(typeof parent_id === 'undefined') {
+	  	parent_id = "";
+	  }
 	  var el = document.createElementNS(namespace.svg,this.tagName) // 根据tagName构建
+	  if(typeof root=== 'undefined') {
+	  	root = this;
+	  };
+	  this.root = this;
+	  el.setAttribute("data-reactid",parent_id);
 	  var xlink = /^xlink/gi;
-	  var props = this.props
+	  var props = this.props;
+	  var regEvent = /^on.*/gi;
 	  for (var propName in props) { // 设置节点的DOM属性
 	    var propValue = props[propName]
 	    if(typeof propValue !== 'undefined') {
-		    if(!xlink.test(propName)) {
-		    	if(propName!=='className') {
-		    	 	el.setAttribute(propName, propValue)
-		    	} else {
-		    		el.setAttribute("class",propName);
-		    	}
-		    } else {
-	            el.setAttributeNS(namespace.xlink,propName,propValue);
-	        }	    
+	    	if(typeof propValue!== 'function') {
+			    if(!xlink.test(propName)) {
+			    	if(propName!=='className') {
+			    	 	el.setAttribute(propName, propValue)
+			    	} else {
+			    		el.setAttribute("class",propValue);
+			    	}
+			    } else {
+		            el.setAttributeNS(namespace.xlink,propName,propValue);
+		        }
+		     } else {
+		     	if(propName in document) {
+		     		var eventName = propName.replace(/^on/gi,"");
+		     		el.addEventListener(eventName,propValue);
+		     	}
+		     }	    
     	}
 
 	  }
-	  var children = this.children || []
-	  children.forEach(function (child) {
+	  var children = this.children || [];
+	  children.forEach(function (child,index) {
 	    var childEl = (child instanceof Element)
-	      ? child.render() // 如果子节点也是虚拟DOM，递归构建DOM节点
+	      ? child.render(parent_id+"."+index) // 如果子节点也是虚拟DOM，递归构建DOM节点
 	      : document.createTextNode(child);// 如果字符串，只构建文本节点
 	    el.appendChild(childEl)
 	  })

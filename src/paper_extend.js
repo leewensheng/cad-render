@@ -63,45 +63,11 @@ paper.fn.extend({
         return elem;
     },
     text:function(x,y,content,option){
-        if(arguments.length==0) {
-            return this.append("text");
-        }
-        option = paper.extend({
-            fontSize:14,
-            align:"left",
-            baseline:"top",
-            rotate:0,
-            fontWeight:"normal"
-        },option);
-        var fontSize = option.fontSize,
-            align = option.align,
-            baseline = option.baseline,
-            rotate = option.rotate,
-            fontWeight = option.fontWeight;
-
-        var elem = this.append("text",{stroke:"none"});
-        elem.attr('x',x);
-        elem.attr("font-size",fontSize);
-        elem.attr('rotate',rotate);
-        elem.attr("font-weight",fontWeight);
-        if(option.color) {
-            elem.attr("fill",option.color);
-        }
-        if(align=="left"||align =="start") {
-            elem.attr("text-anchor",'start');
-        } else if(align == "center"||align=="middle") {
-            elem.attr("text-anchor",'middle');
-        } else {
-            elem.attr("text-anchor",'end');
-        }
-        if(baseline == "top") {
-            elem.attr('y',y + 0.65*fontSize);
-        } else if(baseline == "middle") {
-            elem.attr('y',y + fontSize/2-0.15*fontSize);
-        } else {
-            elem.attr("y",y - 0.15*fontSize);
-        }
-        return elem.text(content);
+        var el = this.append("text",{
+            x:x,
+            y:y
+        });
+        return el.text(content);
     },
     rect:function(x,y,width,height,rx,ry){
         if(rx >= 0 &&!typeof ry == 'undefined') {
@@ -217,8 +183,8 @@ paper.fn.extend({
             "height":height
         });
     },
-    g:function(){
-        return this.append("g");
+    g:function(attrs){
+        return this.append("g",attrs);
     },
     clipPath:function(callback){
         var $defs = this.select("defs");
