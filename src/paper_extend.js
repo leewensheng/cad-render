@@ -63,9 +63,29 @@ paper.fn.extend({
         return elem;
     },
     text:function(x,y,content,option){
+        option = paper.extend({
+            color:"#333",
+            fontSize:12,
+            textAlign:"center",//left right center 
+            textBaseLine:"bottom" //middle top bottom
+        },option);
+        var anchor = {
+            left:'start',
+            right:'end',
+            center:'middle'
+        };
+        var dy = 0;
+        if(option.textBaseLine === 'middle') {
+            dy = option.fontSize/2;
+        } else if(option.textBaseLine === "top") {
+            dy = option.fontSize;
+        }
         var el = this.append("text",{
-            x:x,
-            y:y
+            "x":x,
+            "y":y,
+            "dy":dy,
+            "font-size":option.fontSize,
+            "text-anchor":anchor[option.textAlign] ||'start',
         });
         return el.text(content);
     },
