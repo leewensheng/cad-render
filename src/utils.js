@@ -189,7 +189,8 @@ utils.extend = function(){
                     if ( copyIsArray ) {
                         copyIsArray = false;
                         clone = src && isArray(src) ? src : [];
-
+                        var len = copy.length;
+                        clone.splice(len);
                     } else {
                         clone = src && isPlainObject(src) ? src : {};
                     }

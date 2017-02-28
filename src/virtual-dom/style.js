@@ -23,7 +23,7 @@ Style.prototype = {
 		var key ,val, obj;
 		if(arguments.length===2) {
 			key = arguments[0];
-			value = arguments[1];
+			val = arguments[1];
 			this.style[key]  = val;
 		} else if(arguments.length==1) {
 			if(typeof arguments[0] === 'object') {

@@ -55,19 +55,15 @@ Element.prototype = {
 		if(arguments.length==2) {
 			name = arguments[0];
 			value = arguments[1];
-			if(value!=="") {
-				css[name] = value;
-			} else {
-				delete css[name];
-			}
+			css.css(name,value);
 		} else if(arguments.length==0) {
 			if(typeof arguments[0] === 'string') {
 				name = arguments[0];
-				return css[name];
+				return css.css(name);
 			} else if(typeof arguments[0] === 'object') {
 				obj = arguments[0];
 				for(var name in obj) {
-					css[name] = obj[name];
+					css.css(name,obj[name]);
 				}
 			}
 		}
@@ -91,6 +87,7 @@ Element.prototype = {
 	renderTo(container){
 		var el = this.render();
 		container.appendChild(el);
+		return el;
 	},
 	render(root,parent_id){
 	  if(typeof parent_id === 'undefined') {

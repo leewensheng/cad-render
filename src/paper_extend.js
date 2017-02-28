@@ -72,7 +72,7 @@ paper.fn.extend({
         var anchor = {
             left:'start',
             right:'end',
-            center:'middle'
+            center:'middle',
         };
         var dy = 0;
         if(option.textBaseLine === 'middle') {
@@ -85,7 +85,7 @@ paper.fn.extend({
             "y":y,
             "dy":dy,
             "font-size":option.fontSize,
-            "text-anchor":anchor[option.textAlign] ||'start',
+            "text-anchor":anchor[option.textAlign] ||'start'
         });
         return el.text(content);
     },
