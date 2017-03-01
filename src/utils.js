@@ -33,6 +33,7 @@ function isPlainObject(obj) {
 
     return key === undefined || hasOwn.call(obj, key);
 }
+utils.isPlainObject = isPlainObject;
 utils.parseTransform = function(transform){
     transform = transform || '';
     var scale = transform.match(/scale\s*\([^\)]*\)/gi);
@@ -190,7 +191,7 @@ utils.extend = function(){
                         copyIsArray = false;
                         clone = src && isArray(src) ? src : [];
                         var len = copy.length;
-                        clone.splice(len);
+                        clone = clone.slice(0,len);
                     } else {
                         clone = src && isPlainObject(src) ? src : {};
                     }

@@ -90,15 +90,21 @@ Paper.prototype = {
         this.initDefaultLayer();
         return this;
     },
-    width:function(){
-        var args = Array.prototype.slice.call(arguments,0);
-        var width = this.svg.width.apply(this.svg,args);
-        return width;
+    width:function(width){
+        if(arguments.length===0) {
+            return this.svg.width();
+        } else {
+            this.svg.attr("width",parseInt(width));
+        }
+        return this;
     },
-    height:function(){
-        var args = Array.prototype.slice.call(arguments,0);
-        var height = this.svg.height.apply(this.svg,args);
-        return height;
+    height:function(height){
+       if(arguments.length===0) {
+            return this.svg.height();
+        } else {
+            this.svg.attr("height",parseInt(height));
+        }
+        return this;
     },
     getCenterPoint:function(){
         var width = this.width();
