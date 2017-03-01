@@ -4,6 +4,7 @@ import namespace from './namespace'
 import browser from './browser'
 import {dataUrlToBlob,extend} from './utils'
 import Element from './virtual-dom/element'
+import diff from './virtual-dom/diff'
 
 var Paper = function(el,option){
     return this.init(el,option);
@@ -52,6 +53,7 @@ Paper.prototype = {
             
         }
     },
+    diff:diff,
     createVirtualDOM(tagName,props,children){
         return new Element(tagName,props,children);
     },

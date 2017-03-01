@@ -31,7 +31,7 @@ Element.prototype = {
 		return this;
 	},
 	text(text){
-		this.children = [String(text)];
+		this.children = [new Element("#text",{textContent:text})];
 		return this;
 	},
 	hide(){
@@ -126,9 +126,9 @@ Element.prototype = {
 	  }
 	  var children = this.children || [];
 	  children.forEach(function (child,index) {
-	    var childEl = (child instanceof Element)
+	    var childEl = (child.tagName!=="#text")
 	      ? child.render(root,parent_id+"."+index) // 如果子节点也是虚拟DOM，递归构建DOM节点
-	      : document.createTextNode(child);// 如果字符串，只构建文本节点
+	      : document.createTextNode(child.props.textContent);// 如果字符串，只构建文本节点
 	    el.appendChild(childEl)
 	  })
 	  return el;
