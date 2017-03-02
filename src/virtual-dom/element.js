@@ -5,8 +5,32 @@ function Element(tagName,props,children) {
 	this.tagName = tagName;
 	this.children = children||[];
 	this.props = props||{};
-	this.refs = {};
 	this.isMounted = false;
+}
+function setProps(el,props) {
+	var xlink = /^xlink/gi;
+	for (var propName in props) { // 设置节点的DOM属性
+	    var propValue = props[propName]
+	    if(typeof propValue !== 'undefined') {
+	    	if(typeof propValue!== 'function') {
+			    if(!xlink.test(propName)) {
+			    	if(propName!=='className') {
+			    	 	el.setAttribute(propName, propValue)
+			    	} else {
+			    		el.setAttribute("class",propValue);
+			    	}
+			    } else {
+		            el.setAttributeNS(namespace.xlink,propName,propValue);
+		        }
+		     } else {
+		     	if(/^on.*/gi.test(propName) && propName in document) {
+		     		var eventName = propName.replace(/^on/gi,"");
+		     		el.addEventListener(eventName,propValue);
+		     	}
+		     }	    
+    	}
+
+	 }
 }
 Element.prototype = {
 	constructor:Element,
@@ -96,34 +120,13 @@ Element.prototype = {
 	  var el = document.createElementNS(namespace.svg,this.tagName) // 根据tagName构建
 	  if(typeof root=== 'undefined') {
 	  	root = this;
+	  	this.realDOM = el;
 	  };
-	  this.root = this;
+	  this.root = root;
+	  this.react_id = parent_id;
 	  el.setAttribute("data-reactid",parent_id);
-	  var xlink = /^xlink/gi;
 	  var props = this.props;
-	  var regEvent = /^on.*/gi;
-	  for (var propName in props) { // 设置节点的DOM属性
-	    var propValue = props[propName]
-	    if(typeof propValue !== 'undefined') {
-	    	if(typeof propValue!== 'function') {
-			    if(!xlink.test(propName)) {
-			    	if(propName!=='className') {
-			    	 	el.setAttribute(propName, propValue)
-			    	} else {
-			    		el.setAttribute("class",propValue);
-			    	}
-			    } else {
-		            el.setAttributeNS(namespace.xlink,propName,propValue);
-		        }
-		     } else {
-		     	if(propName in document) {
-		     		var eventName = propName.replace(/^on/gi,"");
-		     		el.addEventListener(eventName,propValue);
-		     	}
-		     }	    
-    	}
-
-	  }
+	  setProps(el,props);
 	  var children = this.children || [];
 	  children.forEach(function (child,index) {
 	    var childEl = (child.tagName!=="#text")
@@ -131,6 +134,17 @@ Element.prototype = {
 	      : document.createTextNode(child.props.textContent);// 如果字符串，只构建文本节点
 	    el.appendChild(childEl)
 	  })
+	  this.isMounted = true;
 	  return el;
+	},
+	findDOMNode(){
+		var root = this.root;
+		var rootEl = root.realDOM;
+		var react_id = this.react_id;
+		if(!react_id) {
+			return rootEl;
+		} else {
+			return rootEl.querySelector("[data-reactid='"+ react_id +"']");
+		}
 	}
 }
