@@ -21,7 +21,7 @@ function setProps(el,props) {
 	var xlink = /^xlink/gi;
 	for (var propName in props) { // 设置节点的DOM属性
 	    var propValue = props[propName]
-	    if(typeof propValue !== 'undefined') {
+	    if(propValue !== undefined || propValue !== "") {
 	    	if(typeof propValue!== 'function') {
 			    if(!xlink.test(propName)) {
 			    	if(propName!=='className') {
@@ -38,6 +38,8 @@ function setProps(el,props) {
 		     		el.addEventListener(eventName,propValue);
 		     	}
 		     }	    
+    	} else {
+    		el.removeAttribute("propName");
     	}
 
 	 }
@@ -124,25 +126,27 @@ Element.prototype = {
 		return el;
 	},
 	render(){
-	  var el = document.createElementNS(namespace.svg,this.tagName) // 根据tagName构建
-	  var props = this.props;
-	  setProps(el,props);
-	  var children = this.children || [];
-	  children.forEach(function (child,index) {
-	    var childEl = (child.tagName!=="#text")
-	      ? child.render() // 如果子节点也是虚拟DOM，递归构建DOM节点
-	      : document.createTextNode(child.props.textContent);// 如果字符串，只构建文本节点
-	    el.appendChild(childEl)
-	  })
-	  this.isMounted = true;
-	  return el;
-	},
-	findDOMNode(){
-		if(!this.isMounted) {
-			return null;
+		if(!this.isComponent) {
+	  		var el = document.createElementNS(namespace.svg,this.tagName) // 根据tagName构建
+	  		var props = this.props;
+	  		setProps(el,props);
+
+		} else {
+			var el = this.renderReal();
 		}
-		var  react_id = this.react_id;
-		return document.querySelector("[data-reactid='"+ react_id +"']");
+	  	var children = this.children || [];
+	  	children.forEach(function (child,index) {
+		  	var childEl;
+		  	if(child.isComponent) {
+		  		childEl = child.renderReal();
+		  	} else if(child.tagName === '#text') {
+		  		childEl = document.createTextNode(child.props.textContent);
+		  	} else {
+		  		childEl = child.render();
+		  	}
+		  el.appendChild(childEl);
+		})
+	  	return el;
 	},
 	patch(node,patches) {
 		var walker = {index: 0}
@@ -158,6 +162,7 @@ function dfsWalk(node,walker,patches) {
 		var newNode = currentPatch[i].node;
 		var props = currentPatch[i].props;
 		var index = currentPatch[i].index;
+		//remove 和 replace之前需删去事件
 		switch(type) {
 			case "props" :
 				updateProps(node,props)

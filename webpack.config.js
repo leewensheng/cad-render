@@ -23,7 +23,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var path = require("path");
 module.exports = {
     entry:{
-        index:"./chart/test/index"
+        index:"./src/virtual-dom/test"
     },
     output:{
         path:"./build/",

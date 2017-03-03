@@ -1,107 +1,74 @@
-var _ = require('./util')
-
-var REPLACE = 0
-var REORDER = 1
-var PROPS = 2
-var TEXT = 3
-
-function patch (node, patches) {
-  var walker = {index: 0}
-  dfsWalk(node, walker, patches)
+function patch(node,patches) {
+    var walker = {index: 0}
+      dfsWalk(node, walker, patches)
 }
-
-function dfsWalk (node, walker, patches) {
-  var currentPatches = patches[walker.index]
-
-  var len = node.childNodes
-    ? node.childNodes.length
-    : 0
-  for (var i = 0; i < len; i++) {
-    var child = node.childNodes[i]
-    walker.index++
-    dfsWalk(child, walker, patches)
-  }
-
-  if (currentPatches) {
-    applyPatches(node, currentPatches)
-  }
-}
-
-function applyPatches (node, currentPatches) {
-  _.each(currentPatches, function (currentPatch) {
-    switch (currentPatch.type) {
-      case REPLACE:
-        var newNode = (typeof currentPatch.node === 'string')
-          ? document.createTextNode(currentPatch.node)
-          : currentPatch.node.render()
-        node.parentNode.replaceChild(newNode, node)
-        break
-      case REORDER:
-        reorderChildren(node, currentPatch.moves)
-        break
-      case PROPS:
-        setProps(node, currentPatch.props)
-        break
-      case TEXT:
-        if (node.textContent) {
-          node.textContent = currentPatch.content
-        } else {
-          // fuck ie
-          node.nodeValue = currentPatch.content
-        }
-        break
-      default:
-        throw new Error('Unknown patch type ' + currentPatch.type)
-    }
-  })
-}
-
-function setProps (node, props) {
-  for (var key in props) {
-    if (props[key] === void 666) {
-      node.removeAttribute(key)
-    } else {
-      var value = props[key]
-      _.setAttr(node, key, value)
+function dfsWalk(node,walker,patches) {
+  var currentPatch = patches[walker.index]||[];
+  var childNodes = node.childNodes;
+  var len = childNodes.length;
+  for(var i = 0; i < currentPatch.length;i++) {
+    var type = currentPatch[i].type;
+    var newNode = currentPatch[i].node;
+    var props = currentPatch[i].props;
+    var index = currentPatch[i].index;
+    //remove 和 replace之前需删去事件
+    switch(type) {
+      case "props" :
+        updateProps(node,props)
+        break;
+      case "appendChild" :
+        node.appendChild(newNode.render())
+        break;
+      case "removeChild" :
+        node.removeChild(childNodes[index]);
+        break;
+      case "replace":
+        node.parentNode.replaceChild(node.render(),node);
+        break;
+      default:;
     }
   }
+  for(var i = 0; i < len;i++) {
+    walker.index++;
+    dfsWalk(childNodes[i],walker,patches)
+  }
 }
-
-function reorderChildren (node, moves) {
-  var staticNodeList = _.toArray(node.childNodes)
-  var maps = {}
-
-  _.each(staticNodeList, function (node) {
-    if (node.nodeType === 1) {
-      var key = node.getAttribute('key')
-      if (key) {
-        maps[key] = node
+function updateProps(node,props) {
+  var newProps = {};
+  for(var key in props) {
+    newProps[key] = props[key]["next"];
+    if(/^on.*/gi.test(key) && key in document) {
+        var eventName = key.replace(/^on/gi,"");
+        node.removeEventListener(eventName,props[key]["prev"]);
+    }
+  }
+  setProps(node,newProps);
+}
+function setProps(el,props) {
+  var xlink = /^xlink/gi;
+  for (var propName in props) { // 设置节点的DOM属性
+      var propValue = props[propName]
+      if(propValue !== undefined || propValue !== "") {
+        if(typeof propValue!== 'function') {
+          if(!xlink.test(propName)) {
+            if(propName!=='className') {
+              el.setAttribute(propName, propValue)
+            } else {
+              el.setAttribute("class",propValue);
+            }
+          } else {
+                el.setAttributeNS(namespace.xlink,propName,propValue);
+            }
+         } else {
+          if(/^on.*/gi.test(propName) && propName in document) {
+            var eventName = propName.replace(/^on/gi,"");
+            el.addEventListener(eventName,propValue);
+          }
+         }      
+      } else {
+        el.removeAttribute("propName");
       }
-    }
-  })
 
-  _.each(moves, function (move) {
-    var index = move.index
-    if (move.type === 0) { // remove item
-      if (staticNodeList[index] === node.childNodes[index]) { // maybe have been removed for inserting
-        node.removeChild(node.childNodes[index])
-      }
-      staticNodeList.splice(index, 1)
-    } else if (move.type === 1) { // insert item
-      var insertNode = maps[move.item.key]
-        ? maps[move.item.key] // reuse old item
-        : (typeof move.item === 'object')
-            ? move.item.render()
-            : document.createTextNode(move.item)
-      staticNodeList.splice(index, 0, insertNode)
-      node.insertBefore(insertNode, node.childNodes[index] || null)
-    }
-  })
+   }
 }
-
-patch.REPLACE = REPLACE
-patch.REORDER = REORDER
-patch.PROPS = PROPS
-patch.TEXT = TEXT
-
-module.exports = patch
+module.exports = patch;

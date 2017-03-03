@@ -1,4 +1,5 @@
 function diff (oldTree, newTree) {
+  debugger;
   var patches = {};
   var walker =  {index:0};
   dfsWalk(oldTree, newTree, patches,walker)
@@ -28,13 +29,15 @@ function dfsWalk (oldNode, newNode, patches,walker) {
        } else if(oldNode.children[i] && !newNode.children[i]) {
           currentPatch.push({
             type:"removeChild",
-            index:i
+            index:i,
+            node:oldNode.children[i]
           })
        }
     }
  } else {
     currentPatch.push({
       type:"replace",
+      oldNode:oldNode,
       node:newNode
     })
  }
@@ -49,7 +52,6 @@ function diffProps (oldNode, newNode) {
   var newProps = newNode.props
   var key, value
   var propsPatches = {}
-
   // 旧的属性
   for (key in oldProps) {
     value = oldProps[key];
@@ -68,7 +70,7 @@ function diffProps (oldNode, newNode) {
     if (!oldProps.hasOwnProperty(key)) {
       count++
       propsPatches[key] = {
-        prev:null,
+        prev:undefined,
         next:newProps[key]
       }
     }

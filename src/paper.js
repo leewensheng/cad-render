@@ -55,7 +55,11 @@ Paper.prototype = {
     },
     diff:diff,
     createVirtualDOM(tagName,props,children){
-        return new Element(tagName,props,children);
+        if(typeof tagName === "string") {
+            return new Element(tagName,props,children);
+        } else if (typeof tagName === "function") {
+            return new tagName(props,children);
+        }
     },
     createSVGElement:function(tagName,attributes) {
         tagName = $.trim(tagName);
