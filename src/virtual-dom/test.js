@@ -15,7 +15,8 @@ var test = React.createClass({
     },
     getInitialState(){
         return {
-            color:"blue"
+            color:"blue",
+            num:[1,2,3]
         }
     },
     render(){
@@ -26,23 +27,29 @@ var test = React.createClass({
         paper.line(0,0,1000,1000).attr("stroke",this.state.color).attr("stroke-width",50)
              .on("click",that.handleClick.bind(that))
         paper.append(com,{color:color});
+        if(color === 'yellow') {
+            paper.line(0,0,200,250).attr("stroke","black");
+        }
+        this.state.num.map(function(){
+            paper.line(0,0,100,100).attr('stroke',"red");
+        })
         return g;
     },
     handleClick(){
-        this.setState({color:"yellow"})
+        var num = this.state.num;
+        num.splice(1,1);
+        this.setState({
+            num:num
+        })
     },
     componentDidUpdate(prevProps, prevState) {
-      console.log("componentDidUpdate")  
     },
     shouldComponentUpdate(){
-        console.log("shouldComponentUpdate");
         return true;
     },
     componentWillUpdate(){
-        console.log('componentWillUpdate')
     },
     componentDidMount(){
-        console.log("componentDidMount");
     }
 })
 var vdom = React.createElement(test);

@@ -1,10 +1,13 @@
 function patch(node,patches) {
     var walker = {index: 0}
-      dfsWalk(node, walker, patches)
+    dfsWalk(node, walker, patches)
 }
 function dfsWalk(node,walker,patches) {
   var currentPatch = patches[walker.index]||[];
-  var childNodes = node.childNodes;
+  if(!node) {
+    return;
+  }
+  var childNodes = (node && node.childNodes)||[];
   var len = childNodes.length;
   for(var i = 0; i < currentPatch.length;i++) {
     var type = currentPatch[i].type;
@@ -20,21 +23,16 @@ function dfsWalk(node,walker,patches) {
         updateProps(node,props)
         break;
       case "appendChild" :
-        if(newNode.isComponent) {
-          node.appendChild(newNode.renderReal(react_id));
-        } else {
-          node.appendChild(newNode.render(react_id));
-        }
+        newNode.mount(node,react_id);
         break;
-      case "removeChild" :
-        if(newNode.isComponent) {
-          newNode.unmount();
-        } else {
-          node.removeChild(childNodes[index]);
-        }
+      case "removeChild" ://移除旧的node
+        oldNode.unmount();
+        node.removeChild(childNodes[index]);
         break;
       case "replace":
-        node.parentNode.replaceChild(node.render(),node);
+        oldNode.unmount();
+        var el = newNode.mount(node.parentNode,react_id);
+        node.parentNode.replaceChild(el,node);
         break;
       default:;
     }
@@ -63,7 +61,13 @@ function setProps(el,props) {
         if(typeof propValue!== 'function') {
           if(!xlink.test(propName)) {
             if(propName!=='className') {
-              el.setAttribute(propName, propValue)
+              if(el.nodeType!==3) {
+                el.setAttribute(propName, propValue)
+              } else {
+                if(propName ==="textContent") {
+                  el.parentNode.textContent = propValue;
+                }
+              }
             } else {
               el.setAttribute("class",propValue);
             }

@@ -1,50 +1,16 @@
 import createClass from './component'
+import Element from './element'
 var React = {
     createClass:createClass,
     render:function(element,parentNode){
-        var el;
-        componentWillMount(element);
-        if(element.isComponent) {
-            el  = element.renderReal();
-        } else {
-            el = element.render();
-        };
-        parentNode.appendChild(el);
-        componentDidMount(element);
+        element.mount(parentNode)
     },
-    createElement(Com,props){
-       var vdom = new Com(props);
-       return vdom;
+    createElement(ReactClass,props){
+    	if(typeof ReactClass === "function") {
+       		return new ReactClass(props);
+    	} else if(typeof ReactClass === "string") {
+    		return new Element(ReactClass,props);
+    	}
     }
 };
-function componentWillMount(element){
-    if(element.isComponent) {
-        if(typeof element.componentWillMount === 'function') {
-            element.componentWillMount()
-        }
-        componentWillMount(element.virtualDOM);
-    } else {
-        var children = element.children;
-        for(var i = 0; i < children.length;i++) {
-            if(children[i].isComponent) {
-                componentWillMount(children[i]);
-            }
-        }
-    }
-}
-function componentDidMount(element){
-    if(element.isComponent) {
-        if(typeof element.componentDidMount === 'function') {
-            element.componentDidMount()
-        }
-        componentDidMount(element.virtualDOM);
-    } else {
-        var children = element.children;
-        for(var i = 0; i < children.length;i++) {
-            if(children[i].isComponent) {
-                componentDidMount(children[i]);
-            }
-        }
-    }
-}
 module.exports = React;

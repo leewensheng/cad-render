@@ -25,7 +25,11 @@ function setProps(el,props) {
 	    	if(typeof propValue!== 'function') {
 			    if(!xlink.test(propName)) {
 			    	if(propName!=='className') {
-			    	 	el.setAttribute(propName, propValue)
+			    		if(propName!=="textContent") {
+			    	 		el.setAttribute(propName, propValue)
+			    		} else {
+                			el.parentNode.textContent = propValue;
+			    		}
 			    	} else {
 			    		el.setAttribute("class",propValue);
 			    	}
@@ -120,12 +124,22 @@ Element.prototype = {
 		}
 		return this;
 	},
-	renderTo(container){
-		var el = this.render();
-		container.appendChild(el);
+	unmount(){
+		var el = this.findDOMNode();
+		var props = this.props;
+		for(var key in props) {
+			if(/^on.*/gi.test(key) && key in document) {
+				var eventName = key.replace(/^on/gi,"");
+				el.removeEventListener(eventName,props[key]);
+			} 
+		}
+	},
+	mount(parentNode,react_id){
+		var el = this.renderRealDOM(react_id);
+		parentNode.appendChild(el);
 		return el;
 	},
-	render(react_id){
+	renderRealDOM(react_id){
 		if(typeof react_id === "undefined") {
 			react_id = "."+ Element.getRootId();
 		}
@@ -143,11 +157,11 @@ Element.prototype = {
 	  	children.forEach(function (child,index) {
 		  	var childEl;
 		  	if(child.isComponent) {
-		  		childEl = child.renderReal(react_id+"."+index);
+		  		childEl = child.renderRealDOM(react_id+"."+index);
 		  	} else if(child.tagName === '#text') {
 		  		childEl = document.createTextNode(child.props.textContent);
 		  	} else {
-		  		childEl = child.render(react_id+"."+index);
+		  		childEl = child.renderRealDOM(react_id+"."+index);
 		  	}
 		  el.appendChild(childEl);
 		})

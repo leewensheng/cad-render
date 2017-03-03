@@ -1,6 +1,6 @@
 function diff (oldTree, newTree,walker,patches) {
   dfsWalk(oldTree, newTree,walker,patches)
-  return patches
+  return newTree
 }
 
 function dfsWalk (oldNode, newNode, walker,patches) {
@@ -16,8 +16,8 @@ function dfsWalk (oldNode, newNode, walker,patches) {
         })
     } else {
         var oldVirtualDOM = oldNode.virtualDOM;
-        var newVirtualDOM = oldNode.update(newNode.props,null,walker,patches);
-        dfsWalk(oldVirtualDOM,newVirtualDOM,walker,patches);
+        newNode.virtualDOM = oldNode.update(newNode.props,null,walker,patches);
+        dfsWalk(oldVirtualDOM,newNode.virtualDOM,walker,patches);
     }
   } else if(oldNode.isComponent || newNode.isComponent) {
       currentPatch.push({
@@ -31,6 +31,7 @@ function dfsWalk (oldNode, newNode, walker,patches) {
       if(propPatch) {
           currentPatch.push({type:"props",props:propPatch});
       }
+      newNode.react_id = oldNode.react_id;
       var oldLen = oldNode.children.length;
       var newLen = newNode.children.length;
       var maxLen = Math.max(oldLen,newLen);
@@ -48,7 +49,8 @@ function dfsWalk (oldNode, newNode, walker,patches) {
             currentPatch.push({
               type:"removeChild",
               index:i,
-              node:oldNode.children[i]
+              node:oldNode.children[i],
+              oldNode:oldNode.children[i]
             })
          }
       }
