@@ -1,11 +1,21 @@
 import namespace from '../namespace'
 import Style from './style'
-module.exports = Element;
 function Element(tagName,props,children) {
 	this.tagName = tagName;
 	this.children = children||[];
 	this.props = props||{};
 	this.isMounted = false;
+}
+Element.getRootId  = function(){
+	var rootId = Element.rootId;
+	if(typeof rootId === 'undefined') {
+		Element.rootId = 0;
+		return 0;
+	} else {
+		rootId++;
+		Element.rootId = rootId;
+		return rootId;
+	}
 }
 function setProps(el,props) {
 	var xlink = /^xlink/gi;
@@ -113,24 +123,14 @@ Element.prototype = {
 		container.appendChild(el);
 		return el;
 	},
-	render(root,parent_id){
-	  if(typeof parent_id === 'undefined') {
-	  	parent_id = "";
-	  }
+	render(){
 	  var el = document.createElementNS(namespace.svg,this.tagName) // 根据tagName构建
-	  if(typeof root=== 'undefined') {
-	  	root = this;
-	  	this.realDOM = el;
-	  };
-	  this.root = root;
-	  this.react_id = parent_id;
-	  el.setAttribute("data-reactid",parent_id);
 	  var props = this.props;
 	  setProps(el,props);
 	  var children = this.children || [];
 	  children.forEach(function (child,index) {
 	    var childEl = (child.tagName!=="#text")
-	      ? child.render(root,parent_id+"."+index) // 如果子节点也是虚拟DOM，递归构建DOM节点
+	      ? child.render() // 如果子节点也是虚拟DOM，递归构建DOM节点
 	      : document.createTextNode(child.props.textContent);// 如果字符串，只构建文本节点
 	    el.appendChild(childEl)
 	  })
@@ -138,13 +138,56 @@ Element.prototype = {
 	  return el;
 	},
 	findDOMNode(){
-		var root = this.root;
-		var rootEl = root.realDOM;
-		var react_id = this.react_id;
-		if(!react_id) {
-			return rootEl;
-		} else {
-			return rootEl.querySelector("[data-reactid='"+ react_id +"']");
+		if(!this.isMounted) {
+			return null;
 		}
+		var  react_id = this.react_id;
+		return document.querySelector("[data-reactid='"+ react_id +"']");
+	},
+	patch(node,patches) {
+		var walker = {index: 0}
+  		dfsWalk(node, walker, patches)
 	}
 }
+function dfsWalk(node,walker,patches) {
+	var currentPatch = patches[walker.index]||[];
+	var childNodes = node.childNodes;
+	var len = childNodes.length;
+	for(var i = 0; i < currentPatch.length;i++) {
+		var type = currentPatch[i].type;
+		var newNode = currentPatch[i].node;
+		var props = currentPatch[i].props;
+		var index = currentPatch[i].index;
+		switch(type) {
+			case "props" :
+				updateProps(node,props)
+				break;
+			case "appendChild" :
+				node.appendChild(newNode.render())
+				break;
+			case "removeChild" :
+				node.removeChild(childNodes[index]);
+				break;
+			case "replace":
+				node.parentNode.replaceChild(node.render(),node);
+				break;
+			default:;
+		}
+	}
+	for(var i = 0; i < len;i++) {
+		walker.index++;
+		dfsWalk(childNodes[i],walker,patches)
+	}
+}
+function updateProps(node,props) {
+	var newProps = {};
+	for(var key in props) {
+		newProps[key] = props[key]["next"];
+		if(/^on.*/gi.test(key) && key in document) {
+		    var eventName = key.replace(/^on/gi,"");
+		    node.removeEventListener(eventName,props[key]["prev"]);
+		}
+	}
+	setProps(node,newProps);
+}
+module.exports = Element;
