@@ -125,7 +125,10 @@ Element.prototype = {
 		container.appendChild(el);
 		return el;
 	},
-	render(){
+	render(react_id){
+		if(typeof react_id === "undefined") {
+			react_id = "."+ Element.getRootId();
+		}
 		if(!this.isComponent) {
 	  		var el = document.createElementNS(namespace.svg,this.tagName) // 根据tagName构建
 	  		var props = this.props;
@@ -134,19 +137,26 @@ Element.prototype = {
 		} else {
 			var el = this.renderReal();
 		}
+		this.react_id = react_id;
+		el.setAttribute("data-reactid",react_id);
 	  	var children = this.children || [];
 	  	children.forEach(function (child,index) {
 		  	var childEl;
 		  	if(child.isComponent) {
-		  		childEl = child.renderReal();
+		  		childEl = child.renderReal(react_id+"."+index);
 		  	} else if(child.tagName === '#text') {
 		  		childEl = document.createTextNode(child.props.textContent);
 		  	} else {
-		  		childEl = child.render();
+		  		childEl = child.render(react_id+"."+index);
 		  	}
 		  el.appendChild(childEl);
 		})
 	  	return el;
+	},
+	findDOMNode(){
+		var react_id = this.react_id;
+		var el = document.querySelector('[data-reactid="' + react_id + '"]');
+		return el;
 	},
 	patch(node,patches) {
 		var walker = {index: 0}
@@ -163,6 +173,7 @@ function dfsWalk(node,walker,patches) {
 		var props = currentPatch[i].props;
 		var index = currentPatch[i].index;
 		//remove 和 replace之前需删去事件
+		//需要兼容两种component
 		switch(type) {
 			case "props" :
 				updateProps(node,props)

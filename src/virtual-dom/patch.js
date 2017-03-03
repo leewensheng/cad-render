@@ -11,16 +11,27 @@ function dfsWalk(node,walker,patches) {
     var newNode = currentPatch[i].node;
     var props = currentPatch[i].props;
     var index = currentPatch[i].index;
+    var react_id = currentPatch[i].react_id;
+    var oldNode = currentPatch[i].oldNode;
     //remove 和 replace之前需删去事件
+    //注意挂载勾子
     switch(type) {
       case "props" :
         updateProps(node,props)
         break;
       case "appendChild" :
-        node.appendChild(newNode.render())
+        if(newNode.isComponent) {
+          node.appendChild(newNode.renderReal(react_id));
+        } else {
+          node.appendChild(newNode.render(react_id));
+        }
         break;
       case "removeChild" :
-        node.removeChild(childNodes[index]);
+        if(newNode.isComponent) {
+          newNode.unmount();
+        } else {
+          node.removeChild(childNodes[index]);
+        }
         break;
       case "replace":
         node.parentNode.replaceChild(node.render(),node);
