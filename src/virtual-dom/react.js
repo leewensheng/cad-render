@@ -5,11 +5,11 @@ var React = {
     render:function(element,parentNode){
         element.mount(parentNode)
     },
-    createElement(ReactClass,props){
+    createElement(ReactClass,props,children){
     	if(typeof ReactClass === "function") {
-       		return new ReactClass(props);
+       		return new ReactClass(props,children);
     	} else if(typeof ReactClass === "string") {
-    		return new Element(ReactClass,props);
+    		return new Element(ReactClass,props,children);
     	}
     }
 };

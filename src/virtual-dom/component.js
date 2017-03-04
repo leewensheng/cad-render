@@ -51,19 +51,25 @@ function createClass(spec){
         for(var key in patches) {
             if(patches.hasOwnProperty(key)) {
                 update = true;
+                break;
             }
         }
         if(update) {
             patch(node,patches);
             //'did update'
-        } else {
-            console.log("no update");
         }
     }
     Component.prototype.setProps = function(nextProps){
         var patches = {};
         this.update(nextProps,null,{index:0},patches);
         this.patch(patches);
+    }
+    Component.prototype.updateStateQueue = function (nextState,queue) {
+        var stateQueue = this.stateQueue;
+        for(var i = 0 ;i  < stateQueue.length; i++) {
+            utils.extend(true,nextState,stateQueue[i]);
+        }
+        this.stateQueue = [];
     }
     Component.prototype.update = function(nextProps,nextState,walker,patches){
         this.isUpdating = true;
@@ -72,30 +78,30 @@ function createClass(spec){
         var prevState = this.state;
         var stateQueue = this.stateQueue || [];
         this.stateQueue = stateQueue;
-        stateQueue.push(prevState);
-        stateQueue.push(nextState);
+        var hasProps = false;
         if(nextProps) {
-            var props = utils.extend(true,{},this.props);
-            nextProps = utils.extend(true,props,nextProps);
-        } 
-        if(!nextState && nextProps) {
+            hasProps = true;
+        }
+        var props = utils.extend(true,{},this.props);
+        nextProps = utils.extend(true,props,nextProps);
+        var state = utils.extend(true,{},this.state);
+        nextState = utils.extend(true,state,nextState);
+        if(hasProps) {
             if(this.componentWillReceiveProps) {
                 this.componentWillReceiveProps(nextProps);
             }
+            this.updateStateQueue(nextState);
         }
         if(this.shouldComponentUpdate) {
             //应当每次更新state
-            shouldComponentUpdate = this.shouldComponentUpdate(nextState,nextProps);
+            shouldComponentUpdate = this.shouldComponentUpdate(nextProps,nextState);
+            this.updateStateQueue(nextState);
         }
         if(shouldComponentUpdate) {
             if(this.componentWillUpdate) {
                 //更新state
-                this.componentWillUpdate(nextState,nextProps);
-            }
-            //最后一次更新state
-            nextState = {};
-            for(var i = 0 ;i  < stateQueue.length; i++) {
-                nextState = utils.extend(true,nextState,stateQueue[i]);
+                this.componentWillUpdate(nextProps,nextState);
+                this.updateStateQueue(nextState)
             }
             this.stateQueue = [];
             var oldTree = this.virtualDOM;
@@ -105,7 +111,16 @@ function createClass(spec){
             var newtree = diff(oldTree,newTree,walker,patches);
             this.virtualDOM = newTree;
             this.isUpdating = false;
+            if(this.componentDidUpdate) {
+                var that = this;
+                setTimeout(function(){
+                    that.componentDidUpdate(prevProps,prevState);
+                },0);
+            }
             return newTree;
+        } else {
+            this.props = nextProps;
+            this.state = nextState;
         }
         this.isUpdating = false;
     },

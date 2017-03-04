@@ -21,7 +21,7 @@ function setProps(el,props) {
 	var xlink = /^xlink/gi;
 	for (var propName in props) { // 设置节点的DOM属性
 	    var propValue = props[propName]
-	    if(propValue !== undefined || propValue !== "") {
+	    if(propValue !== undefined && propValue !== "") {
 	    	if(typeof propValue!== 'function') {
 			    if(!xlink.test(propName)) {
 			    	if(propName!=='className') {
