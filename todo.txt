@@ -1,5 +1,5 @@
 ﻿各模块的测试test
-虚拟dom支持接入，但自己并不实现
+point增加zoom(scale,cx,cy);
 开发环境 条件编译
 sample接口优化
 区间采样应该用间隔更合适
@@ -11,13 +11,12 @@ path增加
 rectTo
 rect
 1.arc context.arc(x,y,r,sAngle,eAngle,counterclockwise);
-2.toAbsolute toRelative
+2.toAbsolute toRelative(M0,0 l 100,100)
 构建的脚本化
 不应当暴露currentLayer给外部(安全性)
-transform的解析是讲究顺序的吗?这个要验证
+transform的解析是讲究顺序的吗?有无必要支持.这个要验证
 清空画布clear getElementByPoint
-snap raphael的研究
-镜像文档 
+snapsvg raphael的研究 
 test
 http://blog.csdn.net/cuixiping/article/details/11934085
 http://www.zhangxinxu.com/wordpress/2012/06/css3-transform-matrix-%E7%9F%A9%E9%98%B5/
@@ -26,10 +25,10 @@ http://www.zhangxinxu.com/wordpress/2012/06/css3-transform-matrix-%E7%9F%A9%E9%9
 研究martrix模块
 path 与path的交点研究
 path提供round(2)功能，以减少文件大小
-考虑去掉configLayer，或代以setLayer
+考虑去掉configLayer，或代以setLayer或者完全取消
 onDestroy()钩子
 比较svg canvas差异
-去掉对jquery extend的依赖
+去掉对jquery extend的依赖，尽量减少jquery依赖
 自己实现一个轻量的jquery接口
 文档引入redux
 所有引入defs模块应当自己分配id
