@@ -80,6 +80,16 @@ Paper.prototype = {
         if(!el) {
             return this;
         }
+        if(el.ownerSVGElement) {
+            this.currentLayer = $(el);
+            this.svg = $(el).closest("svg");
+            return this;
+        }
+        if(!el.ownerSVGElement && el.tagName === "svg") {
+            this.svg = $(el);
+            this.currentLayer = $(el);
+            return this;
+        }
         if(!(el.children instanceof Array)) {
             el = $(el).first();
             var width = option.width||$(el).width()||600;
@@ -224,8 +234,8 @@ Paper.prototype = {
     },
     destroy:function(){
         this.currentLayer = null;
-        this.svg.remove();
         this.svg = null;
+        this.layers = null;
     }
 }
 Paper.fn = Paper.prototype;

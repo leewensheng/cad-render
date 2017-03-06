@@ -197,6 +197,16 @@ $.fn.rotate  = function(angle,cx,cy){
     });
     return this;
 }
+$.fn.addSVGNamespace = function(){
+    this.each(function(index,dom){
+        if(dom.tagName === 'svg') {
+            $(dom).attr("xmlns","http://www.w3.org/2000/svg")
+                  .attr("xmlns:xlink",namespace.xlink)
+        }
+
+    })
+    return this;
+}
 $.fn.stroke = function(color,width,opacity){
     if(arguments.length == 0 ) {
         return this;
