@@ -13,7 +13,7 @@ cad.extend({
         if(!shape) {
             return ;
         }   else {
-            return shape.apply(this,args);
+            return shape.apply(this,args).toString();
         }
     }
 })
