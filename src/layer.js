@@ -1,6 +1,5 @@
 import paper from './paper'
 import $ from 'jquery'
-import Element from './virtual-dom/element'
 paper.extend({
 __DEFAULT_LAYER_CONFIG__:{
 		"stroke":"#000",
@@ -48,9 +47,7 @@ paper.fn.extend({
 		if(typeof arguments[0] === 'string') {
 			id = arguments[0];
 			el = this.svg.find("#"+id);
-		} else if(arguments[0] instanceof $) {
-			el = arguments[0];
-		} else if(arguments[0] instanceof Element) {
+		} else {
 			el = arguments[0];
 		}
 		callback = arguments[1];
@@ -79,7 +76,7 @@ paper.fn.extend({
 				id = null;
 				el = arguments[0];
 			}
-		} else if(arguments[0] instanceof Element) {
+		} else if(arguments[0].children instanceof Array) {
 			el = arguments[0];
 		}
 		this.currentLayer = el;

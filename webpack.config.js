@@ -66,7 +66,9 @@ module.exports = {
         extensions:['','.js','.jsx','.json'],
         root: path.join(__dirname),
         alias:{
-            'jquery':'jquery/dist/jquery.js'
+            'jquery':'jquery/dist/jquery.js',
+            'preact':path.resolve(__dirname,'lib/preact.js'),
+            'preact-compat':path.resolve(__dirname,'lib/preact-compat.js')
         }
     }/*,
     externals:{

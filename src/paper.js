@@ -3,8 +3,6 @@ import "./dom"
 import namespace from './namespace'
 import browser from './browser'
 import {dataUrlToBlob,extend} from './utils'
-import Element from './virtual-dom/element'
-import diff from './virtual-dom/diff'
 
 var Paper = function(el,option){
     return this.init(el,option);
@@ -53,13 +51,8 @@ Paper.prototype = {
             
         }
     },
-    diff:diff,
     createVirtualDOM(tagName,props,children){
-        if(typeof tagName === "string") {
-            return new Element(tagName,props,children);
-        } else if (typeof tagName === "function") {
-            return new tagName(props,children);
-        }
+        console.log("you need a vitual dom");
     },
     createSVGElement:function(tagName,attributes) {
         tagName = $.trim(tagName);
@@ -84,16 +77,23 @@ Paper.prototype = {
         if(typeof option == 'undefined') {
             option = {};
         }
-        el = $(el).first();
-        var width = option.width||$(el).width()||600;
-        var height = option.height||$(el).height()||400;
-        var svg = this.createSVGElement('svg',{width:width,height:height,xmlns:"http://www.w3.org/2000/svg"});
-        svg.attr("xmlns:xlink",namespace.xlink);
-        var defs = this.createSVGElement("defs");
-        $(el).append(svg);
-        $(svg).append(defs);
-        this.svg = svg;
-        this.initDefaultLayer();
+        if(!el) {
+            return this;
+        }
+        if(!(el.children instanceof Array)) {
+            el = $(el).first();
+            var width = option.width||$(el).width()||600;
+            var height = option.height||$(el).height()||400;
+            var svg = this.createSVGElement('svg',{width:width,height:height,xmlns:"http://www.w3.org/2000/svg"});
+            svg.attr("xmlns:xlink",namespace.xlink);
+            var defs = this.createSVGElement("defs");
+            $(el).append(svg);
+            $(svg).append(defs);
+            this.svg = svg;
+            this.initDefaultLayer();
+        } else {
+            this.currentLayer = el;
+        }
         return this;
     },
     width:function(width){
@@ -120,12 +120,13 @@ Paper.prototype = {
     append:function(tagName,attributes){
         var currentLayer = this.currentLayer;
         var el;
-        if(! (currentLayer instanceof Element)) {
+        if(! (currentLayer.children instanceof Array) ) {
             el = this.createSVGElement(tagName,attributes);
             $(currentLayer).append(el);
         } else {
             el = this.createVirtualDOM(tagName,attributes);
-            currentLayer.append(el);
+            el.children = [];
+            currentLayer.children.push(el);
         }
         return el;
     },
