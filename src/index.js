@@ -7,6 +7,8 @@ import namespace from './namespace'
 import browser from './browser'
 import transition from './animation'
 import Color from './color'
+import interpolate from './interpolate'
+
 import './paper_extend'
 import './layer'
 import './path_extend'
@@ -14,7 +16,6 @@ import './shape'
 import './def.js'
 import './color/index'
 import './sample'
-import './interpolate'
 import  './block'
 import './math'
 cad.extend({
@@ -46,5 +47,9 @@ cad.extend({
    },
    Color:Color
 })
+cad.extend({
+  interpolate:interpolate.interpolate,
+  getInterpolateValue:interpolate.getInterpolateValue
+});
 module.exports = cad;
 window.cad = cad;

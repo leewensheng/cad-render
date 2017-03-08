@@ -31,7 +31,6 @@ function isPlainObject(obj) {
 
     return key === undefined || hasOwn.call(obj, key);
 }
-utils.isPlainObject = isPlainObject;
 utils.parseTransform = function(transform){
     transform = transform || '';
     var scale = transform.match(/scale\s*\([^\)]*\)/gi);
@@ -139,6 +138,16 @@ utils.blobToDataURL = function(blob,callback){
     a.onload = function (e) { callback(e.target.result); }
     a.readAsDataURL(blob); 
 };
+utils.isPlainObject = isPlainObject;
+utils.isNumber = function(num) {
+    return typeof num === 'number';
+}
+utils.isString = function(str){
+    return typeof str === 'string';
+}
+utils.isArray = function(arr) {
+    return arr instanceof Array;
+}
 utils.trim = function(str) {
     var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
     return str&&str.replace( rtrim, "" );

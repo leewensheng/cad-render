@@ -1,5 +1,6 @@
 import './requestAnimationFrame.js'
 import ease from './easing'
+import {getInterpolateValue} from './interpolate.js'
 var 
 Animation = {
     ease:ease,
@@ -80,33 +81,8 @@ Animation = {
         }
         return ease[name];
     },
-    objectInterpolate:function(from,to,dt,during,ease){
-        var ret = {};
-        for(var key in from) {
-            if(typeof from[key] ==='object') {
-                 var obj = from[key];
-                if(obj instanceof Array) {
-                    ret[key] = obj.map(function(val,subkey){
-                        var change = to[key][subkey] - obj[subkey];
-                        return obj[subkey] + ease(dt/during)*change;
-                    })
-                } else {
-                    ret[key] = {};
-                    for(var subkey in obj) {
-                        var change =  to[key][subkey]- obj[subkey];
-                        ret[key][subkey] = obj[subkey] + ease(dt/during)*change;
-                    }
-                }
-            } else {
-                var change = to[key] - from[key];
-                ret[key] = from[key] + ease(dt/during)*change;
-            }
-        }
-        return ret;
-    },
     tick:function(){
         var animations = this.animations,timestamp = new Date().getTime();
-        var objectInterpolate = this.objectInterpolate;
         var me,target, queue,callback,during,delay,onUpdate,ease,from,to,value,has_blank = false;
         var len = animations.length;
         for(var i = 0; i < len;i++) {
@@ -135,17 +111,7 @@ Animation = {
                 if(dt < 0) {
                     continue;
                 }
-                if(from instanceof Array) {
-                    value = from.map(function(val,key){
-                        var change = parseFloat(to[key]) - parseFloat(val);
-                        return parseFloat(val) + ease(dt/during)*change;
-                    });
-                } else if(typeof from === 'object') {
-                    value = objectInterpolate(from,to,dt,during,ease);
-                } else {
-                    var change = parseFloat(to) - parseFloat(from);
-                    value = from + ease(dt/during)*change;
-                }
+                value = getInterpolateValue(from,to,dt/during,ease);
                 onUpdate.call(target,value,queue);
             } else {
                 onUpdate.call(target,to,queue);
