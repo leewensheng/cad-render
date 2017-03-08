@@ -1,6 +1,5 @@
-import $ from 'jquery'
-//trim 
-import {extend} from './utils'
+
+import utils from './utils'
 module.exports = Path;
 function Path(initialPath){
     if(initialPath instanceof Path) {
@@ -200,9 +199,9 @@ Path.fn = Path.prototype = {
         return ret.join(" ");
     }
 }
-Path.extend = Path.fn.extend = extend;
+Path.extend = Path.fn.extend = utils.extend;
 Path.parse = function(str){
-    str = $.trim(str);
+    str =utils.trim(str);
     var actions = str.match(/[a-zA-Z][^a-zA-Z]*/gi);
     var path = new Path();
     if(!actions) {
@@ -211,7 +210,7 @@ Path.parse = function(str){
     for(var i = 0; i < actions.length;i++) {
         var action = actions[i];
         var type = action.match(/[a-zA-Z]/gi)[0];
-        var data = $.trim(action.replace(/[a-zA-Z]/gi,''));
+        var data = utils.trim(action.replace(/[a-zA-Z]/gi,''));
         var params = data.split(/[\s,]+/gi).map(function(val){
             return parseFloat(val);
         })

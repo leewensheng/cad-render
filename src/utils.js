@@ -1,5 +1,3 @@
-import $ from 'jquery'
-//$ to trim
 var utils = {
 
 };
@@ -86,7 +84,7 @@ utils.parseTransform = function(transform){
     }
     function getArgs(str){
         var str = str.match(/\([^\)]*\)/gi)[0].replace('(','').replace(')','');
-        str = $.trim(str);
+        str = utils.trim(str);
         return str.split(/[\s,]+/gi).map(function(val){
             return parseFloat(val);
         })
