@@ -1,4 +1,7 @@
 ﻿各模块的测试test
+减轻乃至去掉jquery依赖
+interpolateShape
+shape全部只用一个参数决定，不用无名参数，注意改动
 point增加zoom(scale,cx,cy);
 开发环境 条件编译
 sample接口优化

@@ -79,5 +79,8 @@ cad.extend({
 			var change = to - from;
 			return from + change*ease(dt);
 		})
-	}
+	},
+    interpolateShape:function(from,to){
+        
+    }
 })
