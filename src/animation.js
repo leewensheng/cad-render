@@ -130,7 +130,7 @@ Animation = {
                 if(dt < 0) {
                     continue;
                 }
-                value = getInterpolateValue(from,to,dt/during,ease);
+                value = getInterpolateValue(from,to,ease(dt/during));
                 onUpdate.call(target,value,queue);
             } else {
                 onUpdate.call(target,to,queue);

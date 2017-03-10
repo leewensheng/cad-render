@@ -37,5 +37,11 @@ cad.extend({
 	},
 	mean:function(arr) {
 		return __arraymethod(arr,'mean');
+	},
+	sin:function(angle) {
+		return Math.sin(angle*2*Math.PI/360);
+	},
+	cos:function(angle) {
+		return Math.cos(angle*2*Math.PI/360);
 	}
 })

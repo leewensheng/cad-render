@@ -47,9 +47,6 @@ cad.extend({
    },
    Color:Color
 })
-cad.extend({
-  interpolate:interpolate.interpolate,
-  getInterpolateValue:interpolate.getInterpolateValue
-});
+cad.extend(interpolate);
 module.exports = cad;
 window.cad = cad;
