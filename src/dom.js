@@ -12,6 +12,13 @@ $.fn.stopTransition = function(goEnd){
     })
     return this;
 }
+$.fn.stopChildrenTransition = function (goEnd){
+    this.each(function(index,dom){
+        var parent = dom;
+        Animation.stopChildrenAnimation(parent,goEnd);
+    })
+    return this;
+}
 $.fn.transition = function(attr,during,ease,callback){
     //注意fill,stroke,transform的支持;
     if(arguments.length > 1) {

@@ -1,4 +1,14 @@
 ﻿各模块的测试test
+fixed 停止动画后回调函数需不需要执行
+研究svgDocument对象
+creatSVGPoint
+createSVGRect
+createSVGNumber
+createSVGAngle
+createSVGMatrix
+createSVGTransform
+createSVGTransformFromMatrix
+svgPathElement isPointInPathFill isPointInpathStroke getPointAtLength  getTotalLength
 减轻乃至去掉jquery依赖
 interpolateShape
 shape全部只用一个参数决定，不用无名参数，注意改动
