@@ -66,7 +66,7 @@ paper.fn.extend({
         option = paper.extend({
             color:"#333",
             fontSize:12,
-            textAlign:"center",//left right center 
+            textAlign:"left",//left right center 
             textBaseLine:"bottom" //middle top bottom
         },option);
         var anchor = {
