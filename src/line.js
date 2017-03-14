@@ -5,6 +5,7 @@ function Line(x1,y1,x2,y2) {
 	return Line.prototype.init(x1,y1,x2,y2);
 }
 Line.prototype = {
+	constructor:Line,
 	init:function(x1,y1,x2,y2){
 		this.x1 = x1 || 0;
 		this.y1 = y1 || 0;
@@ -121,7 +122,7 @@ Line.prototype = {
 	getPointWithLine:function(x11,y11,x22,y22){
 		var x1 = this.x1,y1 = this.y1,x2= this.x2,y2=this.y2;
 		var angle = this.getAngle();
-		var agnle2 = Line(x11,y11,x22,y22).getAngle();
+		var agnle2 = new Line(x11,y11,x22,y22).getAngle();
 		var d = Math.abs(angle - angle2);
 		if(d === 0 || d === 180) {
 			//互相平行
@@ -134,4 +135,3 @@ Line.prototype = {
 		return paper.line(x1,y1,x2,y2);
 	}
 }
-Line.prototype.init.prototype = Line.prototype;

@@ -69,7 +69,7 @@ cad.defineBlock('chrome',function(r){
     var p1 = p0.clone().moveBy(0,-1*r2);
     //为获取交点
     var pc = p1.clone().moveBy(5,0);
-    var hline = Line(p1.x,p1.y,pc.x,pc.y);
+    var hline = new  Line(p1.x,p1.y,pc.x,pc.y);
     var px = hline.getPointWithCircle(cx,cy,r1);
     var p2,p3;
     p3 = p1.clone().rotate(120,cx,cy,r2);
@@ -106,7 +106,7 @@ cad.defineSymbol('chrome',function(){
     var p1 = p0.clone().moveBy(0,-1*r2);
     //为获取交点
     var pc = p1.clone().moveBy(5,0);
-    var hline = Line(p1.x,p1.y,pc.x,pc.y);
+    var hline = new Line(p1.x,p1.y,pc.x,pc.y);
     var px = hline.getPointWithCircle(cx,cy,r1);
     var p2,p3;
     p3 = p1.clone().rotate(120,cx,cy,r2);
