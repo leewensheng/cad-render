@@ -43,5 +43,11 @@ cad.extend({
 	},
 	cos:function(angle) {
 		return Math.cos(angle*2*Math.PI/360);
+	},
+	asin:function(val){
+		return 180/Math.PI*Math.asin(val);
+	},
+	acos:function(val){
+		return 180/Math.PI*Math.acos(val);
 	}
 })
