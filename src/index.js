@@ -8,7 +8,7 @@ import browser from './browser'
 import transition from './animation'
 import Color from './color'
 import interpolate from './interpolate'
-
+import utils from './utils'
 import './paper_extend'
 import './layer'
 import './path_extend'
@@ -26,6 +26,7 @@ cad.extend({
     Paper:Paper,
     namespace:namespace,
     browser:browser,
+    utils:utils,
     init:function(el,option){
         return new this.Paper(el,option);
     }
