@@ -56,30 +56,15 @@ paper.fn.extend({
 		this.switchLayer(cur_layer);
 		return this;
 	},
-	switchLayer:function(){
+	switchLayer:function(layer){
 		if(arguments.length==0) {
 			return this;
 		}
-		var id,el;
-		if(typeof arguments[0] == 'string') {
-			id = arguments[0];
-			if(this.layers[id]) {
-				el = this.svg.find("#"+id);
-			} else {
-				return this;
-			}
-		} else if(arguments[0] instanceof SVGElement) {
-			id = null,
-			el = $(arguments[0]);
-		} else if(arguments[0] instanceof $) {
-			if(arguments[0].get(0) instanceof SVGElement) {
-				id = null;
-				el = arguments[0];
-			}
-		} else if(arguments[0].children instanceof Array) {
-			el = arguments[0];
-		}
-		this.currentLayer = el;
+		if(typeof layer === "string") {
+			layer = this.svg.find("#"+layer);
+		} 
+
+		this.currentLayer = layer;
 		return this;
 	},
 	removeLayer:function(id){

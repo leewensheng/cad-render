@@ -66,5 +66,23 @@ module.exports = {
 			paper.line(width,height/2,width,height);
 		})
 		return $pattern;
+	},
+	image:function(src,width,height){
+		var paper = this;
+		var $defs = paper.select("defs");
+		var width,height;
+		var patternUnits = ['objextBoundingBox','userSpaceOnUse'];
+		var $pattern = paper.createSVGElement("pattern",{
+			id:"image",
+			width:width,
+			height:height,
+			patternUnits:patternUnits[1],
+			patternContentUnits:patternUnits[1],
+		});
+		$defs.append($pattern);
+		paper.temporarySwitchLayer($pattern,function(){
+			paper.image(0,0,width,height,src);
+		})
+		return $pattern;
 	}
 }
