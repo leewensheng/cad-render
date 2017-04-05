@@ -40,7 +40,7 @@ Animation = {
                     if(goToEnd && typeof val.callback=='function') {
                         val.onUpdate.call(target,val.to,queue);
                     }
-                })
+                });
                 animations.splice(i,1);
                 i--;
             }
@@ -57,7 +57,8 @@ Animation = {
             return;
         }
         var animations = this.animations;
-        for(var i = 0;i <animations.length;i++) {
+        var len = animations.length;
+        for(var i = 0;i <len;i++) {
             if(animations[i].target === target) {
                 var queue = animations[i].queue;
                 queue.map(function(val){
