@@ -42,12 +42,12 @@ Animation = {
         for(var i = 0;i <len;i++) {
             if(animations[i].target === target) {
                 var queue = animations[i].queue;
-                queue.map(function(val){
-                    if(goToEnd&&typeof val.callback=='function') {
+                if(goToEnd) {
+                    queue.map(function(val){
                         val.onUpdate.call(target,val.to,queue);
-                    }
-                });
-                animations.splice(i,1);
+                    });                
+                }
+                animations[i].queue = [];
                 break;
             }
         }
