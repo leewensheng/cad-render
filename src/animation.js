@@ -27,25 +27,6 @@ Animation = {
             return value.queue.length > 0;
         })
     },
-    stopChildrenAnimation:function(parentNode,goToEnd){
-        var animations = this.animations;
-        var len = animations.length;
-        var anmt,target;
-        for(var i = 0;i <animations.length;i++) {
-            anmt = animations[i];
-            target = anmt.target;
-            if(anmt.target.parentNode === parentNode) {
-                var queue =anmt.queue;
-                queue.map(function(val){
-                    if(goToEnd && typeof val.callback=='function') {
-                        val.onUpdate.call(target,val.to,queue);
-                    }
-                });
-                animations.splice(i,1);
-                i--;
-            }
-        }
-    },
     stopAnimation:function(target,goToEnd){
         if(arguments.length === 0) {
             this.animations = [];
@@ -65,9 +46,9 @@ Animation = {
                     if(goToEnd&&typeof val.callback=='function') {
                         val.onUpdate.call(target,val.to,queue);
                     }
-                })
+                });
                 animations.splice(i,1);
-                return;
+                break;
             }
         }
     },
