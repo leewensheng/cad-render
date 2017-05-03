@@ -136,6 +136,7 @@ Animation = {
         } else {
             this.stopAnimation();
         }
+        animations = null;
     },
     init:function(option){
         var animations = this.animations;
