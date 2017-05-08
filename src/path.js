@@ -117,53 +117,6 @@ Path.fn = Path.prototype = {
         });
         return this;
     },
-    getAbsolutePoints:function(){
-        var actions  = this.pathStack;
-        var x = 0,y =0 ;
-        var points = [];
-        for(var i = 0; i <actions.length;i++) {
-            var action = actions[i];
-            var name = action.action;
-            var baseName = name.toLowerCase();
-            var params = action.params;
-            if(baseName!=='z') {
-                var point = params[params.length - 1].split(',').map(function(val){
-                    return parseFloat(val);
-                })
-                var x_new ,y_new;
-                if(baseName == 'v'){
-                    x_new = 0;
-                    y_new = point[0];
-                } else if(baseName =='h') {
-                    x_new = point[0];
-                    y_new = 0;
-                } else {
-                    x_new = point[0];
-                    y_new = point[1];
-                }
-                if(/[A-Z]/g.test(name)) {
-                    x=x_new;
-                    y=y_new;
-                } else {
-                    x+=x_new;
-                    y+=y_new;
-                }
-                points.push({x:x,y:y});
-            }
-        }
-        return points;
-    },
-    getCurPoint:function(){
-        var actions  = this.pathStack;
-        var x = 0,y =0 ;
-        var points = this.getAbsolutePoints();
-        if(points.length>0) {
-            var p = points[points.length-1];
-            x = p.x;
-            y = p.y;
-        }
-        return {x:x,y:y};
-    },
     get:function(index){
         return this.pathStack[index];
     },

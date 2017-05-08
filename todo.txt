@@ -1,4 +1,5 @@
 ﻿各模块的测试test
+优化path性能 getcurpoint getabsoluted
 Line,Point模块改造成new还是不new,
 fixed 停止动画后回调函数需不需要执行
 研究svgDocument对象
