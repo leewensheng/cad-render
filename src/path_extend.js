@@ -61,41 +61,7 @@ function __lineToAll(points,isAboslute){
 }
 path.fn.extend({
     getAbsolutePoints:function(){
-        var actions  = this.pathStack;
-        var x = 0,y =0 ;
-        var points = [];
-        for(var i = 0; i <actions.length;i++) {
-            var action = actions[i];
-            var name = action.action;
-            var baseName = name.toLowerCase();
-            var params = action.params;
-            if(baseName!=='z') {
-                var lastParam = params[params.length - 1];
-                var point = String(lastParam).split(',').map(function(val){
-                    return parseFloat(val);
-                });
-                var x_new ,y_new;
-                if(baseName == 'v'){
-                    x_new = 0;
-                    y_new = point[0];
-                } else if(baseName =='h') {
-                    x_new = point[0];
-                    y_new = 0;
-                } else {
-                    x_new = point[0];
-                    y_new = point[1];
-                }
-                if(/[A-Z]/g.test(name)) {
-                    x=x_new;
-                    y=y_new;
-                } else {
-                    x+=x_new;
-                    y+=y_new;
-                }
-                points.push({x:x,y:y});
-            }
-        }
-        return points;
+        alert('todo')
     },
     arc:function(cx,cy,r,startAngle,endAngle,counterClockWise) {
         var pCenter =  Point(cx,cy);
@@ -111,11 +77,32 @@ path.fn.extend({
     getCurPoint:function(){
         var actions  = this.pathStack;
         var x = 0,y =0 ;
-        var points = this.getAbsolutePoints();
-        if(points.length>0) {
-            var p = points[points.length-1];
-            x = p.x;
-            y = p.y;
+        for(var i = 0; i < actions.length;i++) {
+            var action = actions[i].action;
+            var params = actions[i].params;
+            var point = params[params.length - 1];
+            if(action === 'z' || action === 'Z') {
+                continue;
+            }
+            if(/^[a-z]$/g.test(action)) {
+                if(action === 'v') {
+                    y += point;
+                } else if(action === 'h') {
+                    x += point;
+                } else {
+                    x += point[0];
+                    y += point[1];
+                }
+            } else {
+                if(action === 'V') {
+                    y = point;
+                } else if(action === 'H') {
+                    x = point;
+                } else {
+                     x = point[0];
+                     y = point[1];
+                }
+            }
         }
         return {x:x,y:y};
     },

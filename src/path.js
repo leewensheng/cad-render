@@ -18,34 +18,34 @@ function Path(initialPath){
 Path.fn = Path.prototype = {
     constructor:Path,
     MoveTo:function(x,y){
-        return this.pushStack("M",[x + "," + y]);
+        return this.pushStack("M",[[x,y]]);
     },
     moveTo:function(dx,dy) {
-        return this.pushStack("m",[dx + "," + dy]);
+        return this.pushStack("m",[[dx,dy]]);
     },
     ArcTo:function(rx,ry,rotateX,isLargeArc,isClockwise,endX,endY){
-        return this.pushStack("A",[    rx + " " + ry,
+        return this.pushStack("A",[[rx,ry],
                                 rotateX,
                                 isLargeArc,
                                 isClockwise,
-                                endX +"," +endY
+                                [endX,endY]
                             ]
         )
     },
     arcTo:function(rx,ry,rotateX,isLargeArc,isClockwise,endX,endY){
-        return this.pushStack("a",[    rx + " " + ry,
+        return this.pushStack("a",[ [rx,ry],
                                 rotateX,
                                 isLargeArc,
                                 isClockwise,
-                                endX +"," +endY
+                                [endX,endY]
                             ]
         )
     },
     LineTo:function(x,y){
-        return this.pushStack("L",[x + "," + y]);
+        return this.pushStack("L",[[x,y]]);
     },
     lineTo:function(dx,dy) {
-        return this.pushStack("l",[dx + "," + dy]);
+        return this.pushStack("l",[[dx,dy]]);
     },
     HorizontalLineTo:function(x){
         return this.pushStack("H",[x]);
@@ -59,52 +59,53 @@ Path.fn = Path.prototype = {
     verticalLineTo:function(dy){
         return this.pushStack('v',[dy]);
     },
-    SmoothCureveTo:function(x2,y2,endx,endy) {
+    SmoothCureveTo:function(x2,y2,endX,endY) {
          return this.pushStack('S',[
-                    x2 + "," + y2,
-                    endx + "," + endy
+                    [x2,y2],
+                    [endX,endY]
                 ]);
     },
-    smoothCurveTo:function(x2,y2,endx,endy) {
+    smoothCurveTo:function(x2,y2,endX,endY) {
          return this.pushStack('s',[
-                    x2 + "," + y2,
-                    endx + "," + endy
+                    [x2,y2],
+                    [endX,endY]
                 ]);
     },
-    CurveTo:function(x1,y1,x2,y2,endx,endy){
+    CurveTo:function(x1,y1,x2,y2,endX,endY){
         return this.pushStack('C',[
-                    x1 + "," + y1,
-                    x2 + "," + y2,
-                    endx + "," + endy
+                   [x1,y1],
+                   [x2,y2],
+                   [endX,endY]
                 ]);
     },
-   curveTo:function(x1,y1,x2,y2,endx,endy){
-        return this.pushStack('c',[
-                    x1 + "," + y1,
-                    x2 + "," + y2,
-                    x3 + "," + y3
+   curveTo:function(x1,y1,x2,y2,endX,endY){
+        return this.pushStack('c',
+                [
+                   [x1,y1],
+                   [x2,y2],
+                   [endX,endY]
                 ]);
     },
-    QuadraticBelzierCurveTo:function(x,y,endx,endy){
+    QuadraticBelzierCurveTo:function(x,y,endX,endY){
         return this.pushStack('Q',[
-                    x + "," + y,
-                    endx + "," + endy
+                    [x,y],
+                    [endX,endY]
                 ]);
     },
-    quadraticBelzierCurveTo:function(x,y,endx,endy){
+    quadraticBelzierCurveTo:function(x,y,endX,endY){
         return this.pushStack('q',[
-                    x + "," + y,
-                    endx + "," + endy
+                    [x,y],
+                    [endX,endY]
                 ]);
     },
-    SmoothQuadraticBezierCurveto :function(endx,endy) {
+    SmoothQuadraticBezierCurveto :function(endX,endY) {
         return this.pushStack('T',[
-                    endx + "," + endy
+                    [endX,endY]
                 ]);
     },
     smoothQuadraticBezierCurveto:function(endx,endy){
         return this.pushStack('t',[
-                    endx + "," + endy
+                    [endX,endY]
                 ]);
     },
     closePath:function(){
@@ -145,11 +146,15 @@ Path.fn = Path.prototype = {
     },
     toString:function(){
         //最好在出口处取整一下;
-        var ret = [],pathStack = this.pathStack;
-        ret = pathStack.map(function(path,index){
-            return  path.action + " " + path.params.join(",");
-        })
-        return ret.join(" ");
+       return this.pathStack.map(function(path,index){
+            return  path.action + " " + path.params.map(function(val){
+                if(Array.isArray(val)) {
+                    return val.join(',');
+                } else {
+                    return val;
+                }
+            }).join(' ');
+        }).join(" ");
     }
 }
 Path.extend = Path.fn.extend = utils.extend;
