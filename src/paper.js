@@ -131,8 +131,12 @@ Paper.prototype = {
         var currentLayer = this.currentLayer;
         var el;
         if(! (currentLayer.children instanceof Array) ) {
-            el = this.createSVGElement(tagName,attributes);
-            $(currentLayer).append(el);
+            if(typeof tagName === 'string') {
+                el = this.createSVGElement(tagName,attributes);
+                $(currentLayer).append(el);
+            } else {
+                return new tagName(this,this.currentLayer,attributes);
+            }
         } else {
             el = this.createVirtualDOM(tagName,attributes);
             el.children = [];
