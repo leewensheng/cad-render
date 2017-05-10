@@ -153,8 +153,8 @@ paper.fn.extend({
         })
         return this.append("polyline").attr("points",p.join(" "));
     },
-    spline:function(points){
-        var path = new Path().CurveToAll(points,true);
+    spline:function(points,isClosed){
+        var path = new Path().CurveToAll(points,isClosed);
         return this.append("path").attr('d',path.toString())
     },
     sector:function(cx,cy,radius,startAngle,endAngle,innerRadius){

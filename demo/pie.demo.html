@@ -5,7 +5,7 @@
     <title>clock</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <script src="../lib/base.min.js"></script>
-    <script src="../dist/cad.js"></script>
+    <script src="../dist/cad.min.js?v=2"></script>
 </head>
 <style>
     body {
@@ -22,19 +22,36 @@
         "stroke":"none"
     });
     paper.rect(0,0,paper.width(),paper.height()).fill("#000");
-    var data = [1,2,3,4];
+    var data = [3,3,3,3];
     var colors = ['#00A1A1',"#28FFBB","#DB1774","#F20000"];
-    var sum = cad.sum(data);
     var cx = paper.width()/2;
     var cy = paper.height()/2;
     var radius = Math.min(paper.width(),paper.height())/2*0.7;
-    var startAngle = -90;
-    data.reduce(function(start,end,index){
-        var startAngle = start;
-        var endAngle = startAngle + end/sum*360;
-        paper.sector(cx,cy,radius,startAngle,endAngle).fill(colors[index]);
-        return endAngle;
-    },startAngle)
+    var slice = [];
+    renderPie(data);
+    function renderPie(data) {
+        var points = [];
+        var sum = cad.sum(data);
+        data.reduce(function(start,end,index){
+            var startAngle = start;
+            var endAngle = startAngle + end/sum*360;
+            var d = cad.getShapePath('sector',cx,cy,{radius:radius,startAngle: startAngle,endAngle: endAngle});
+            points.push(d);
+            return endAngle;
+        },-90);
+        points.map(function(p,index){
+            if(!slice[index]) {
+                var s = paper.path(p).fill(colors[index%4]);
+                slice.push(s);
+            } else {
+                slice[index].attr('d',p).fill(colors[index%4]);
+            }
+        })
+    }
+    $('body').click(function(){
+        data.push(3);
+        renderPie(data);
+    })
 </script>
 </body>
 </html>

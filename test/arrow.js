@@ -119,31 +119,31 @@ var Arrow = React.createClass({
         				mp2.pause();
         			},800)
         		},600)
-        	cad.animation.stopAnimation(bow);
-			cad.animation.init({
+        	cad.transition.stopAnimation(bow);
+			cad.transition.init({
 				from:Math.min(dy,80),
 				to:0,
 				during:300*80/(dy+30),
 				target:bow,
 				ease:'easeOut',
-				exefunc:function(v){
+				onUpdate:function(v){
 					var p = Point(cx,cy);
 					var path = new cad.Path().CurveToAll([p1,p.moveBy(0,-1*v/2),p3]);
 					this.attr("d",path);
 				},
 				callback:function(){
-					image.atr("filter","url(#gray)");
+					image.attr("filter","url(#gray)");
 				}
 			})
         }
         function moveArrow(dy,elem){
-        	cad.animation.init({
+        	cad.transition.init({
 				from:Math.min(dy,80),
 				to:-800,
-				during:1000*80/(dy+20),
+				during:100000*80/(dy*dy+20),
 				target:elem,
 				ease:'linear',
-				exefunc:function(v){
+				onUpdate:function(v){
 					this.attr("transform",'translate(0,'+ v +')');
 				},
 				callback:function(){
