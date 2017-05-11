@@ -149,7 +149,9 @@ Path.fn = Path.prototype = {
        return this.pathStack.map(function(path,index){
             return  path.action + " " + path.params.map(function(val){
                 if(Array.isArray(val)) {
-                    return val.join(',');
+                    return val.map(function(num){
+                        return  num.toFixed(2);
+                    }).join(',');
                 } else {
                     return val;
                 }
