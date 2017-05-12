@@ -10,11 +10,7 @@ cad.extend({
         var name = arguments[0];
         var args = Array.prototype.slice.call(arguments,1);
         var shape = cad.$$shapes[name];
-        if(!shape) {
-            return ;
-        }   else {
-            return shape.apply(this,args).toString();
-        }
+        return shape&&shape.apply(null,args).toString();
     }
 })
 Paper.fn.addShape = function(name,x,y,options){
@@ -136,22 +132,32 @@ cad.defineShape("markLine",function(x1,y1,x2,y2,option){
     return path;
 })
 cad.defineShape("sector",function(cx,cy,option){
-    var path = new cad.Path(),
-        startAngle = option.startAngle,
-        endAngle = option.endAngle,
-        radius = option.radius,
-        innerRadius = option.innerRadius||0;
+    var {startAngle,endAngle,radius} = option;
+     var innerRadius = option.innerRadius||0;
     if(innerRadius>radius) {
         console.log("warning:outerRadius should be larger than innerRadius");
     }
     if(endAngle - startAngle>=360) {
         endAngle = startAngle+359.999;
-    }
-    path.MoveTo(cx,cy)
+    };
+    var Point = cad.Point();
+    var path = '';
+    var p1 = [cx,cy];
+    var p2 = cad.Point(cx,cy).angleMoveTo(startAngle,radius);
+    var p3 = cad.Point(cx,cy).angleMoveTo(endAngle,radius);
+    var dangle = endAngle - startAngle;
+    var isLargeArc = dangle>180?1:0;
+    var isClockwise = dangle>0?1:0;
+    /*return 'M' + cx + ',' + cy + ' ' + 
+            'L' + p2.x + ',' + p2.y
+            + 'A' + radius + ' ' + radius + ' ' + 0 + ' '+ isLargeArc + ' ' + isClockwise + ' ' + p3.x+ ',' + p3.y
+    ;*/
+    return new cad.Path()
+        .MoveTo(cx,cy)
         .angleMoveTo(startAngle,innerRadius)
         .angleLineTo(startAngle,radius - innerRadius)
         .angleArcTo(endAngle - startAngle ,cx,cy,radius)
         .angleLineTo(endAngle+180,radius - innerRadius)
-        .angleArcTo(startAngle -endAngle,cx,cy,innerRadius);
-    return path;
+        .angleArcTo(startAngle -endAngle,cx,cy,innerRadius)
+       
 })

@@ -85,7 +85,7 @@ path.fn.extend({
 		var dy = len*Math.sin(angle*Math.PI/180);
 		return this.moveTo(dx,dy);
 	},
-	angleArcTo:function(angle,cx,cy){
+	angleArcTo:function(angle,cx,cy,r){
         if(angle==0) {
             return this;
         }
@@ -97,7 +97,9 @@ path.fn.extend({
 		}
 		var x = this.x;
 		var y = this.y;
-        var r = Point(x,y).getLenTo(cx,cy);
+        if(typeof r === 'undefined') {
+            r = Point(x,y).getLenTo(cx,cy);
+        }
         var endPoint = Point(x,y).rotate(angle,cx,cy);
 		var flagClock = isClockWise ? 1:0;
 		var isLargeArc = Math.abs(angle)>= 180 ? 1 : 0;
