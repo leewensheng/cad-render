@@ -50,7 +50,9 @@
     }
     $('body').click(function(){
         data.push(3);
-        renderPie(data);
+        requestAnimationFrame(function(){
+         renderPie(data);
+        })
     })
 </script>
 </body>

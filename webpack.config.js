@@ -1,2 +1,2 @@
-var config = require('./webpack.config.dist.js');
+var config = require('./webpack.config.chart.js');
 module.exports = config;

@@ -134,9 +134,7 @@ Paper.prototype = {
             if(typeof tagName === 'string') {
                 el = this.createSVGElement(tagName,attributes);
                 $(currentLayer).append(el);
-            } else {
-                return new tagName(this,this.currentLayer,attributes);
-            }
+            } 
         } else {
             el = this.createVirtualDOM(tagName,attributes);
             el.children = [];

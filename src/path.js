@@ -150,7 +150,7 @@ Path.fn = Path.prototype = {
             return  path.action + " " + path.params.map(function(val){
                 if(Array.isArray(val)) {
                     return val.map(function(num){
-                        return  num.toFixed(2);
+                        return  num.toFixed(4);
                     }).join(',');
                 } else {
                     return val;
