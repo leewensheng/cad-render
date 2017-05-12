@@ -74,38 +74,6 @@ path.fn.extend({
         }
         return  this.M(pStart.x,pStart.y).A(r,r,0,counterLargeArc,counterClockWise?0:1,pEnd.x,pEnd.y);
     },
-    getCurPoint:function(){
-        var actions  = this.pathStack;
-        var x = 0,y =0 ;
-        for(var i = 0; i < actions.length;i++) {
-            var action = actions[i].action;
-            var params = actions[i].params;
-            var point = params[params.length - 1];
-            if(action === 'z' || action === 'Z') {
-                continue;
-            }
-            if(/^[a-z]$/g.test(action)) {
-                if(action === 'v') {
-                    y += point;
-                } else if(action === 'h') {
-                    x += point;
-                } else {
-                    x += point[0];
-                    y += point[1];
-                }
-            } else {
-                if(action === 'V') {
-                    y = point;
-                } else if(action === 'H') {
-                    x = point;
-                } else {
-                     x = point[0];
-                     y = point[1];
-                }
-            }
-        }
-        return {x:x,y:y};
-    },
 	angleLineTo:function(angle,len) {
         len = Math.abs(len);
 		var dx = len*Math.cos(angle*Math.PI/180);
@@ -127,9 +95,8 @@ path.fn.extend({
 		if(angle > 0) {
 			isClockWise = 1;
 		}
-		var point = this.getCurPoint();
-		var x = point.x;
-		var y = point.y;
+		var x = this.x;
+		var y = this.y;
         var r = Point(x,y).getLenTo(cx,cy);
         var endPoint = Point(x,y).rotate(angle,cx,cy);
 		var flagClock = isClockWise ? 1:0;

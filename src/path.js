@@ -9,14 +9,80 @@ function Path(initialPath){
             this.pathStack = [];
         } else {
             this.pathStack = Path.parse(initialPath).pathStack;
+            this.refreshXY();
         }
     } else {
         this.pathStack = [];
-    }
-     
+    }     
 };
 Path.fn = Path.prototype = {
     constructor:Path,
+    pushStack:function(action,params){
+        this.pathStack.push({
+            action:action,
+            params:params
+        });
+        var {x,y} = this;
+        var point = params[params.length-1];
+        if(action !== 'z' && action !== 'Z') {
+            if(/^[a-z]$/g.test(action)) {
+                if(action === 'v') {
+                    y += point;
+                } else if(action === 'h') {
+                    x += point;
+                } else {
+                    x += point[0];
+                    y += point[1];
+                }
+            } else {
+                if(action === 'V') {
+                    y = point;
+                } else if(action === 'H') {
+                    x = point;
+                } else {
+                    x = point[0];
+                    y = point[1];
+                }
+            }
+        }
+        this.x = x;
+        this.y = y;
+        return this;
+    },
+    refreshXY:function(){
+        var actions  = this.pathStack;
+        var x = 0,y =0 ;
+        for(var i = 0; i < actions.length;i++) {
+            var action = actions[i].action;
+            var params = actions[i].params;
+            var point = params[params.length - 1];
+            if(action === 'z' || action === 'Z') {
+                continue;
+            }
+            if(/^[a-z]$/g.test(action)) {
+                if(action === 'v') {
+                    y += point;
+                } else if(action === 'h') {
+                    x += point;
+                } else {
+                    x += point[0];
+                    y += point[1];
+                }
+            } else {
+                if(action === 'V') {
+                    y = point;
+                } else if(action === 'H') {
+                    x = point;
+                } else {
+                     x = point[0];
+                     y = point[1];
+                }
+            }
+        }
+        this.x =  x;
+        this.y = y;
+        return this;
+    },
     MoveTo:function(x,y){
         return this.pushStack("M",[[x,y]]);
     },
@@ -111,13 +177,6 @@ Path.fn = Path.prototype = {
     closePath:function(){
         return this.pushStack("Z",[]);
     },
-    pushStack:function(action,params){
-        this.pathStack.push({
-            action:action,
-            params:params
-        });
-        return this;
-    },
     get:function(index){
         return this.pathStack[index];
     },
@@ -141,8 +200,7 @@ Path.fn = Path.prototype = {
                 this.pathStack = pathStack.concat(path.pathStack);
             }
         }
-        return this;
-
+        return this.refreshXY();
     },
     toString:function(){
         //最好在出口处取整一下;
