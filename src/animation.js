@@ -145,7 +145,7 @@ Animation = {
         }
         option.during = option.during || 400;
         var index = -1;
-        var target = option.target||"default_animation";
+        var target = option.target||Math.random();
         var isInside = animations.some(function(val,key){
             if( val.target === target) {
                 index = key
