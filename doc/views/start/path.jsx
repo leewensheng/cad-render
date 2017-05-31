@@ -124,11 +124,6 @@ module.exports = React.createClass({
 							<td>穿过一系列点的光滑三次贝塞尔曲线</td>
 						</tr>
 						<tr>
-							<td>getCurPoint</td>
-							<td>无</td>
-							<td>获取当前点的坐标</td>
-						</tr>
-						<tr>
 							<td>connectPath</td>
 							<td>path object | path string</td>
 							<td>连接另一路径</td>
