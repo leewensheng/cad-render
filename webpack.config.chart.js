@@ -42,12 +42,6 @@ module.exports = {
             {
                 test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css')
             }
-        ],
-        postLoaders: [
-          {
-            test: /\.jsx?$/,
-            loaders: ['es3ify-loader']
-          }
         ]
     },
     plugins:[

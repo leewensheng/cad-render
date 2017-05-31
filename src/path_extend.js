@@ -68,10 +68,6 @@ path.fn.extend({
         var pStart = pCenter.clone().angleMoveTo(startAngle,r);
         var pEnd = pCenter.clone().angleMoveTo(endAngle,r);
         var counterLargeArc = (pEnd - pStart) > 180 ? 1: 0;
-        if(counterClockWise) {
-            //逆时针,canvas和svg相反
-            counterLargeArc = 0;
-        }
         return  this.M(pStart.x,pStart.y).A(r,r,0,counterLargeArc,counterClockWise?0:1,pEnd.x,pEnd.y);
     },
 	angleLineTo:function(angle,len) {
