@@ -29,18 +29,25 @@ $.fn.transition = function(attr,during,ease,callback){
             }*/
             var from = {};
             var to = attr;
-            for(var key in  attr) {
-               var  name = key﻿;
-                if(name === 'transform') {
-                    from[key] = $.parseTransform(dom.getAttribute(name));
-                    to[key]= $.parseTransform(attr[key]);
-                } else if(name == 'fill' || name == 'stroke') {
-                    from[key] = new Color($(dom).attr(name)).toRgbObj();
-                    to[key] =  new Color(attr[key]).toRgbObj();
-                } else {
-                    from[key] = parseFloat($(dom).attr(name)||defaultAttr[name]||0);
-                    to[key] = attr[key];
+            var interpolate;
+            if(typeof to === 'object') {
+                for(var key in  attr) {
+                   var  name = key﻿;
+                    if(name === 'transform') {
+                        from[key] = $.parseTransform(dom.getAttribute(name));
+                        to[key]= $.parseTransform(attr[key]);
+                    } else if(name == 'fill' || name == 'stroke') {
+                        from[key] = new Color($(dom).attr(name)).toRgbObj();
+                        to[key] =  new Color(attr[key]).toRgbObj();
+                    } else {
+                        from[key] = parseFloat($(dom).attr(name)||defaultAttr[name]||0);
+                        to[key] = attr[key];
+                    }
                 }
+            } else if(typeof to === 'function') {
+                interpolate = to;
+                from = 0;
+                to = 1;
             }
             option.target = dom;
             option.from = from;
@@ -48,7 +55,11 @@ $.fn.transition = function(attr,during,ease,callback){
             option.ease = ease;
             option.callback = callback;
             option.during = during;
-            option.onUpdate = function(tickValue){
+            option.$$interpolate = interpolate;
+            option.onUpdate = function(tickValue,option){
+                if(typeof option.$$interpolate === 'function') {
+                    tickValue = $$interpolate(tickValue);
+                }
                 for(var key in tickValue) {
                     var name = key﻿;
                     if(name == 'transform') {
