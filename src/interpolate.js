@@ -13,7 +13,7 @@ function getInterpolateValue(from,to,dt) {
 		}
 	}else if(utils.isArray(from) && utils.isArray(to)) {
 		ret = [];
-		for(key = 0; key < from.length;key++ ) {
+		for(key = 0; key < to.length;key++ ) {
 			ret[key] = getInterpolateValue(from[key],to[key],dt);
 		}
 	} else {
