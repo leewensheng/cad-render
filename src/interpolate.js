@@ -1,6 +1,6 @@
-import cad from './core'
 import Color from './color'
 import utils from './utils'
+import Path from './path'
 function getInterpolateValue(from,to,dt) {
 	var ret,key;
 	if(utils.isNumber(from) && utils.isNumber(to)) {
@@ -54,8 +54,34 @@ function interpolateTransform(from,to) {
 		return utils.getTransform(obj);
 	}
 }
+function interpolatePath(from,to){
+	if(!from instanceof Path) {
+		from  = new Path(from);
+	}
+	if(!to instanceof Path) {
+		to  = new Path(to);
+	}
+	return function(dt){
+		var obj = getInterpolateValue(from.pathStack,to.pathStack,dt);
+		var path = new Path();
+		path.pathStack = obj;
+		path.refreshXY();
+		return path.toString();
+	}
+}
+function interpolateColor(from,to){
+	var colorFrom = new Color(from).toRgbObj();
+	var colorTo = new Color(to).toRgbObj();
+	return function(dt) {
+		var obj = getInterpolateValue(colorFrom,colorTo,dt);
+		return new Color(obj).toRgb();
+	}
+}
 module.exports = {
-	interpolate:interpolate,
-	interpolateTransform:interpolateTransform,
-	getInterpolateValue:getInterpolateValue
+					interpolate,
+					interpolateTransform,
+					interpolatePath,
+					interpolateColor,
+					getInterpolateValue
+
 };
