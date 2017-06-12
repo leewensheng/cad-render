@@ -1,4 +1,3 @@
-import cad from './core'
 function __arraymethod(arr,type){
 		var min = null,max=null,mean = null,sum = 0;
 		for(var i = 0; i < arr.length;i++) {
@@ -25,7 +24,7 @@ function __arraymethod(arr,type){
 			default:;
 		}
 	}
-cad.extend({
+var math = {
 	min:function(arr) {
 		return __arraymethod(arr,'min');
 	},
@@ -50,4 +49,5 @@ cad.extend({
 	acos:function(val){
 		return 180/Math.PI*Math.acos(val);
 	}
-})
+}
+module.exports = math;

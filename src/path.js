@@ -388,11 +388,6 @@ Path.fn.extend({
     },
     CurveToAll:function(points,isClosed){
         if(!points.length) return this;
-        if(!this.pathStack.length) {
-            var p = points.slice(0,1)[0];
-            this.M(p.x,p.y);
-            points = points.slice(1);
-        }
         return __curveToAll.call(this,points,true,isClosed);
     },
     lineToAll:function(points){
