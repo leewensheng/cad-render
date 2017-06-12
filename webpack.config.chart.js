@@ -61,7 +61,9 @@ module.exports = {
         root: path.join(__dirname),
         alias:{
             'jquery':'jquery/dist/jquery.js',
-            'cad':path.resolve(__dirname,"src/")
+            'cad':path.resolve(__dirname,"src/"),
+            'react':path.resolve(__dirname,"lib/preact"),
+            'react-dom':path.resolve(__dirname,"lib/preact")
         }
     }/*,
     externals:{
