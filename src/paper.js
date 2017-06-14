@@ -2,6 +2,7 @@ import $ from 'jquery'
 import "./dom"
 import namespace from './namespace'
 import browser from './browser'
+import  svgAttrs from './attr-map'
 import {dataUrlToBlob,extend} from './utils'
 
 var Paper = function(el,option){
@@ -61,6 +62,7 @@ Paper.prototype = {
         var el = document.createElementNS(SVG_NAMESPACE,tagName);
         if(typeof attributes === 'object') {
             for(var key in attributes) {
+                key = svgAttrs[key] || key;
                 if(typeof attributes[key]!='undefined') {
                     if(key!='xlink:href') {
                         el.setAttribute(key,attributes[key]);
