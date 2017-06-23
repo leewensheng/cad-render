@@ -7,7 +7,7 @@ import Line from './line'
 $.parseTransform = utils.parseTransform;
 $.getTransform = utils.getTransform;
 $.fn.stopTransition = function(goEnd){
-    $(this).each(function(index,dom){
+    this.each(function(index,dom){
         Animation.stopAnimation(dom,goEnd);
     })
     return this;
@@ -15,7 +15,7 @@ $.fn.stopTransition = function(goEnd){
 $.fn.transition = function(attr,during,ease,callback){
     //注意fill,stroke,transform的支持;
     if(arguments.length > 1) {
-        $(this).each(function(index,dom){
+        this.each(function(index,dom){
             var option = {
 
             };
@@ -44,11 +44,7 @@ $.fn.transition = function(attr,during,ease,callback){
                         to[key] = attr[key];
                     }
                 }
-            } else if(typeof to === 'function') {
-                interpolate = to;
-                from = 0;
-                to = 1;
-            }
+            } 
             option.target = dom;
             option.from = from;
             option.to = to;
@@ -57,9 +53,6 @@ $.fn.transition = function(attr,during,ease,callback){
             option.during = during;
             option.$$interpolate = interpolate;
             option.onUpdate = function(tickValue,option){
-                if(typeof option.$$interpolate === 'function') {
-                    tickValue = $$interpolate(tickValue);
-                }
                 for(var key in tickValue) {
                     var name = key﻿;
                     if(name == 'transform') {
@@ -91,6 +84,27 @@ $.fn.transition = function(attr,during,ease,callback){
             }
         })
     }
+    return this;
+}
+$.fn.interpolateTransition = function(interpolate,during,ease,callback){
+    this.each(function(index,dom){
+        var from = 0,to = 1;
+        var option = {from,to,during,ease,callback};
+        option.target = dom;
+        option.onUpdate = function(tickValue){
+            for(var key in tickValue) {
+                var name = key﻿;
+                if(name == 'transform') {
+                    this.setAttribute('transform',$.getTransform(tickValue.transform));
+                }else if(name == 'fill' || name == 'stroke') {
+                    this.setAttribute(name,new Color(tickValue[name]).toRgb());
+                } else {
+                   this.setAttribute(name,tickValue[key]);
+                }
+            }
+       }
+       Animation.init(option);
+    });
     return this;
 }
 $.fn.getComputedTextLength = function(){
