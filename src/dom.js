@@ -93,6 +93,11 @@ $.fn.transition = function(attr,during,ease,callback){
     }
     return this;
 }
+$.fn.getComputedTextLength = function(){
+    if(this.length) {
+        return this[0].getComputedTextLength();
+    }
+}
 $.fn.arrayCopy = function(){
     if(arguments.length==0) {
         return $(this);
