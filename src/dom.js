@@ -51,7 +51,6 @@ $.fn.transition = function(attr,during,ease,callback){
             option.ease = ease;
             option.callback = callback;
             option.during = during;
-            option.$$interpolate = interpolate;
             option.onUpdate = function(tickValue,option){
                 for(var key in tickValue) {
                     var name = key﻿;
