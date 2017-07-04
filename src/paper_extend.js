@@ -76,7 +76,7 @@ paper.fn.extend({
         };
         var dy = 0;
         if(option.textBaseLine === 'middle') {
-            dy = option.fontSize/2;
+            dy = option.fontSize/3;
         } else if(option.textBaseLine === "top") {
             dy = option.fontSize;
         }
