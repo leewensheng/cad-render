@@ -14,4 +14,4 @@ import Pie from './pie'
 
 window.React = React;
 window.ReactDOM = ReactDOM;
-ReactDOM.render(<Main />,document.getElementById("root"))
+ReactDOM.render(<Performance />,document.getElementById("root"))

@@ -20,9 +20,10 @@ var Performance = React.createClass({
             "stroke-width":2
         })
         paper.importBlock("chrome",100);
-        paper.importSymbol('chrome2');
+        paper.use('chrome');
+        /*paper.importSymbol('chrome2');
         var chrome = paper.use("chrome2",-200,-200,400,400).linkURL("http://www.baidu.com/s?wd=chrome").title("chrome");
-        chrome.translate(200,200).transition({transform:'translate(200,200)rotate(3600)'},50000,'linear')
+        chrome.translate(200,200).transition({transform:'translate(200,200)rotate(3600)'},50000,'linear')*/
     }
 })
 module.exports = Performance;
