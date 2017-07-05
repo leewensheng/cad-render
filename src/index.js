@@ -2,7 +2,7 @@ import core from './core.js'
 import Path from './path'
 import Point from './point'
 import Line  from './line'
-import Paper from './paper'
+import Paper from './paper/index'
 import namespace from './namespace'
 import browser from './browser'
 import transition from './animation'
@@ -11,15 +11,14 @@ import interpolate from './interpolate'
 import utils from './utils'
 import math from './math'
 
-import './paper_extend'
-import './layer'
 import './cad-shape'
 import './def.js'
 import './color/index'
 import './sample'
-import  './block'
+import  {defineBlock,defineSymbol} from './block/index'
+core.extend({defineBlock,defineSymbol});
 core.extend({
-	  transition:transition,
+	transition:transition,
     Point:Point,
     Line:Line,
     Path:Path,

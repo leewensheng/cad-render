@@ -1,9 +1,7 @@
 import cad from './core'
 import {defineShape,getShapePath,addShape} from './shape/index'
-import Paper from './paper'
 import Point from './point'
 cad.extend({defineShape,getShapePath});
-Paper.fn.addShape = addShape;
 cad.defineShape("regularPolygon",function(cx,cy,option){
     var paper = this;
     var path = new cad.Path();

@@ -1,9 +1,9 @@
 import $ from 'jquery'
-import "./dom"
-import namespace from './namespace'
-import browser from './browser'
-import  svgAttrs from './attr-map'
-import {dataUrlToBlob,extend} from './utils'
+import "../dom"
+import namespace from '../namespace'
+import browser from '../browser'
+import  svgAttrs from '../attr-map'
+import {dataUrlToBlob,extend} from '../utils'
 
 var Paper = function(el,option){
     return this.init(el,option);

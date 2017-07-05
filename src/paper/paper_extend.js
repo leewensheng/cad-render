@@ -1,6 +1,6 @@
 import paper from './paper'
-import Point from './point'
-import Path from './path'
+import Point from '../point'
+import Path from '../path'
 
 paper.fn.extend({
     setViewBox:function(x,y,width,height,fit) {

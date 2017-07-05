@@ -1,5 +1,5 @@
 import cad from './core'
-import paper from './paper'
+import paper from './paper/index'
 import gradient from './defs/gradient'
 import filters from './defs/filters'
 import patterns from './defs/patterns'
