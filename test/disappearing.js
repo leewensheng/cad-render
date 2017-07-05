@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import cad from '../src/index'
-
+import $ from 'jquery'
 var Disappear = React.createClass({
     render(){
         return <div></div>

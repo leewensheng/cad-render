@@ -6,17 +6,18 @@ import Paper from './paper/index'
 import namespace from './namespace'
 import browser from './browser'
 import transition from './animation'
-import color from './color'
 import interpolate from './interpolate'
 import utils from './utils'
 import math from './math'
 
-import './cad-shape'
-import './def.js'
-import './color/index'
+import {registDefs} from './defs/index'
+import {Color,hsl,rgb,darken,brighten} from './color/index'
 import './sample'
 import  {defineBlock,defineSymbol} from './block/index'
+
+core.registDefs = registDefs;
 core.extend({defineBlock,defineSymbol});
+core.extend({Color,hsl,rgb,darken,brighten});
 core.extend({
 	transition:transition,
     Point:Point,
@@ -31,7 +32,6 @@ core.extend({
     }
 });
 core.extend(math);
-core.extend(color);
 core.extend(interpolate);
 module.exports = core;
 window.cad = core;

@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import Animation from './animation'
 import namespace from './namespace'
-import Color from './color'
+import Color from './color/core'
 import utils from './utils'
 import Line from './line'
 $.parseTransform = utils.parseTransform;

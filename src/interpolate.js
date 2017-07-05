@@ -1,4 +1,4 @@
-import Color from './color'
+import Color from './color/core'
 import utils from './utils'
 import Path from './path'
 function getInterpolateValue(from,to,dt) {

@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import $ from 'jquery'
-
 var SVG = React.createClass({
     render() {
         return <div></div>

@@ -21,7 +21,7 @@ var shape = {
 	    var args = Array.prototype.slice.call(arguments,1);
     	var shape = shapes[name];
 	    if(!shape) {
-	        console.log("error:　undefined shape");
+	        console.error("error:　undefined shape " + name);
 	        return;
 	    }
 	    var path = shape.apply(this,args);
