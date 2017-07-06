@@ -5,7 +5,9 @@ import Point from './point'
 module.exports = Path;
 function Path(initialPath){
     if(initialPath instanceof Path) {
-        this.pathStack = initialPath;
+        this.pathStack = initialPath.pathStack;
+        this.x= initialPath.x;
+        this.y = initialPath.y;
     } else if(typeof initialPath === 'string') {
         if(!Path.parse(initialPath)) {
             this.pathStack = [];

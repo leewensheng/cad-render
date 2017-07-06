@@ -55,10 +55,10 @@ function interpolateTransform(from,to) {
 	}
 }
 function interpolatePath(from,to){
-	if(!from instanceof Path) {
+	if(! (from instanceof Path)) {
 		from  = new Path(from);
 	}
-	if(!to instanceof Path) {
+	if(! (to instanceof Path)) {
 		to  = new Path(to);
 	}
 	return function(dt){
