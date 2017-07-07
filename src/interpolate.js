@@ -44,6 +44,11 @@ function interpolate(from,to){
 		}
 	}
 }
+function interpolateObject(from,to){
+	return function(dt) {
+		return getInterpolateValue(from,to,dt);
+	}
+}
 function interpolateTransform(from,to) {
 	from =  from ||"";
 	to = to || "";
@@ -79,6 +84,7 @@ function interpolateColor(from,to){
 }
 module.exports = {
 					interpolate,
+					interpolateObject,
 					interpolateTransform,
 					interpolatePath,
 					interpolateColor,

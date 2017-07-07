@@ -2,8 +2,8 @@ import Path from '../path'
 import Point from '../point'
 import utils from '../utils'
 
-exports.sector = function(cx,cy,option){
-    var {startAngle,endAngle,radius} = option;
+exports.sector = function(option){
+    var {cx,cy,startAngle,endAngle,radius} = option;
      var innerRadius = option.innerRadius||0;
     if(innerRadius>radius) {
         console.log("warning:outerRadius should be larger than innerRadius");
