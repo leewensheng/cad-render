@@ -165,7 +165,7 @@ Paper.prototype = {
     },
     getXML:function(){
         var svg = this.svg;
-        return svg.parent().html();
+        return svg[0].outerHTML;
     },
     getBase64:function(callback){
         if(browser.ie) {
