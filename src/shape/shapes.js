@@ -27,16 +27,15 @@ exports.sector = function(option){
         .angleArcTo(startAngle -endAngle,cx,cy,innerRadius)
        
 }
-exports.regularPolygon = function(cx,cy,option){
+exports.regularPolygon = function(option){
+    var {cx,cy,num,size,sizeof} = option;
     var paper = this;
     var path = new Path();
-    var num = option.num;
     if(num<2) {
         return;
     }
     var angle = Math.PI*2/num;
-    var size = option.size;
-    var sizeof = option.sizeof||'outerRadius';
+    var sizeof = sizeof||'outerRadius';
     var r;
     if(sizeof=="innerRadius") {
         r = size / Math.cos(angle/2);

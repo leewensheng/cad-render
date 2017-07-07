@@ -10,11 +10,13 @@ var shape = {
 			}
 		}
     },
-    getShapePath:function(){
-        var name = arguments[0];
-        var args = Array.prototype.slice.call(arguments,1);
+    getShapePath:function(name,option,isPathObject){
         var shape = shapes[name];
-        return shape&&shape.apply(null,args).toString();
+        if(isPathObject) {
+        	return shape&&shape(option)
+        } else {
+        	return shape&&shape(option).toString();
+        }
     },
     addShape(){
         var name = arguments[0];
