@@ -4,6 +4,7 @@ import namespace from './namespace'
 import Color from './color/core'
 import utils from './utils'
 import Line from './line'
+import Path from './path'
 $.parseTransform = utils.parseTransform;
 $.getTransform = utils.getTransform;
 $.fn.stopTransition = function(goEnd){
@@ -39,6 +40,9 @@ $.fn.transition = function(attr,during,ease,callback){
                     } else if(name == 'fill' || name == 'stroke') {
                         from[key] = new Color($(dom).attr(name)).toRgbObj();
                         to[key] =  new Color(attr[key]).toRgbObj();
+                    } else if(name === 'd'){
+                        from[key] = new Path(dom.getAttribute('d')).pathStack;
+                        to[key] = new Path(to[key]).pathStack;
                     } else {
                         from[key] = parseFloat($(dom).attr(name)||defaultAttr[name]||0);
                         to[key] = attr[key];
@@ -58,7 +62,12 @@ $.fn.transition = function(attr,during,ease,callback){
                         this.setAttribute('transform',$.getTransform(tickValue.transform));
                     }else if(name == 'fill' || name == 'stroke') {
                         this.setAttribute(name,new Color(tickValue[name]).toRgb());
-                    } else {
+                    } else if(name == 'd'){
+                        var path = new Path();
+                        path.pathStack = tickValue[name];
+                        path.refreshXY();
+                        this.setAttribute('d',path.toString());
+                    }else {
                        this.setAttribute(name,tickValue[key]);
                     }
                 }
@@ -92,15 +101,20 @@ $.fn.interpolateTransition = function(interpolate,during,ease,callback){
         option.target = dom;
         option.onUpdate = function(tickValue){
             for(var key in tickValue) {
-                var name = key﻿;
-                if(name == 'transform') {
-                    this.setAttribute('transform',$.getTransform(tickValue.transform));
-                }else if(name == 'fill' || name == 'stroke') {
-                    this.setAttribute(name,new Color(tickValue[name]).toRgb());
-                } else {
-                   this.setAttribute(name,tickValue[key]);
+                    var name = key﻿;
+                    if(name == 'transform') {
+                        this.setAttribute('transform',$.getTransform(tickValue.transform));
+                    }else if(name == 'fill' || name == 'stroke') {
+                        this.setAttribute(name,new Color(tickValue[name]).toRgb());
+                    } else if(name == 'd'){
+                        var path = new Path();
+                        path.pathStack = tickValue[name];
+                        path.refreshXY();
+                        this.setAttribute('d',path.toString());
+                    }else {
+                       this.setAttribute(name,tickValue[key]);
+                    }
                 }
-            }
        }
        Animation.init(option);
     });
