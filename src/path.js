@@ -12,8 +12,10 @@ function Path(initialPath){
         if(!Path.parse(initialPath)) {
             this.pathStack = [];
         } else {
-            this.pathStack = Path.parse(initialPath).pathStack;
-            this.refreshXY();
+            let path =  Path.parse(initialPath);
+            this.pathStack = path.pathStack;
+            this.x = path.x;
+            this.y = path.y;
         }
     } else {
         this.pathStack = [];
@@ -222,26 +224,30 @@ Path.fn = Path.prototype = {
     }
 }
 Path.extend = Path.fn.extend = utils.extend;
+function parsePath(path,actions) {
+    if(actions.length === 0) {
+        return path;
+    }
+    var action = actions.shift();
+    var type = action.type;
+    var params = action.params;
+    return parsePath(Path.prototype[type].apply(path,params),actions);
+}
 Path.parse = function(str){
     str =utils.trim(str);
     var actions = str.match(/[a-zA-Z][^a-zA-Z]*/gi);
-    var path = new Path();
     if(!actions) {
         return;
     }
-    for(var i = 0; i < actions.length;i++) {
-        var action = actions[i];
+    actions = actions.map(action => {
         var type = action.match(/[a-zA-Z]/gi)[0];
         var data = utils.trim(action.replace(/[a-zA-Z]/gi,''));
         var params = data.split(/[\s,]+/gi).map(function(val){
             return parseFloat(val);
         })
-        if(typeof path[type] == 'undefined') {
-            return false;
-        }
-        path[type].apply(path,params);
-    }
-    return path;
+        return {type,params};
+    })
+    return parsePath(new Path(),actions);
 }
 var shortName = {
     m:"moveTo",
