@@ -1,5 +1,5 @@
 import insideShapes from './shapes'
-var shapes = {};
+var shapes = insideShapes;
 var shape = {
 	defineShape:function(name,func) {
 		if(typeof name === 'string') {
@@ -32,5 +32,4 @@ var shape = {
 	    });
     }
 };
-shape.defineShape(insideShapes);
 module.exports = shape;

@@ -1,25 +1,41 @@
 import Path from '../path'
 import Point from '../point'
 import utils from '../utils'
-
+import math from '../math'
 exports.sector = function(option){
-    var {cx,cy,startAngle,endAngle,radius} = option;
-     var innerRadius = option.innerRadius||0;
+    var t1 = Date.now();
+    var {cx,cy,startAngle,endAngle,radius,innerRadius} = option;
+     var innerRadius = innerRadius||0;
     if(innerRadius>radius) {
         console.log("warning:outerRadius should be larger than innerRadius");
     }
     if(endAngle - startAngle>=360) {
         endAngle = startAngle+359.999;
     };
-   var path = new Path();
-
-        path.MoveTo(cx,cy)
-        .angleMoveTo(startAngle,innerRadius)
-        .angleLineTo(startAngle,radius - innerRadius)
-        .angleArcTo(endAngle - startAngle ,cx,cy,radius)
-        .angleLineTo(endAngle+180,radius - innerRadius)
-        .angleArcTo(startAngle -endAngle,cx,cy,innerRadius);
-    return path.toString();
+    var p1 = {
+        x:cx + innerRadius*math.cos(startAngle),
+        y:cy + innerRadius*math.sin(startAngle)
+    };
+    var p2 = {
+        x:cx + radius*math.cos(startAngle),
+        y:cy + radius*math.sin(startAngle)
+    };
+    var p3 = {
+        x:cx + radius*math.cos(endAngle),
+        y:cy + radius*math.sin(endAngle)
+    };
+    var p4 = {
+        x:cx + innerRadius*math.cos(endAngle),
+        y:cy + innerRadius*math.sin(endAngle)
+    };
+    var flagLargeArc = Math.abs(endAngle - startAngle)> 180?1:0;
+    var flagClockWise = endAngle - startAngle > 0 ? 1:0;
+    var d =   'M' + p1.x + ',' + p1.y + ' ' +
+            'L' + p2.x  +',' + p2.y + ' ' + 
+            'A' + radius + ',' + radius + ' ' + '0'  + ' ' +  flagLargeArc+ ' ' +  flagClockWise + p3.x + ',' + p3.y +  ' ' + 
+            'L' + p4.x  +',' + p4.y + ' ' + 
+            'A' + innerRadius + ',' + innerRadius + ' ' + '0' + ' ' + flagLargeArc + ' ' + (flagClockWise?0:1) + p1.x + ',' + p1.y 
+    return d;
 }
 exports.regularPolygon = function(option){
     var {cx,cy,num,size,sizeof} = option;

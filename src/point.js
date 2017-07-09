@@ -93,10 +93,8 @@ Point.fn = Point.prototype = {
 		return this.constructor(x0,y0);
 	},
 	moveBy:function(dx,dy){
-		var x = this.x+dx;
-		var y = this.y+dy;
-		this.x = x;
-		this.y = y;
+		this.x += dx;
+		this.y += dy;
 		return this;
 	},
 	moveTo:function(x,y){
