@@ -1,5 +1,6 @@
 import Point from './point'
 import utils from './utils'
+/*https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d#Arcto*/
 module.exports = Path;
 function Path(initialPath){
     if(initialPath instanceof Path) {
@@ -212,7 +213,7 @@ Path.prototype = {
             return  path.action + " " + path.params.map(function(val){
                 if(Array.isArray(val)) {
                     return val.map(function(num){
-                        return  num.toFixed(4);
+                        return  num&&num.toFixed(4);
                     }).join(',');
                 } else {
                     return val;

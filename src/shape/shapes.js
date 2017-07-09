@@ -32,9 +32,9 @@ exports.sector = function(option){
     var flagClockWise = endAngle - startAngle > 0 ? 1:0;
     var d =   'M' + p1.x + ',' + p1.y + ' ' +
             'L' + p2.x  +',' + p2.y + ' ' + 
-            'A' + radius + ',' + radius + ' ' + '0'  + ' ' +  flagLargeArc+ ' ' +  flagClockWise + p3.x + ',' + p3.y +  ' ' + 
+            'A' + radius + ',' + radius + ' ' + '0'  + ' ' +  flagLargeArc+ ' ' +  flagClockWise + ' ' +  p3.x + ',' + p3.y +  ' ' + 
             'L' + p4.x  +',' + p4.y + ' ' + 
-            'A' + innerRadius + ',' + innerRadius + ' ' + '0' + ' ' + flagLargeArc + ' ' + (flagClockWise?0:1) + p1.x + ',' + p1.y 
+            'A' + innerRadius + ',' + innerRadius + ' ' + '0' + ' ' + flagLargeArc + ' ' + (flagClockWise?0:1) +  ' ' + p1.x + ',' + p1.y 
     return d;
 }
 exports.regularPolygon = function(option){
