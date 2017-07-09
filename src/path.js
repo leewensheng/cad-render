@@ -1,7 +1,5 @@
-
-import utils from './utils'
 import Point from './point'
-
+import utils from './utils'
 module.exports = Path;
 function Path(initialPath){
     if(initialPath instanceof Path) {
@@ -21,7 +19,7 @@ function Path(initialPath){
         this.pathStack = [];
     }     
 };
-Path.fn = Path.prototype = {
+Path.prototype = {
     constructor:Path,
     pushStack:function(action,params){
         this.pathStack.push({
@@ -223,7 +221,7 @@ Path.fn = Path.prototype = {
         }).join(" ");
     }
 }
-Path.extend = Path.fn.extend = utils.extend;
+Path.extend = Path.prototype.extend = utils.extend;
 function parsePath(path,actions) {
     if(actions.length === 0) {
         return path;
@@ -271,8 +269,8 @@ var shortName = {
     z:"closePath",
     Z:"closePath"
 }
-for(var key in shortName) {
-    Path.fn[key] = Path.fn[shortName[key]];
+for(let key in shortName) {
+    Path.prototype[key] = Path.prototype[shortName[key]];
 }
 
 
@@ -336,7 +334,7 @@ function __lineToAll(points,isAboslute){
     }
     return this;
 }
-Path.fn.extend({
+Path.prototype.extend({
     getAbsolutePoints:function(){
         alert('todo')
     },
@@ -359,31 +357,20 @@ Path.fn.extend({
         return this.moveTo(dx,dy);
     },
     angleArcTo:function(angle,cx,cy,r){
-        if(angle==0) {
+        var flagClockWise,flagLargeArc,endX,endY;
+        var {x,y} = this;
+        if(angle === 0) {
             return this;
         }
-        var angle1 = angle % 360;
-        //todo 根据angle判断isClockWise
-        var isClockWise = 0;
-        if(angle > 0) {
-            isClockWise = 1;
-        }
-        var x = this.x;
-        var y = this.y;
         if(typeof r === 'undefined') {
             r = Point(x,y).getLenTo(cx,cy);
         }
+        flagLargeArc = Math.abs(angle) > 180 ? 1 : 0;
+        flagClockWise = angle>0?1:0;
         var endPoint = Point(x,y).rotate(angle,cx,cy);
-        var flagClock = isClockWise ? 1:0;
-        var isLargeArc = Math.abs(angle)>= 180 ? 1 : 0;
-        if(angle >= 360) {
-            this.angleArcTo(359.9,cx,cy,r).LineTo(x,y).MoveTo(x,y);
-            endPoint = Point(x,y).rotate(angle1,cx,cy);
-            this.ArcTo(r,r,0,Math.abs(angle1)>=180?1:0,flagClock,endPoint.x,endPoint.y);
-            return this;
-        } else {
-            return this.ArcTo(r,r,0,isLargeArc,flagClock,endPoint.x,endPoint.y);
-        }
+        endX = endPoint.x;
+        endY = endPoint.y;
+        return this.ArcTo(r,r,0,flagLargeArc,flagClockWise,endX,endY);
     },
     clockWiseArcTo:function(cx,cy,endx,endy,r){
 

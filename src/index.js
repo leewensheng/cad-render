@@ -9,13 +9,14 @@ import transition from './animation'
 import interpolate from './interpolate'
 import utils from './utils'
 import math from './math'
-
+import {defineShape,getShapePath} from './shape/index'
 import {registDefs} from './defs/index'
 import {Color,hsl,rgb,darken,brighten} from './color/index'
 import './sample'
 import  {defineBlock,defineSymbol} from './block/index'
 
 core.registDefs = registDefs;
+core.extend({defineShape,getShapePath});
 core.extend({defineBlock,defineSymbol});
 core.extend({Color,hsl,rgb,darken,brighten});
 core.extend({
