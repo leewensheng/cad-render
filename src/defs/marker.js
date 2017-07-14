@@ -2,7 +2,7 @@ module.exports = {
     triangle:function(option) {
         option = option ||{};
         var paper = this;
-        var $defs = paper.select("defs");
+        var $defs = paper.$defs;
         var marker = paper.createSVGElement("marker",{
             id:"triangle",
             viewBox:"0,0,10,10",

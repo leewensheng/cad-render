@@ -1,7 +1,7 @@
 module.exports = {
 	linearGradient:function(option){
 		var paper = this;
-		var $defs = paper.select("defs");
+		var $defs = paper.$defs;
 		option = cad.extend(true,
 				{
 					id:"linearGradient",
@@ -29,7 +29,7 @@ module.exports = {
 	},
 	radialGradient:function(option){
 		var paper = this;
-		var $defs = paper.select("defs");
+		var $defs = paper.$defs;
 		option = cad.extend(true,
 				{
 					id:"radialGradient",

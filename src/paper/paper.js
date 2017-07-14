@@ -102,6 +102,7 @@ Paper.prototype = {
             $(el).append(svg);
             $(svg).append(defs);
             this.svg = svg;
+            this.$defs = $(defs);
             this.initDefaultLayer();
         } else {
             this.currentLayer = el;
@@ -151,7 +152,7 @@ Paper.prototype = {
         return el;
     },
     select:function(selector){
-        return $(selector,this.svg.ownerDocument);
+        return this.svg.find(selector);
     },
     on:function(){
         var args = Array.prototype.slice.call(arguments,0);
@@ -240,6 +241,7 @@ Paper.prototype = {
         this.currentLayer = null;
         this.svg = null;
         this.layers = null;
+        this.$defs = null;
     }
 }
 Paper.fn = Paper.prototype;

@@ -1,7 +1,7 @@
 module.exports = {
 	line:function(angle,gap){
 		var paper = this;
-		var $defs = paper.select("defs");
+		var $defs = paper.$defs;
 		var width,height;
 		var patternUnits = ['objextBoundingBox','userSpaceOnUse'];
 		var x1,y1,x2,y2;
@@ -43,7 +43,7 @@ module.exports = {
 	},
 	block:function(size) {
 		var paper = this;
-		var $defs = paper.select("defs");
+		var $defs = paper.$defs;
 		var width,height;
 		var patternUnits = ['objextBoundingBox','userSpaceOnUse'];
 		width = size*2,height = size;

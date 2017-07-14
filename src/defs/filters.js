@@ -2,7 +2,7 @@ import {extend} from '../utils'
 module.exports = {
     blur:function(option){
 	    var paper = this;
-	    var $defs = paper.select("defs");
+		var $defs = paper.$defs;
 	    var id = "blur";
 	    var stdDeviation = option;
 	    if(typeof option == "undefined") {
@@ -18,7 +18,7 @@ module.exports = {
 	},
 	shadow:function(option){
 		var paper = this;
-		var $defs = paper.select("defs");
+		var $defs = paper.$defs;
 		option = extend(
 				{
 					id:"shadow",
