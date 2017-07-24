@@ -371,6 +371,9 @@ Path.prototype.extend({
         var endPoint = Point(x,y).rotate(angle,cx,cy);
         endX = endPoint.x;
         endY = endPoint.y;
+        if(x === endX && endY === y) {
+            endX = x - 0.001; 
+        }
         return this.ArcTo(r,r,0,flagLargeArc,flagClockWise,endX,endY);
     },
     clockWiseArcTo:function(cx,cy,endx,endy,r){

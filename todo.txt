@@ -1,7 +1,6 @@
 ﻿各模块的测试test
 paper select的bugfix
 defs作为实例属性方便切换
-添加defs时首先切换至defs层
 修复 path arc bug
 Line,Point模块改造成new还是不new,
 fixed 停止动画后回调函数需不需要执行
