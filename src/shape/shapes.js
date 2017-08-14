@@ -11,7 +11,7 @@ exports.sector = function(option){
     }
     if(endAngle - startAngle>=360) {
         endAngle = startAngle+359.999;
-    };
+    }
     var p1 = {
         x:cx + innerRadius*math.cos(startAngle),
         y:cy + innerRadius*math.sin(startAngle)

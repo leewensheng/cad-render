@@ -213,7 +213,7 @@ Path.prototype = {
             return  path.action + " " + path.params.map(function(val){
                 if(Array.isArray(val)) {
                     return val.map(function(num){
-                        return  num&&num.toFixed(4);
+                        return  num;
                     }).join(',');
                 } else {
                     return val;
