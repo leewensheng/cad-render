@@ -10,9 +10,15 @@ module.exports =
     return color;
    },
    darken:function(color,ration) {
+        if(!Color.parse(color)) {
+          return color;
+        }
         return  new Color(color).darken(ration);
    },
    brighten:function(color,ration) {
+       if(!Color.parse(color)) {
+          return color;
+      }
         return  new Color(color).brighten(ration);
    },
    Color:Color

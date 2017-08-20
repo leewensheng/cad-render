@@ -23,7 +23,7 @@ function getInterpolateValue(from,to,dt) {
 }
 function interpolate(from,to){
 	if(typeof from =='string' && typeof to =='string') {
-		if(Color.getColorByStr(from)&&Color.getColorByStr(to)) {
+		if(Color.parse(from)&&Color.parse(to)) {
 			var colorFrom = new Color(from).toRgbObj();
 			var colorTo = new Color(to).toRgbObj();
 			return function(dt) {

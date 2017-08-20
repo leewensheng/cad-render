@@ -47,7 +47,7 @@ Color.rgbToHsl = function(r, g, b){
 
     return [h*360, s, l];
 }
-Color.getColorByStr = function(str){
+Color.parse = function(str){
 		str = trim(str);
 		var r,g,b,a=1,color;
 		var regHex = /\#([0-9a-f]{3})|([0-9a-f]{6})$/gi;
@@ -177,7 +177,7 @@ Color.prototype = {
 		if(typeof color == undefined) {
 			r = g = b = 0;
 		} else if(typeof color == 'string') {
-			var rgba = this.constructor.getColorByStr(color);
+			var rgba = this.constructor.parse(color);
 			r = rgba.r || 0;
 			g = rgba.g || 0;
 			b = rgba.b || 0;
