@@ -233,6 +233,10 @@ Color.prototype = {
 		this.g = rgb[1];
 		this.b = rgb[2];
 		return this.toRgb();
+	},
+	alpha:function(ration) {
+		this.a *= ration;
+		return this;
 	}
 }
 module.exports = Color;

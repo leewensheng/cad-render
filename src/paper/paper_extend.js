@@ -9,6 +9,7 @@ paper.fn.extend({
         return this;
     },
     line:function(x1,y1,x2,y2){
+        //需要考虑IE下的线条粗细，如果x1===x2或y1===y2，需要将x1x2或y1y2调至非整数位置
         return this.append("line",{
             x1:x1,
             y1:y1,

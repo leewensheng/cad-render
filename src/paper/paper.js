@@ -76,23 +76,28 @@ Paper.prototype = {
     },
     init:function(el,option){
         var el,width,height;
-        if(typeof option == 'undefined') {
-            option = {};
-        }
+        option = $.extend({
+            width:600,
+            height:400
+        },option);
+
         if(!el) {
             return this;
         }
+
         if(el.ownerSVGElement) {
             this.currentLayer = $(el);
             this.svg = $(el).closest("svg");
+            this.initDefs();
             return this;
         }
         if(!el.ownerSVGElement && el.tagName === "svg") {
             this.svg = $(el);
             this.currentLayer = $(el);
+            this.initDefs();
             return this;
         }
-        if(!(el.children instanceof Array)) {
+        if(el instanceof HTMLElement) {
             el = $(el).first();
             var width = option.width||$(el).width()||600;
             var height = option.height||$(el).height()||400;
@@ -108,6 +113,16 @@ Paper.prototype = {
             this.currentLayer = el;
         }
         return this;
+    },
+    initDefs(){
+        var svg = this.svg;
+        if(!svg.find('defs').length) {
+            var defs = this.createSVGElement("defs");
+            this.$defs = $(defs);
+            svg.prepend(defs);
+        } else {
+            this.$defs = svg.find('defs');
+        }
     },
     width:function(width){
         if(arguments.length===0) {

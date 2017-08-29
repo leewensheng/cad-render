@@ -20,6 +20,7 @@ function Path(initialPath){
         this.pathStack = [];
     }     
 };
+window.Path = Path;
 Path.prototype = {
     constructor:Path,
     pushStack:function(action,params){
@@ -55,37 +56,13 @@ Path.prototype = {
         return this;
     },
     refreshXY:function(){
-        var actions  = this.pathStack;
-        var x = 0,y =0 ;
-        for(var i = 0; i < actions.length;i++) {
-            var action = actions[i].action;
-            var params = actions[i].params;
-            var point = params[params.length - 1];
-            if(action === 'z' || action === 'Z') {
-                continue;
-            }
-            if(/^[a-z]$/g.test(action)) {
-                if(action === 'v') {
-                    y += point;
-                } else if(action === 'h') {
-                    x += point;
-                } else {
-                    x += point[0];
-                    y += point[1];
-                }
-            } else {
-                if(action === 'V') {
-                    y = point;
-                } else if(action === 'H') {
-                    x = point;
-                } else {
-                     x = point[0];
-                     y = point[1];
-                }
-            }
+        var points = this.getAbsolutePoints();
+        var lastPoint = points[points.length - 1];
+        if(lastPoint) {
+            this.x =  lastPoint.x;
+            this.y = lastPoint.y;
         }
-        this.x =  x;
-        this.y = y;
+        
         return this;
     },
     MoveTo:function(x,y){
@@ -187,6 +164,9 @@ Path.prototype = {
     },
     getPath:function(){
         return this.toString();
+    },
+    getReac:function(){
+
     },
     clone:function(){
         var str = this.toString();
@@ -337,7 +317,38 @@ function __lineToAll(points,isAboslute){
 }
 Path.prototype.extend({
     getAbsolutePoints:function(){
-        alert('todo')
+        var actions  = this.pathStack;
+        var x = 0,y =0 ;
+        var points = [];
+        for(var i = 0; i < actions.length;i++) {
+            var action = actions[i].action;
+            var params = actions[i].params;
+            var point = params[params.length - 1];
+            if(action === 'z' || action === 'Z') {
+                continue;
+            }
+            if(/^[a-z]$/g.test(action)) {
+                if(action === 'v') {
+                    y += point;
+                } else if(action === 'h') {
+                    x += point;
+                } else {
+                    x += point[0];
+                    y += point[1];
+                }
+            } else {
+                if(action === 'V') {
+                    y = point;
+                } else if(action === 'H') {
+                    x = point;
+                } else {
+                     x = point[0];
+                     y = point[1];
+                }
+            }
+            points.push({x,y});
+        }
+        return points;
     },
     arc:function(cx,cy,r,startAngle,endAngle,counterClockWise) {
         var pCenter =  Point(cx,cy);
