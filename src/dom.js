@@ -5,6 +5,9 @@ import Color from './color/core'
 import utils from './utils'
 import Line from './line'
 import Path from './path'
+/*
+ *@problem  插值过程中，一些值不允许负值，比如circle的r,rect的width,height
+ */
 $.parseTransform = utils.parseTransform;
 $.getTransform = utils.getTransform;
 $.fn.stopTransition = function(goEnd){
