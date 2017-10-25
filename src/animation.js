@@ -27,7 +27,7 @@ Animation = {
             return value.queue.length > 0;
         })
     },
-    stopAnimation:function(target,goToEnd){
+    stopAnimation:function(target,goToEnd,callback){
         if(arguments.length === 0) {
             this.animations = [];
             if(this.isTick) {
@@ -46,6 +46,12 @@ Animation = {
                     queue.map(function(val){
                         val.onUpdate.call(target,val.to,queue);
                     });                
+                }
+                if(queue.length) {
+                    if(typeof callback === 'function') {
+                        var k = (new Date().getTime() - queue[0].startTime) / during;
+                        callback(k);
+                    }
                 }
                 animations[i].queue = [];
                 break;

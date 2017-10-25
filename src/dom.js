@@ -10,9 +10,9 @@ import Path from './path'
  */
 $.parseTransform = utils.parseTransform;
 $.getTransform = utils.getTransform;
-$.fn.stopTransition = function(goEnd){
+$.fn.stopTransition = function(goEnd,callback){
     this.each(function(index,dom){
-        Animation.stopAnimation(dom,goEnd);
+        Animation.stopAnimation(dom,goEnd,callback);
     })
     return this;
 }
