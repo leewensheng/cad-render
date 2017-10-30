@@ -27,6 +27,13 @@ $.fn.transition = function(attr,during,ease,callback){
                 "stroke-opacity":1,
                 "fill-opacity":1
             }
+            var noNegativeAttr = {
+                "stroke-opacity":true,
+                "fill-opacity":true,
+                "r":true,
+                "width":true,
+                "height":true
+            }
             /*var is_busy = Animation.isAnimating(dom);
             if(is_busy) {
                 Animation.stopAnimation(dom);
@@ -36,7 +43,7 @@ $.fn.transition = function(attr,during,ease,callback){
             var interpolate;
             if(typeof to === 'object') {
                 for(var key in  attr) {
-                   var  name = key﻿;
+                   var  name = key;
                     if(name === 'transform') {
                         from[key] = $.parseTransform(dom.getAttribute(name));
                         to[key]= $.parseTransform(attr[key]);
@@ -60,7 +67,10 @@ $.fn.transition = function(attr,during,ease,callback){
             option.during = during;
             option.onUpdate = function(tickValue,option){
                 for(var key in tickValue) {
-                    var name = key﻿;
+                    var name = key;
+                    if(noNegativeAttr[name] && tickValue[name] < 0) {
+                        tickValue[name] = 0;
+                    }
                     if(name == 'transform') {
                         this.setAttribute('transform',$.getTransform(tickValue.transform));
                     }else if(name == 'fill' || name == 'stroke') {
@@ -414,8 +424,27 @@ $.fn.mirror = function(x1,y1,x2,y2,deleteOriginal) {
     })
     return this;
 }
-
-
+$.fn.getOffsetMouse = function(e,target){
+    var clientX,clientY;
+    if(this.length === 0 ) return;
+    if(typeof targe === 'undefined') {
+        target = this.closest('svg');
+    }
+    target = $(target)[0];
+    var rect = target.getBoundingClientRect();
+    var {top,left} = rect;
+    if(/touch/gi.test(e.type)) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+    } else {
+        clientX = e.clientX;
+        clientY = e.clientY;
+    }
+    return {
+        x:clientX - left,
+        y:clientY - top
+    }
+}
 
 
 
