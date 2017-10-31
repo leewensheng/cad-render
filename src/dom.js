@@ -16,6 +16,21 @@ $.fn.stopTransition = function(goEnd,callback){
     })
     return this;
 }
+$.mouse = function(event){
+    var clientX,clientY;
+    if(/touch/gi.test(event.type)) {
+        let touch  = event.touches[0];
+        if(!touch) {
+            return null;
+        }
+        clientX = touch.clientX;
+        clientY = touch.clientY;
+    } else {
+        clientX = event.clientX;
+        clientY = event.clientY;
+    }
+    return {clientX,clientY};
+}
 $.fn.transition = function(attr,during,ease,callback){
     //注意fill,stroke,transform的支持;
     if(arguments.length > 1) {

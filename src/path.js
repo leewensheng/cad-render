@@ -173,16 +173,24 @@ Path.prototype = {
         return new this.constructor(str);
     },
     connectPath:function(path){
+        var pathStack = this.pathStack;
         if(typeof path === 'string') {
             var ret = Path.parse(path);
             if(ret) {
-                var pathStack = this.pathStack;
                 this.pathStack = pathStack.concat(ret.pathStack);
             }
         } else {
             if(path instanceof Path) {
-                 var pathStack = this.pathStack;
                 this.pathStack = pathStack.concat(path.pathStack);
+            } else if(path instanceof Array) {
+                path.map(function(subPath){
+                    if(typeof subPath === 'string') {
+                        pathStack.concat(Path.parse(subPath).pathStack);  
+                    } else {
+                        pathStack.concat(subPath.pathStack);
+                    }
+                    this.pathStack = pathStack;
+                })
             }
         }
         return this.refreshXY();
