@@ -211,30 +211,25 @@ Path.prototype = {
     }
 }
 Path.extend = Path.prototype.extend = utils.extend;
-function parsePath(path,actions) {
-    if(actions.length === 0) {
-        return path;
-    }
-    var action = actions.shift();
-    var type = action.type;
-    var params = action.params;
-    return parsePath(Path.prototype[type].apply(path,params),actions);
-}
 Path.parse = function(str){
     str =utils.trim(str);
     var actions = str.match(/[a-zA-Z][^a-zA-Z]*/gi);
     if(!actions) {
         return;
     }
-    actions = actions.map(action => {
+    var path = new Path();
+     actions.forEach(action => {
         var type = action.match(/[a-zA-Z]/gi)[0];
         var data = utils.trim(action.replace(/[a-zA-Z]/gi,''));
         var params = data.split(/[\s,]+/gi).map(function(val){
             return parseFloat(val);
-        })
-        return {type,params};
-    })
-    return parsePath(new Path(),actions);
+        });
+        if(Path.prototype[type]) {
+            Path.prototype[type].apply(path,params);
+        } 
+    });
+    return path;
+
 }
 var shortName = {
     m:"moveTo",

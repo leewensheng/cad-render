@@ -3,7 +3,7 @@ import {Link,IndexLink} from 'react-router'
 import Anchor from './anchor.jsx'
 import $ from 'jquery'
 var isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox")!=-1;
-var scrollElem = isFirefox?'documentElement':'body';
+var scrollElem = isFirefox?'documentElement':'documentElement';
 var Menu = React.createClass({
     getInitialState(){
         var height = document.documentElement.clientHeight;
