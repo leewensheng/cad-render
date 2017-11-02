@@ -125,7 +125,7 @@ rect.on("click",function(event){
   })
   //二维矩形阵列，正六边形，带颜色变化
   var count = 0;
-  paper.addShape("regularPolygon",60,80,{size:15,num:6}).arrayCopy(4,4,function(x,y){
+  paper.addShape("regularPolygon",{cx:60,cy:80,size:15,num:6}).arrayCopy(4,4,function(x,y){
   	var color = cad.hsl(count/16*360,1,0.5);
   	$(this).translate(x*30,y*30+15*(x%2)).fill(color)
   	count++;
@@ -224,7 +224,7 @@ rect.on("click",function(event){
 			$(this).translate(0,40*index)
 		})
 		var count = 0;
-		paper.addShape("regularPolygon",60,80,{size:15,num:6}).arrayCopy(4,4,function(x,y){
+		paper.addShape("regularPolygon",{cx:60,cy:80,size:15,num:6}).arrayCopy(4,4,function(x,y){
 			var color = cad.hsl(count/16*360,1,0.5);
 			$(this).translate(x*30,y*30+15*(x%2)).fill(color)
 			count++;

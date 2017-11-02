@@ -85,6 +85,7 @@ paper.fn.extend({
             "x":x,
             "y":y,
             "dy":dy,
+            "stroke":"none",
             "font-size":option.fontSize,
             "text-anchor":anchor[option.textAlign] ||'start'
         });

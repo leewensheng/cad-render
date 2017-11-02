@@ -155,8 +155,8 @@ paper.diagonalellipse(30,30,230,320);
                 <pre>
 {
 `<script>
-    paper.addShape("regularPolygon",190,100,{num:5,size:33});
-    paper.addShape("regularPolygon",260,100,{num:6,size:33});
+    paper.addShape("regularPolygon",{cx:190,cy:100,num:5,size:33});
+    paper.addShape("regularPolygon",{cx:260,cy:100,num:6,size:33});
 </script>`
 }               </pre>
                 <div ref="shape" style={{height:500}}></div>                
@@ -310,15 +310,15 @@ paper.diagonalellipse(30,30,230,320);
         paper.configLayer({stroke:"#fff"});
         paper.rect(0,0,paper.width(),paper.height()).fill("#000");
         //外接圆半径为50的正多边形
-        paper.addShape("regularPolygon",60,100,{num:5,size:50});
-        paper.addShape("regularPolygon",180,100,{num:6,size:50});
+        paper.addShape("regularPolygon",{cx:60,cy:100,num:5,size:50});
+        paper.addShape("regularPolygon",{cx:180,cy:100,num:6,size:50});
         //心形
         paper.addShape("heart",320,100,50);
         //正弦曲线
         paper.addShape("sinCurve",20,250,{width:200,height:50})
         //扇形、环扇
-        paper.addShape("sector",260,250,{startAngle:-45,endAngle:45,radius:100});
-        paper.addShape("sector",260,400,{startAngle:-45,endAngle:45,radius:100,innerRadius:50});
+        paper.addShape("sector",{cx:260,cy:250,startAngle:-45,endAngle:45,radius:100});
+        paper.addShape("sector",{cx:260,cy:400,startAngle:-45,endAngle:45,radius:100,innerRadius:50});
         //箭头
         paper.addShape("markLine",20,400,200,400);
 
