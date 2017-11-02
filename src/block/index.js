@@ -1,5 +1,6 @@
 var $$symbols = {};
-import $$blocks from './blocks'
+import {chrome,button} from './blocks'
+var $$blocks = {chrome,button};
 module.exports = {
 	defineBlock:function(id,callback){
 		if(typeof callback=='function') {

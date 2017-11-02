@@ -38,7 +38,7 @@ export function chrome(r){
 export function button(x,y,text,option){
     var paper = this;
     var $text = paper.text(x+10,y+10,text).fill("#333").css("pointer-events","none");
-    var len = $text.width();
+    var len = $text.get(0).getComputedTextLength();
     var $rect = paper.rect(x,y,len+20,30).fill("#A9DBF6").stroke("#ddd",1).css("cursor","pointer");
     $rect.after($text);
     return $rect;
