@@ -75,10 +75,12 @@ Paper.prototype = {
         return $(el);
     },
     init:function(el,option){
-        var el,width,height;
+        var width,height;
+        width = $(el).width();
+        height = $(el).height();
         option = $.extend({
-            width:600,
-            height:400
+            width:width,
+            height:height
         },option);
 
         if(!el) {
