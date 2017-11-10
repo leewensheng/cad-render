@@ -2,6 +2,20 @@ import Path from '../path'
 import Point from '../point'
 import utils from '../utils'
 import math from '../math'
+exports.line = function(option){
+    var {x1,y1,x2,y2} = option;
+    x1 = Math.round(x1);
+    x2 = Math.round(x2);
+    y1 = Math.round(y1);
+    y2 = Math.round(y2);
+    if(x1 === x2) {
+         x1 = x2 = x1 - 0.5;
+    }
+    if(y1 === y2) {
+        y1 = y2 = y1 - 0.5;
+    }
+    return new Path().M(x1,y1).L(x2,y2);
+}
 exports.sector = function(option){
     var t1 = Date.now();
     var {cx,cy,startAngle,endAngle,radius,innerRadius} = option;

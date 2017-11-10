@@ -1,17 +1,28 @@
-import insideShapes from './shapes'
-var shapes = insideShapes;
+import inside_shapes from './shapes'
+import Path from '../path'
+var _shapes = inside_shapes;
 var shape = {
 	defineShape:function(name,func) {
 		if(typeof name === 'string') {
-        	shapes[name] =  func;
+        	_shapes[name] =  func;
 		} else if(arguments.length === 1&&typeof name==='object') {
 			for(var key in name) {
-				shapes[key] = name[key];
+				_shapes[key] = name[key];
 			}
 		}
-    },
+	},
+	getShapesPath(shapes){
+		var that = this;
+		var path = new Path();
+		shapes.map(function(shape){
+			var type = shape.type;
+			var shapePath = that.getShapePath(type,shape,true);
+			path.connectPath(shapePath,true);
+		});
+		return path;
+	},
     getShapePath:function(name,option,isPathObject){
-        var shape = shapes[name];
+		var shape = _shapes[name];
         if(isPathObject) {
         	return shape&&shape(option)
         } else {
@@ -21,7 +32,7 @@ var shape = {
     addShape(){
         var name = arguments[0];
 	    var args = Array.prototype.slice.call(arguments,1);
-    	var shape = shapes[name];
+    	var shape = _shapes[name];
 	    if(!shape) {
 	        console.error("error:　undefined shape " + name);
 	        return;

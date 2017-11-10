@@ -172,7 +172,7 @@ Path.prototype = {
         var str = this.toString();
         return new this.constructor(str);
     },
-    connectPath:function(path){
+    connectPath:function(path,noRefresh){
         var pathStack = this.pathStack;
         if(typeof path === 'string') {
             var ret = Path.parse(path);
@@ -193,7 +193,11 @@ Path.prototype = {
                 })
             }
         }
-        return this.refreshXY();
+        if(!noRefresh) {
+            return this.refreshXY();
+        } else {
+            return this;
+        }
     },
     toString:function(){
         //最好在出口处取整一下;

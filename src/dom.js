@@ -55,8 +55,10 @@ $.fn.transition = function(attr,during,ease,callback){
             }*/
             var from = {};
             var to = attr;
+            var group = null;
             var interpolate;
             if(typeof to === 'object') {
+                group = option.group || group;
                 for(var key in  attr) {
                    var  name = key;
                     if(name === 'transform') {
@@ -80,6 +82,7 @@ $.fn.transition = function(attr,during,ease,callback){
             option.ease = ease;
             option.callback = callback;
             option.during = during;
+            option.group = group;
             option.onUpdate = function(tickValue,option){
                 for(var key in tickValue) {
                     var name = key;

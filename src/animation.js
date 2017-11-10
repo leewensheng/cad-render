@@ -90,8 +90,9 @@ Animation = {
     },
     tick:function(){
         var animations = this.animations,timestamp = new Date().getTime();
-        var me,target, queue,callback,during,delay,onUpdate,ease,from,to,value,has_blank = false;
+        var me,target, queue,callback,during,delay,onUpdate,ease,from,to,value,group,has_blank = false;
         var len = animations.length;
+        var groupTime = {};
         for(var i = 0; i < len;i++) {
             me = animations[i];
             if(me.queue.length == 0) {
@@ -105,6 +106,7 @@ Animation = {
             during = queue.during;
             ease = queue.ease;
             delay = queue.delay||0;
+            group = queue.group;
             if(typeof ease !== "function") {
                 ease  = this.getEaseByName(ease||"linear");
             }
@@ -113,8 +115,12 @@ Animation = {
             if(!queue.startTime) {
                 queue.startTime = timestamp;
             }
+            if(group) {
+                queue.startTime = groupTime[group] || queue.startTime;
+                groupTime[group] = queue.startTime;
+            }
             var dt = timestamp - queue.startTime - delay;
-            if(dt < queue.during)  {
+            if(dt < queue.during && len < 400)  {
                 if(dt < 0) {
                     continue;
                 }
