@@ -263,54 +263,6 @@ for(let key in shortName) {
 
 
 /*更多功能*/
-function __curveToAll(points,isAboslute,isClosed) {
-    var data = [];
-    var p0 = points[0];
-    var p1 = points[1];
-    var pnPrev = points[points.length-2];
-    var pn = points[points.length-1];
-    var angle = Point(p0).getAngleTo(p1.x,p1.y);
-    var m1 = Point(p0).angleMoveTo(angle,1);
-    var angle2 = Point(pn).getAngleTo(pnPrev.x,pnPrev.y);
-    var mn = Point(pn).angleMoveTo(angle,1);
-    if(!isClosed) {
-        points.unshift({x:m1.x,y:m1.y});
-        points.push({x:mn.x,y:mn.y});
-    } else {
-        points.unshift(pn);
-        points.push(p0);
-        points.push(p1);
-    }
-    for(var i = 1; i < points.length -2;i++) {
-        var p = points[i];
-        var p0 = points[i-1];
-        var p1 = points[i+1];
-        var p2 = points[i+2];
-        var x = p.x, y = p.y;
-        var param = {};
-        var x1,y1,x2,y2;
-        x1 = p.x+(p1.x-p0.x)/4;
-        y1 = p.y + (p1.y-p0.y)/4;
-        x2 = p1.x - (p2.x - p.x)/4;
-        y2 = p1.y - (p2.y - p.y)/4;
-        param = {x:x,y:y,x1:x1,y1:y1,x2:x2,y2:y2,endx:p1.x,endy:p1.y};
-        data.push(param);
-    }
-    if(isAboslute) {
-        this.MoveTo(points[1].x,points[1].y);
-    } else {
-        this.moveTo(points[1].x,points[1].y);
-    }
-    for(var i = 0;i < data.length; i++) {
-        var d = data[i];
-        if(isAboslute) {
-            this.C(d.x1,d.y1,d.x2,d.y2,d.endx,d.endy);
-        } else {
-            this.c(d.x1,d.y1,d.x2,d.y2,d.endx,d.endy);
-        }
-    }
-    return this;
-}
 function __lineToAll(points,isAboslute){
     for(var i = 0; i <points.length;i++) {
         var p = points[i];
@@ -361,12 +313,23 @@ function getControlPoints(arr,smooth_value) {
     var ctrl2_y = ym2 + (yc2 - ym2) * smooth_value + y2 - ym2;
     return [{x: ctrl1_x, y: ctrl1_y}, {x: ctrl2_x, y: ctrl2_y}];
 }
-function _splineToAll(points,isAboslute)  {
+function __curveToAll(points,isAboslute,isClosed)  {
+    var {x,y,pathStack} = this;
+    if(points.length ===  0) {
+        return this;
+    } else if(points.length === 1) {
+        let p0 = points[0];
+        return isAboslute ? this.M(p0.x,p0.y) : this.m(p0.x,p0.y);
+    } else if(points.length === 2) {
+        let p0 = points[0];
+        let p1 = points[1];
+        return isAboslute ? this.M(p0.x,p0.y).L(p1.x,p1.y): this.m(p0.x,p0.y).l(p1.x,p1.y);
+    } 
     var smooth_value = 0.6;
     var p0,p1,p2,p3,controls;
     for(var i = 0; i < points.length - 1;i++) {
         if(i === 0) {
-            p0 = points[0];
+             p0 = points[0];
         } else {
             p0 = points[i - 1];
         }
@@ -377,10 +340,14 @@ function _splineToAll(points,isAboslute)  {
             p3 = points[i+1];
         }
         controls = getControlPoints([p0,p1,p2,p3],smooth_value);
-        if(i === 0) {
-            this.M(p1.x,p1.y);
+        if(i === 0 && !pathStack.length) {
+            isAboslute ? this.M(p1.x,p1.y) : this.m(p1.x,p1.y);
         }
-        this.CurveTo(controls[0].x,controls[0].y,controls[1].x,controls[1].y,p2.x,p2.y)
+        if(isAboslute) {
+            this.CurveTo(controls[0].x,controls[0].y,controls[1].x,controls[1].y,p2.x,p2.y)
+        } else {
+            this.curveTo(controls[0].x,controls[0].y,controls[1].x,controls[1].y,p2.x,p2.y)
+        }
    }
    return this;
 }
@@ -466,7 +433,6 @@ Path.prototype.extend({
         return __curveToAll.call(this,points,false,isClosed);
     },
     CurveToAll:function(points,isClosed){
-        if(!points.length) return this;
         return __curveToAll.call(this,points,true,isClosed);
     },
     lineToAll:function(points){
@@ -480,12 +446,5 @@ Path.prototype.extend({
             points = points.slice(1);
         }
         return __lineToAll.call(this,points,true);
-    },
-    spline:function(points){
-        if(points.length > 0) {
-            return _splineToAll.call(this,points);
-        } else {
-            return this;
-        }
     }
 });
