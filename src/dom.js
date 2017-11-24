@@ -31,7 +31,7 @@ $.mouse = function(event){
     }
     return {clientX,clientY};
 }
-$.fn.transition = function(attr,during,ease,callback){
+$.fn.transition = function(attr,during,ease,callback,group){
     //注意fill,stroke,transform的支持;
     if(arguments.length > 1) {
         this.each(function(index,dom){
@@ -55,7 +55,6 @@ $.fn.transition = function(attr,during,ease,callback){
             }*/
             var from = {};
             var to = attr;
-            var group = null;
             var interpolate;
             if(typeof to === 'object') {
                 group = option.group || group;
