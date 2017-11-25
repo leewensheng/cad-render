@@ -270,7 +270,7 @@ function __lineToAll(points,isAboslute){
         if(i === 0 && pathStack.length === 0) {
             this.M(p.x,p.y);
         } else {
-            isAboslute ? this.M(p.x,p.y) : this.m(p.x,p.y);
+            isAboslute ? this.L(p.x,p.y) : this.l(p.x,p.y);
         }
     }
     return this;
