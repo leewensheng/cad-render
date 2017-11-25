@@ -131,7 +131,7 @@ $.fn.interpolateTransition = function(interpolate,during,ease,callback){
         option.target = dom;
         option.onUpdate = function(tickValue){
             for(var key in tickValue) {
-                    var name = key﻿;
+                    var name = key;
                     if(name == 'transform') {
                         this.setAttribute('transform',$.getTransform(tickValue.transform));
                     }else if(name == 'fill' || name == 'stroke') {

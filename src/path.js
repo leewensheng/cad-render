@@ -264,12 +264,13 @@ for(let key in shortName) {
 
 /*更多功能*/
 function __lineToAll(points,isAboslute){
+    var {pathStack} = this;
     for(var i = 0; i <points.length;i++) {
         var p = points[i];
-        if(isAboslute) {
-            this.LineTo(p.x,p.y);
+        if(i === 0 && pathStack.length === 0) {
+            this.M(p.x,p.y);
         } else {
-            this.lineTo(p.x,p.y);
+            isAboslute ? this.M(p.x,p.y) : this.m(p.x,p.y);
         }
     }
     return this;
@@ -440,11 +441,6 @@ Path.prototype.extend({
     },
     LineToAll:function(points){
         if(!points.length) return this;
-        if(!this.pathStack.length) {
-            var p = points.slice(0,1)[0];
-            this.M(p.x,p.y);
-            points = points.slice(1);
-        }
         return __lineToAll.call(this,points,true);
     }
 });
